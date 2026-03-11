@@ -1,0 +1,95 @@
+/* Halfway Cafe — Global styles & design tokens */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ─── */
+:root {
+  /* Brand colours */
+  --color-parchment: #f2ebe0;
+  --color-ink: #1c1209;
+  --color-red: #b82020;
+  --color-gold: #c9992a;
+
+  /* Tints & shades */
+  --color-parchment-dark: #e6dac8;
+  --color-ink-light: #3d2e1a;
+  --color-red-dark: #8f1818;
+  --color-gold-light: #ddb84a;
+
+  /* Neutral helpers */
+  --color-white: #ffffff;
+  --color-border: #d4c9b8;
+
+  /* Font families (set by next/font in layout.tsx) */
+  --font-playfair: 'Playfair Display', serif;
+  --font-lora: 'Lora', serif;
+  --font-baskerville: 'Libre Baskerville', serif;
+}
+
+/* ─── Base Layer ─── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-ink);
+    font-family: var(--font-lora);
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  /* Links */
+  a {
+    color: var(--color-red);
+    transition: color 0.2s ease;
+  }
+  a:hover {
+    color: var(--color-red-dark);
+  }
+
+  /* Selection highlight */
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-parchment-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 5px;
+  border: 2px solid var(--color-parchment-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-light);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold) var(--color-parchment-dark);
+}
+
+/* ─── Utility Layer ─── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
