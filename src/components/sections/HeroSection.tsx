@@ -1,8 +1,7 @@
-/* HeroSection — Full-viewport hero with parallax bg, text & info card */
+/* HeroSection — Full-screen cafe hero with centered copy and floating status card */
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OpenStatus from "@/components/ui/OpenStatus";
@@ -10,159 +9,98 @@ import type { OpeningHours } from "@/types";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1800&q=85";
+const DIRECTIONS_URL =
+  "https://www.google.com/maps/search/?api=1&query=123+High+Street+London+EC1A+1BB";
+const CAFE_ADDRESS = "123 High Street, London EC1A 1BB";
 
 interface HeroSectionProps {
   openingHours: OpeningHours[];
 }
 
+function getTodayHours(hours: OpeningHours[]): string {
+  const dayName = new Intl.DateTimeFormat("en-GB", { weekday: "long" }).format(new Date());
+  const today = hours.find((entry) => entry.day.toLowerCase() === dayName.toLowerCase());
+
+  if (!today) {
+    return "Hours available in store";
+  }
+
+  if (today.closed) {
+    return "Closed today";
+  }
+
+  return `${today.open} - ${today.close}`;
+}
+
 export default function HeroSection({ openingHours }: HeroSectionProps) {
-  const [offsetY, setOffsetY] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // ─── Parallax effect ───
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      if (rect.bottom > 0) {
-        setOffsetY(window.scrollY * 0.35);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const todayHours = getTodayHours(openingHours);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative flex min-h-[700px] items-center overflow-hidden"
-      style={{ height: "100vh" }}
-    >
-      {/* Background image with parallax */}
-      <div
-        className="absolute inset-0 h-full w-full"
-        style={{ transform: `translateY(${offsetY}px)` }}
-      >
-        <Image
-          src={HERO_IMAGE}
-          alt="Inside Halfway Cafe — warm, inviting London greasy spoon"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-      </div>
-
-      {/* Gradient overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.75) 100%)",
-        }}
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg-dark">
+      <Image
+        src={HERO_IMAGE}
+        alt="Inside Halfway Cafe with warm light, busy tables, and classic breakfast plates"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
       />
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-24 md:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* Left — Text */}
-          <div>
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3">
-              <span className="block h-px w-10 bg-red" />
-              <span className="font-baskerville text-xs uppercase tracking-widest text-gold-light">
-                London&apos;s Favourite Caff Since 2008
-              </span>
-            </div>
+      <div className="absolute inset-0 bg-[rgba(0,0,0,0.45)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,200,87,0.14),transparent_50%)]" />
 
-            {/* H1 */}
-            <h1
-              className="mt-6 font-playfair font-black leading-none text-white"
-              style={{ fontSize: "clamp(62px, 8vw, 110px)" }}
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl justify-center px-6 py-28 text-center sm:px-8">
+        <div className="max-w-3xl">
+          <span className="mx-auto block h-px w-16 bg-yellow" />
+
+          <h1
+            className="mt-8 font-playfair text-[clamp(56px,8vw,96px)] font-black leading-[0.95] text-white"
+            style={{ fontVariationSettings: '"wght" 900' }}
+          >
+            Halfway Cafe
+          </h1>
+
+          <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
+            Breakfast · Lunch · Dinner
+          </p>
+
+          <span className="mx-auto mt-6 block h-px w-16 bg-yellow" />
+
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/menu"
+              className="rounded-full bg-accent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark"
             >
-              Halfway
-              <br />
-              <span className="italic">Cafe</span>
-            </h1>
+              See Our Menu
+            </Link>
 
-            {/* Tagline */}
-            <p className="mt-5 font-lora text-xl italic text-gold-light">
-              Breakfast · Lunch · Dinner
-            </p>
-
-            {/* Buttons */}
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/menu"
-                className="bg-red px-7 py-3.5 font-baskerville text-xs uppercase tracking-wider text-white no-underline transition-colors duration-200 hover:bg-red-dark"
-              >
-                See Full Menu
-              </Link>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=123+High+Street+London+EC1A+1BB"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-white/60 px-7 py-3.5 font-baskerville text-xs uppercase tracking-wider text-white no-underline transition-all duration-200 hover:border-white hover:bg-white/10"
-              >
-                Get Directions
-              </a>
-            </div>
-          </div>
-
-          {/* Right — Info card */}
-          <div className="border-t-4 border-red bg-ink p-6 md:p-8">
-            {/* Opening hours heading */}
-            <h2 className="font-baskerville text-xs uppercase tracking-widest text-gold">
-              Opening Hours
-            </h2>
-
-            {/* Hours list */}
-            <ul className="mt-5 flex flex-col gap-2.5">
-              {openingHours.map((entry) => (
-                <li
-                  key={entry.day}
-                  className="flex items-center justify-between pb-2.5 font-lora text-sm"
-                  style={{ borderBottom: "1px solid rgba(242, 235, 224, 0.1)" }}
-                >
-                  <span style={{ color: "rgba(242, 235, 224, 0.55)" }}>
-                    {entry.day}
-                  </span>
-                  <span className="text-parchment">
-                    {entry.closed
-                      ? "Closed"
-                      : `${entry.open} – ${entry.close}`}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Open status */}
-            <div className="mt-5">
-              <OpenStatus />
-            </div>
-
-            {/* Divider */}
-            <div className="my-5 h-px" style={{ backgroundColor: "rgba(242, 235, 224, 0.1)" }} />
-
-            {/* Address */}
-            <p
-              className="flex items-start gap-2 font-lora text-sm"
-              style={{ color: "rgba(242, 235, 224, 0.7)" }}
+            <a
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-white/80 bg-transparent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-white/10"
             >
-              <span className="shrink-0">📍</span>
-              <span>123 High Street, London EC1A 1BB</span>
-            </p>
+              Get Directions
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2">
-        <span className="font-baskerville text-[10px] uppercase tracking-widest text-white/50">
-          Scroll
+      <div className="absolute bottom-6 left-6 z-10 flex items-center gap-3 text-white/72 md:bottom-8 md:left-8">
+        <span className="font-inter text-[11px] font-bold uppercase tracking-[0.35em]">Scroll</span>
+        <span className="flex h-10 w-5 items-start justify-center rounded-full border border-white/30 p-1">
+          <span className="block h-2 w-2 animate-bounce rounded-full bg-yellow" />
         </span>
-        <span className="block h-8 w-px animate-bounce bg-white/40" />
+      </div>
+
+      <div className="absolute bottom-6 left-4 right-4 z-10 min-w-[280px] rounded-xl border border-accent/15 bg-white p-6 shadow-xl sm:left-auto sm:right-8 sm:max-w-sm md:bottom-8">
+        <OpenStatus variant="hero" />
+
+        <p className="mt-4 font-inter text-sm font-medium text-text-mid">
+          Today&apos;s hours: {todayHours}
+        </p>
+
+        <p className="mt-2 text-sm leading-6 text-text-light">{CAFE_ADDRESS}</p>
       </div>
     </section>
   );

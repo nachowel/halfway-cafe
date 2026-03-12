@@ -47,17 +47,17 @@ export default function GallerySection({ images }: GallerySectionProps) {
           {galleryImages.map((img, i) => (
             <div
               key={img.src}
-              className={`group relative overflow-hidden ${
+              className={`group relative overflow-hidden rounded-xl ${
                 i === 0
-                  ? "col-span-2 row-span-2 h-[400px] lg:h-[544px]"
-                  : "h-[260px] lg:h-[264px]"
+                  ? "col-span-2 h-[200px] md:col-span-2 md:row-span-2 md:h-[500px]"
+                  : "h-[200px] md:h-[240px]"
               }`}
             >
               <Image
                 src={img.src}
                 alt={img.alt}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 sizes={
                   i === 0
                     ? "(max-width: 768px) 100vw, 66vw"

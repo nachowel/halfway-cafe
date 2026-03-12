@@ -6,26 +6,34 @@
 
 /* ─── Design Tokens ─── */
 :root {
-  /* Brand colours */
-  --color-parchment: #f2ebe0;
-  --color-ink: #1c1209;
-  --color-red: #b82020;
-  --color-gold: #c9992a;
-
-  /* Tints & shades */
-  --color-parchment-dark: #e6dac8;
-  --color-ink-light: #3d2e1a;
-  --color-red-dark: #8f1818;
-  --color-gold-light: #ddb84a;
-
-  /* Neutral helpers */
+  --color-bg: #ffffff;
+  --color-bg-soft: #f8f8f6;
+  --color-bg-dark: #1a1a1a;
+  --color-text: #1a1a1a;
+  --color-text-mid: #4a4a4a;
+  --color-text-light: #888888;
+  --color-accent: #ff6b35;
+  --color-accent-dark: #e55520;
+  --color-yellow: #ffc857;
+  --color-border: #e8e8e8;
   --color-white: #ffffff;
-  --color-border: #d4c9b8;
+
+  /* Legacy aliases while components migrate */
+  --color-parchment: var(--color-bg);
+  --color-parchment-dark: var(--color-bg-soft);
+  --color-ink: var(--color-text);
+  --color-ink-light: var(--color-text-mid);
+  --color-gold: var(--color-yellow);
+  --color-gold-light: #ffd77d;
+  --color-red: var(--color-accent);
+  --color-red-dark: var(--color-accent-dark);
+  --color-bg-muted: var(--color-bg-soft);
 
   /* Font families (set by next/font in layout.tsx) */
-  --font-playfair: 'Playfair Display', serif;
-  --font-lora: 'Lora', serif;
-  --font-baskerville: 'Libre Baskerville', serif;
+  --font-playfair: "Playfair Display", serif;
+  --font-inter: "Inter", sans-serif;
+  --font-lora: var(--font-inter);
+  --font-baskerville: var(--font-inter);
 }
 
 /* ─── Base Layer ─── */
@@ -37,10 +45,10 @@
   }
 
   body {
-    background-color: var(--color-parchment);
-    color: var(--color-ink);
-    font-family: var(--font-lora);
-    line-height: 1.7;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-inter);
+    line-height: 1.65;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -51,17 +59,17 @@
 
   /* Links */
   a {
-    color: var(--color-red);
+    color: var(--color-accent);
     transition: color 0.2s ease;
   }
   a:hover {
-    color: var(--color-red-dark);
+    color: var(--color-accent-dark);
   }
 
   /* Selection highlight */
   ::selection {
-    background-color: var(--color-gold);
-    color: var(--color-ink);
+    background-color: var(--color-yellow);
+    color: var(--color-text);
   }
 }
 
@@ -70,21 +78,21 @@
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-parchment-dark);
+  background: var(--color-bg-soft);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-gold);
+  background: var(--color-bg-dark);
   border-radius: 5px;
-  border: 2px solid var(--color-parchment-dark);
+  border: 2px solid var(--color-bg-soft);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold-light);
+  background: var(--color-text-mid);
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-gold) var(--color-parchment-dark);
+  scrollbar-color: var(--color-bg-dark) var(--color-bg-soft);
 }
 
 /* ─── Utility Layer ─── */

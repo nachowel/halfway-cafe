@@ -1,4 +1,4 @@
-/* AboutSection — Our story with photo, text, bullet points & stats */
+/* AboutSection — Dark story section with readable copy and stat row */
 
 import Image from "next/image";
 
@@ -6,128 +6,86 @@ const ABOUT_IMAGE =
   "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80";
 
 const bulletPoints = [
-  "Locally sourced ingredients, every single day",
-  "Everything cooked fresh to order",
-  "Regulars welcomed like family",
-  "Open 7 days a week, rain or shine",
+  "Fresh ingredients prepared every day",
+  "Cooked to order from breakfast through dinner",
+  "A warm welcome for locals, regulars, and first-timers",
 ];
 
 const stats = [
   { value: "16+", label: "Years Open" },
   { value: "4.8★", label: "Google Rating" },
-  { value: "100%", label: "Fresh Daily" },
+  { value: "7 Days", label: "Open Weekly" },
 ];
 
 export default function AboutSection() {
   return (
-    <section className="relative overflow-hidden bg-ink py-24">
-      {/* Subtle dot texture overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #f2ebe0 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
-        }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
-        <div className="grid items-center gap-16 lg:grid-cols-2">
-          {/* Left — Photo */}
-          <div className="relative min-h-[480px] lg:min-h-[560px]">
-            {/* Red offset frame */}
-            <div className="absolute -left-4 -top-4 bottom-4 right-4 border-2 border-red" />
-
-            {/* Photo */}
-            <div className="relative z-10 overflow-hidden">
+    <section className="bg-[#1a1a1a] py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16">
+          <div className="relative">
+            <div className="absolute -left-4 -top-4 bottom-4 right-4 rounded-2xl border border-orange-400/50" />
+            <div className="relative overflow-hidden rounded-2xl">
               <Image
                 src={ABOUT_IMAGE}
                 alt="Halfway Cafe kitchen and counter"
-                width={600}
-                height={560}
-                className="h-auto w-full object-cover"
+                width={720}
+                height={840}
+                className="h-full w-full object-cover"
               />
             </div>
 
-            {/* Est. 2008 ribbon */}
-            <div className="absolute -bottom-2 -right-2 z-20 bg-red px-5 py-4 text-center md:-bottom-3 md:-right-3 md:px-6 md:py-5">
+            <div className="absolute bottom-4 right-4 rounded-2xl bg-orange-500 px-5 py-4 text-center shadow-lg">
               <span className="block font-playfair text-3xl font-black text-white md:text-4xl">
                 2008
               </span>
-              <span className="block font-baskerville text-[10px] uppercase tracking-widest text-white/70">
+              <span className="mt-1 block font-inter text-[10px] font-bold uppercase tracking-[0.22em] text-white/80">
                 Est. London
               </span>
             </div>
           </div>
 
-          {/* Right — Text */}
-          <div>
-            {/* Kicker */}
-            <span className="font-baskerville text-sm uppercase tracking-widest text-gold">
+          <div className="max-w-2xl">
+            <p className="font-inter text-sm font-bold uppercase tracking-[0.24em] text-orange-400">
               Our Story
-            </span>
+            </p>
 
-            {/* Gold diamond divider */}
-            <div className="my-3 flex items-center gap-3">
-              <span className="block h-px w-8 bg-gold" />
-              <span className="text-sm text-gold">◆</span>
-              <span className="block h-px w-8 bg-gold" />
-            </div>
-
-            {/* Title */}
-            <h2 className="font-playfair text-3xl font-bold text-parchment md:text-4xl lg:text-5xl">
-              A Proper{" "}
-              <span className="italic text-gold-light">London Caff</span>
+            <h2 className="mt-4 font-playfair text-4xl font-bold leading-tight md:text-5xl">
+              <span className="text-white">A Proper </span>
+              <span className="italic text-orange-400">London Caff</span>
             </h2>
 
-            {/* Paragraphs */}
-            <p
-              className="mt-6 font-lora text-sm leading-relaxed md:text-base"
-              style={{ color: "rgba(242, 235, 224, 0.7)" }}
-            >
-              Halfway Cafe has been serving the good people of London since 2008.
-              What started as a tiny kitchen and a handful of tables has grown into
-              one of the city&apos;s most loved greasy spoons — a place where builders
-              sit next to bankers, and everyone gets the same warm welcome.
-            </p>
-            <p
-              className="mt-4 font-lora text-sm leading-relaxed md:text-base"
-              style={{ color: "rgba(242, 235, 224, 0.7)" }}
-            >
-              We don&apos;t do fancy. We do proper. Thick toast, strong tea, eggs done
-              any way you like, and a full English that&apos;ll set you up for the day.
-              Every plate is cooked fresh, every customer is a regular in the making.
-            </p>
+            <div className="mt-6 space-y-4">
+              <p className="font-inter text-base leading-7 text-gray-300">
+                Halfway Cafe has been serving High Street since 2008. What began
+                as a compact kitchen and a handful of tables grew into a cafe
+                known for honest plates, strong coffee, and the kind of service
+                that remembers your order.
+              </p>
+              <p className="font-inter text-base leading-7 text-gray-300">
+                We keep things simple in the right way: breakfast cooked fresh,
+                lunch done properly, and a room that feels busy, warm, and lived
+                in from the first service to the last cup of tea.
+              </p>
+            </div>
 
-            {/* Bullet list */}
-            <ul className="mt-6 flex flex-col gap-3">
+            <ul className="mt-8 space-y-3">
               {bulletPoints.map((point) => (
-                <li key={point} className="flex items-center gap-3">
-                  <span className="block h-px w-6 shrink-0 bg-red" />
-                  <span
-                    className="font-lora text-sm"
-                    style={{ color: "rgba(242, 235, 224, 0.8)" }}
-                  >
+                <li key={point} className="flex items-start gap-3">
+                  <span className="mt-2 block h-px w-8 shrink-0 bg-orange-400" />
+                  <span className="font-inter text-sm leading-6 text-gray-300">
                     {point}
                   </span>
                 </li>
               ))}
             </ul>
 
-            {/* Stats grid */}
-            <div
-              className="mt-10 grid grid-cols-3 divide-x"
-              style={{ borderColor: "rgba(242, 235, 224, 0.1)" }}
-            >
+            <div className="mt-10 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-3">
               {stats.map((stat) => (
-                <div key={stat.label} className="px-4 text-center first:pl-0 last:pr-0">
-                  <span className="block font-playfair text-3xl font-black text-white md:text-4xl">
+                <div key={stat.label} className="rounded-2xl bg-white/5 px-5 py-5 text-center">
+                  <span className="block font-playfair text-3xl font-bold text-white">
                     {stat.value}
                   </span>
-                  <span
-                    className="mt-1 block font-lora text-xs"
-                    style={{ color: "rgba(242, 235, 224, 0.55)" }}
-                  >
+                  <span className="mt-2 block font-inter text-xs font-medium uppercase tracking-[0.14em] text-gray-400">
                     {stat.label}
                   </span>
                 </div>

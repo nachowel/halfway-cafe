@@ -18,15 +18,15 @@ export default function SectionHeader({
   return (
     <div className={centered ? "text-center" : "text-left"}>
       {/* Kicker */}
-      <span className="font-baskerville text-sm uppercase tracking-widest text-red">
+      <span className="font-inter text-sm font-bold uppercase tracking-[0.2em] text-accent">
         {kicker}
       </span>
 
-      {/* Gold diamond divider */}
+      {/* Accent divider */}
       <div className={`my-3 flex items-center gap-3 ${centered ? "justify-center" : ""}`}>
-        <span className="block h-px w-8 bg-gold" />
-        <span className="text-gold text-sm">◆</span>
-        <span className="block h-px w-8 bg-gold" />
+        <span className="block h-px w-8 bg-yellow" />
+        <span className="text-sm text-yellow">◆</span>
+        <span className="block h-px w-8 bg-yellow" />
       </div>
 
       {/* Title */}
@@ -42,7 +42,7 @@ export default function SectionHeader({
 
       {/* Subtitle */}
       {subtitle && (
-        <p className="mt-4 font-lora text-base italic text-ink-light md:text-lg">
+        <p className="mt-4 font-inter text-base text-text-mid md:text-lg">
           {subtitle}
         </p>
       )}

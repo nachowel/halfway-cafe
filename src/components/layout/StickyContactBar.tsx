@@ -4,7 +4,7 @@
 
 export default function StickyContactBar() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-gold lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border lg:hidden">
       <div
         className="flex"
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
@@ -12,7 +12,7 @@ export default function StickyContactBar() {
         {/* Call button */}
         <a
           href="tel:+441234567890"
-          className="flex flex-1 items-center justify-center gap-2 bg-ink py-3 font-baskerville text-xs uppercase tracking-wider text-parchment no-underline transition-colors duration-200 hover:bg-ink-light"
+          className="flex flex-1 items-center justify-center gap-2 bg-text py-3 font-inter text-xs font-bold uppercase tracking-[0.15em] text-white no-underline transition-colors duration-200 hover:bg-text-mid"
         >
           <span>📞</span>
           <span>Call Us</span>
@@ -23,7 +23,7 @@ export default function StickyContactBar() {
           href="https://www.google.com/maps/search/?api=1&query=123+High+Street+London+EC1A+1BB"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-1 items-center justify-center gap-2 bg-red py-3 font-baskerville text-xs uppercase tracking-wider text-white no-underline transition-colors duration-200 hover:bg-red-dark"
+          className="flex flex-1 items-center justify-center gap-2 bg-accent py-3 font-inter text-xs font-bold uppercase tracking-[0.15em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark"
         >
           <span>📍</span>
           <span>Directions</span>

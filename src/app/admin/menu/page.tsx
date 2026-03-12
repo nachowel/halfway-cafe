@@ -95,7 +95,7 @@ export default function AdminMenuPage() {
         </div>
         <Link
           href="/admin/menu/new"
-          className="rounded-sm bg-red-600 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white no-underline transition-colors hover:bg-red-700"
+          className="rounded-xl bg-accent px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white no-underline transition-colors hover:bg-accent-dark"
         >
           + Add New Item
         </Link>
@@ -120,10 +120,10 @@ export default function AdminMenuPage() {
       </div>
 
       {/* Table */}
-      <div className="mt-6 overflow-hidden rounded-sm border border-neutral-200 bg-white">
+      <div className="mt-6 overflow-hidden rounded-xl border border-neutral-200 border-t-4 border-t-accent bg-white">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
           </div>
         ) : filtered.length === 0 ? (
           <p className="px-5 py-12 text-center text-sm text-neutral-400">
@@ -194,7 +194,7 @@ export default function AdminMenuPage() {
                       type="button"
                       onClick={() => toggleField(item.id, "active", item.active)}
                       className={`inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        item.active ? "bg-green-500" : "bg-neutral-300"
+                        item.active ? "bg-accent" : "bg-neutral-300"
                       }`}
                     >
                       <span
@@ -226,7 +226,7 @@ export default function AdminMenuPage() {
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/menu/${item.id}`}
-                      className="text-xs font-medium text-red-600 no-underline hover:underline"
+                      className="text-xs font-medium text-accent no-underline hover:underline"
                     >
                       Edit
                     </Link>

@@ -72,9 +72,9 @@ export default async function DashboardPage() {
         {statCards.map((card) => (
           <div
             key={card.key}
-            className="rounded-sm border border-neutral-200 bg-white"
+            className="overflow-hidden rounded-xl border border-neutral-200 bg-white"
           >
-            <div className="h-1 bg-red-600" />
+            <div className="h-1 bg-accent" />
             <div className="p-5">
               <span className="text-2xl">{card.icon}</span>
               <p className="mt-3 font-playfair text-3xl font-bold text-neutral-900">
@@ -94,7 +94,7 @@ export default async function DashboardPage() {
           </h2>
           <Link
             href="/admin/menu"
-            className="text-sm text-red-600 no-underline hover:underline"
+            className="text-sm text-accent no-underline hover:underline"
           >
             View all →
           </Link>

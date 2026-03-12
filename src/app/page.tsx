@@ -2,33 +2,15 @@
 
 import { Suspense } from "react";
 import HeroSection from "@/components/sections/HeroSection";
-import FeaturedSection from "@/components/sections/FeaturedSection";
-import MenuSection from "@/components/sections/MenuSection";
+import CategoriesSection from "@/components/sections/CategoriesSection";
 import AboutSection from "@/components/sections/AboutSection";
 import GallerySection from "@/components/sections/GallerySection";
 import LocationSection from "@/components/sections/LocationSection";
-import { getMenuItems, getFeaturedItems, getOpeningHours, getGalleryImages, getCategories } from "@/lib/queries";
-import { menuItems as fallbackMenu, getFeatured as getFallbackFeatured } from "@/data/menu";
+import { getOpeningHours, getGalleryImages, getCategories } from "@/lib/queries";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
-import type { MenuItem, OpeningHours } from "@/types";
+import type { OpeningHours } from "@/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-/** Map a Supabase menu_items row → front-end MenuItem shape */
-function toMenuItem(row: any): MenuItem {
-  return {
-    id: row.id,
-    name: row.name,
-    description: row.description ?? "",
-    price: Number(row.price),
-    category: row.category,
-    image: row.image_url ?? undefined,
-    allergens: [],
-    dietary: row.dietary ?? [],
-    available: row.active !== false,
-    featured: row.featured ?? false,
-  };
-}
 
 /** Map a Supabase opening_hours row → front-end OpeningHours shape */
 function toOpeningHours(row: any): OpeningHours {
@@ -49,32 +31,28 @@ function SectionLoader() {
 }
 
 export default async function Home() {
-  // Fetch from Supabase — fall back to mock data if empty / connection fails
-  const [dbMenu, dbFeatured, dbHours, dbGallery, dbCategories] = await Promise.all([
-    getMenuItems(),
-    getFeaturedItems(),
+  const [dbHours, dbGallery, dbCategories] = await Promise.all([
     getOpeningHours(),
     getGalleryImages(),
     getCategories(),
   ]);
 
-  const menuItems: MenuItem[] =
-    dbMenu.length > 0 ? dbMenu.map(toMenuItem) : fallbackMenu;
-
-  const featuredItems: MenuItem[] =
-    dbFeatured.length > 0 ? dbFeatured.map(toMenuItem) : getFallbackFeatured();
-
   const hours: OpeningHours[] =
     dbHours.length > 0 ? dbHours.map(toOpeningHours) : fallbackHours;
 
   const categories = dbCategories.length > 0
-    ? dbCategories.map((c: any) => ({ slug: c.slug, name: c.name }))
+    ? dbCategories.map((c: any) => ({
+        id: c.id ?? c.slug,
+        slug: c.slug,
+        name: c.name,
+        image_url: c.image_url ?? undefined,
+      }))
     : [
-        { slug: "breakfast", name: "Breakfast" },
-        { slug: "lunch", name: "Lunch" },
-        { slug: "burgers", name: "Burgers" },
-        { slug: "desserts", name: "Desserts" },
-        { slug: "drinks", name: "Drinks" },
+        { id: "breakfast", slug: "breakfast", name: "Breakfast", image_url: undefined },
+        { id: "lunch", slug: "lunch", name: "Lunch", image_url: undefined },
+        { id: "burgers", slug: "burgers", name: "Burgers", image_url: undefined },
+        { id: "desserts", slug: "desserts", name: "Desserts", image_url: undefined },
+        { id: "drinks", slug: "drinks", name: "Drinks", image_url: undefined },
       ];
 
   const galleryImages =
@@ -89,11 +67,7 @@ export default async function Home() {
       </Suspense>
 
       <Suspense fallback={<SectionLoader />}>
-        <FeaturedSection items={featuredItems} />
-      </Suspense>
-
-      <Suspense fallback={<SectionLoader />}>
-        <MenuSection items={menuItems} categories={categories} />
+        <CategoriesSection categories={categories} />
       </Suspense>
 
       <Suspense fallback={<SectionLoader />}>

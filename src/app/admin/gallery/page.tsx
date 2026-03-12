@@ -210,7 +210,7 @@ export default function GalleryPage() {
           type="button"
           onClick={handleAdd}
           disabled={adding}
-          className="mt-4 flex items-center gap-2 rounded-sm bg-green-600 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-green-700 disabled:opacity-60"
+          className="mt-4 flex items-center gap-2 rounded-xl bg-accent px-5 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-accent-dark disabled:opacity-60"
         >
           {adding && (
             <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />

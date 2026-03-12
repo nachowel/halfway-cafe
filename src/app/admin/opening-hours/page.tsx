@@ -104,10 +104,10 @@ export default function OpeningHoursPage() {
       )}
 
       {/* Table */}
-      <div className="mt-6 overflow-hidden rounded-sm border border-neutral-200 bg-white">
+      <div className="mt-6 overflow-hidden rounded-xl border border-neutral-200 border-t-4 border-t-accent bg-white">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
           </div>
         ) : hours.length === 0 ? (
           <p className="px-5 py-12 text-center text-sm text-neutral-400">
@@ -141,7 +141,7 @@ export default function OpeningHoursPage() {
                       value={row.open_time}
                       onChange={(e) => updateRow(i, "open_time", e.target.value)}
                       disabled={row.is_closed}
-                      className="rounded-sm border border-neutral-300 px-2 py-1.5 text-sm outline-none transition-colors focus:border-red-500 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400"
+                      className="rounded-xl border border-neutral-300 px-2 py-1.5 text-sm outline-none transition-colors focus:border-accent disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400"
                     />
                   </td>
 
@@ -152,7 +152,7 @@ export default function OpeningHoursPage() {
                       value={row.close_time}
                       onChange={(e) => updateRow(i, "close_time", e.target.value)}
                       disabled={row.is_closed}
-                      className="rounded-sm border border-neutral-300 px-2 py-1.5 text-sm outline-none transition-colors focus:border-red-500 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400"
+                      className="rounded-xl border border-neutral-300 px-2 py-1.5 text-sm outline-none transition-colors focus:border-accent disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400"
                     />
                   </td>
 
@@ -162,7 +162,7 @@ export default function OpeningHoursPage() {
                       type="button"
                       onClick={() => updateRow(i, "is_closed", !row.is_closed)}
                       className={`inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        row.is_closed ? "bg-red-500" : "bg-neutral-300"
+                        row.is_closed ? "bg-accent" : "bg-neutral-300"
                       }`}
                     >
                       <span
@@ -186,7 +186,7 @@ export default function OpeningHoursPage() {
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 rounded-sm bg-red-600 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700 disabled:opacity-60"
+            className="flex items-center gap-2 rounded-xl bg-accent px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-accent-dark disabled:opacity-60"
           >
             {saving && (
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />

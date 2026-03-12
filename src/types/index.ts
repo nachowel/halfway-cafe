@@ -28,6 +28,9 @@ export interface MenuItem {
   name: string;
   description: string;
   price: number; // in GBP
+  price_roll?: number | null;
+  price_sandwich?: number | null;
+  price_baguette?: number | null;
   category: MenuCategory;
   image?: string;
   allergens: Allergen[];

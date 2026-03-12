@@ -12,6 +12,9 @@ interface FormData {
   name: string;
   description: string;
   price: string;
+  price_roll: string;
+  price_sandwich: string;
+  price_baguette: string;
   category: string;
   image_url: string;
   available: string;
@@ -33,8 +36,14 @@ interface CategoryOption {
 
 const fallbackCategories: CategoryOption[] = [
   { value: "breakfast", label: "Breakfast" },
+  { value: "omelettes", label: "Omelettes" },
+  { value: "pancakes-eggs", label: "Pancakes & Eggs" },
   { value: "lunch", label: "Lunch" },
+  { value: "sandwiches", label: "Sandwiches" },
   { value: "burgers", label: "Burgers" },
+  { value: "jacket-potatoes", label: "Jacket Potatoes" },
+  { value: "panini", label: "Panini" },
+  { value: "extras", label: "Sides & Extras" },
   { value: "desserts", label: "Desserts" },
   { value: "drinks", label: "Drinks" },
 ];
@@ -55,6 +64,9 @@ const defaultForm: FormData = {
   name: "",
   description: "",
   price: "",
+  price_roll: "",
+  price_sandwich: "",
+  price_baguette: "",
   category: "breakfast",
   image_url: "",
   available: "all-day",
@@ -116,6 +128,15 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
     }));
   }
 
+  function parseOptionalPrice(value: string) {
+    if (!value.trim()) {
+      return null;
+    }
+
+    const parsedValue = parseFloat(value);
+    return Number.isNaN(parsedValue) ? null : parseFloat(parsedValue.toFixed(2));
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
@@ -136,6 +157,9 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
         name: form.name.trim(),
         description: form.description.trim(),
         price: parseFloat(parsedPrice.toFixed(2)),
+        price_roll: parseOptionalPrice(form.price_roll),
+        price_sandwich: parseOptionalPrice(form.price_sandwich),
+        price_baguette: parseOptionalPrice(form.price_baguette),
         category: form.category.trim(),
         image_url: form.image_url.trim() || null,
         available: form.available.trim() || "all-day",
@@ -195,7 +219,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
   }
 
   const inputClass =
-    "w-full rounded-sm border border-neutral-300 px-3 py-2.5 text-sm text-neutral-900 outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500";
+    "w-full rounded-xl border border-neutral-300 px-3 py-2.5 text-sm text-neutral-900 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent";
   const labelClass =
     "mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600";
 
@@ -213,7 +237,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
         </div>
       )}
 
-      <div className="space-y-5 rounded-sm border border-neutral-200 bg-white p-6">
+      <div className="space-y-5 rounded-xl border border-neutral-200 border-t-4 border-t-accent bg-white p-6">
         {/* Name */}
         <div>
           <label htmlFor="name" className={labelClass}>Name *</label>
@@ -275,6 +299,48 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
           </div>
         </div>
 
+        <div className="grid gap-5 sm:grid-cols-3">
+          <div>
+            <label htmlFor="price_roll" className={labelClass}>Roll Price</label>
+            <input
+              id="price_roll"
+              type="number"
+              step="0.01"
+              min="0"
+              value={form.price_roll}
+              onChange={(e) => set("price_roll", e.target.value)}
+              className={inputClass}
+              placeholder="2.20"
+            />
+          </div>
+          <div>
+            <label htmlFor="price_sandwich" className={labelClass}>Sandwich Price</label>
+            <input
+              id="price_sandwich"
+              type="number"
+              step="0.01"
+              min="0"
+              value={form.price_sandwich}
+              onChange={(e) => set("price_sandwich", e.target.value)}
+              className={inputClass}
+              placeholder="3.00"
+            />
+          </div>
+          <div>
+            <label htmlFor="price_baguette" className={labelClass}>Baguette Price</label>
+            <input
+              id="price_baguette"
+              type="number"
+              step="0.01"
+              min="0"
+              value={form.price_baguette}
+              onChange={(e) => set("price_baguette", e.target.value)}
+              className={inputClass}
+              placeholder="3.80"
+            />
+          </div>
+        </div>
+
         {/* Image URL + preview */}
         <div>
           <label htmlFor="image_url" className={labelClass}>Image URL</label>
@@ -287,7 +353,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
             placeholder="https://images.unsplash.com/..."
           />
           {form.image_url && (
-            <div className="mt-3 relative h-40 w-full overflow-hidden rounded-sm border border-neutral-200 bg-neutral-50">
+              <div className="mt-3 relative h-40 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
               <Image
                 src={form.image_url}
                 alt="Preview"
@@ -321,7 +387,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
               type="checkbox"
               checked={form.active}
               onChange={(e) => set("active", e.target.checked)}
-              className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500"
+               className="h-4 w-4 rounded border-neutral-300 text-accent focus:ring-accent"
             />
             Active
           </label>
@@ -330,7 +396,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
               type="checkbox"
               checked={form.featured}
               onChange={(e) => set("featured", e.target.checked)}
-              className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500"
+               className="h-4 w-4 rounded border-neutral-300 text-accent focus:ring-accent"
             />
             Featured
           </label>
@@ -349,7 +415,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
                   type="checkbox"
                   checked={form.dietary.includes(opt.value)}
                   onChange={() => toggleDietary(opt.value)}
-                  className="h-4 w-4 rounded border-neutral-300 text-green-600 focus:ring-green-500"
+                  className="h-4 w-4 rounded border-neutral-300 text-accent focus:ring-accent"
                 />
                 {opt.label}
               </label>
@@ -363,7 +429,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 rounded-sm bg-red-600 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700 disabled:opacity-60"
+          className="flex items-center gap-2 rounded-xl bg-accent px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-accent-dark disabled:opacity-60"
         >
           {saving && (
             <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -376,7 +442,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
             type="button"
             onClick={handleDelete}
             disabled={deleting}
-            className="rounded-sm border border-red-200 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-red-600 transition-colors hover:bg-red-50 disabled:opacity-60"
+            className="rounded-xl border border-red-200 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-accent transition-colors hover:bg-red-50 disabled:opacity-60"
           >
             {deleting ? "Deleting…" : "Delete Item"}
           </button>

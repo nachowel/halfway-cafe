@@ -1,7 +1,7 @@
 /* Halfway Cafe — Root layout with fonts, metadata & JSON-LD */
 
 import type { Metadata } from "next";
-import { Playfair_Display, Lora, Libre_Baskerville } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -15,16 +15,9 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const lora = Lora({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-lora",
-  display: "swap",
-});
-
-const baskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-baskerville",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -102,7 +95,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${lora.variable} ${baskerville.variable}`}
+      className={`${playfair.variable} ${inter.variable}`}
     >
       <head>
         <script
@@ -111,11 +104,11 @@ export default function RootLayout({
         />
       </head>
       <body>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <StickyContactBar />
-        </body>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+        <StickyContactBar />
+      </body>
     </html>
   );
 }

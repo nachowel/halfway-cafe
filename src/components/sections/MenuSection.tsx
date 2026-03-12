@@ -44,7 +44,7 @@ export default function MenuSection({ items, categories }: MenuSectionProps) {
   }, [items, activeTab, dietaryFilters]);
 
   return (
-    <section className="bg-parchment-dark py-24">
+    <section className="bg-bg-soft py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <SectionHeader
           kicker="What We Serve"
@@ -55,16 +55,16 @@ export default function MenuSection({ items, categories }: MenuSectionProps) {
 
         {/* Category tabs */}
         <div className="mt-12 flex justify-center">
-          <div className="inline-flex border-2 border-ink">
+          <div className="inline-flex flex-wrap justify-center gap-2">
             {categories.map((cat) => (
               <button
                 key={cat.slug}
                 type="button"
                 onClick={() => setActiveTab(cat.slug)}
-                className={`px-4 py-2.5 font-baskerville text-xs uppercase tracking-wider transition-colors duration-200 md:px-6 ${
+                className={`rounded-full border px-4 py-2.5 font-inter text-xs font-bold uppercase tracking-[0.14em] transition-colors duration-200 md:px-6 ${
                   activeTab === cat.slug
-                    ? "bg-ink text-parchment"
-                    : "bg-white text-ink-light hover:bg-parchment"
+                    ? "border-accent bg-accent text-white"
+                    : "border-border bg-white text-text-mid hover:border-accent hover:text-accent"
                 }`}
               >
                 {cat.name}
@@ -82,10 +82,10 @@ export default function MenuSection({ items, categories }: MenuSectionProps) {
                 key={opt.value}
                 type="button"
                 onClick={() => toggleDietary(opt.value)}
-                className={`rounded-full px-4 py-1.5 font-lora text-xs transition-colors duration-200 ${
+                className={`rounded-full px-4 py-2 font-inter text-xs font-bold uppercase tracking-[0.12em] transition-colors duration-200 ${
                   isActive
-                    ? "bg-green-700 text-white"
-                    : "border border-ink/20 bg-white text-ink-light hover:border-ink/40"
+                    ? "bg-accent text-white"
+                    : "border border-border bg-white text-text-mid hover:border-accent hover:text-accent"
                 }`}
               >
                 {opt.label}
@@ -110,7 +110,7 @@ export default function MenuSection({ items, categories }: MenuSectionProps) {
             <p className="font-playfair text-2xl text-ink/40">
               No items match your filters
             </p>
-            <p className="mt-2 font-lora text-sm italic text-ink-light">
+            <p className="mt-2 font-inter text-sm text-text-mid">
               Try removing a dietary filter to see more options.
             </p>
           </div>

@@ -1,4 +1,4 @@
-/* Navbar — Sticky header with scroll-aware styling & mobile hamburger */
+/* Navbar — Sticky white header with modern CTA and mobile menu */
 
 "use client";
 
@@ -15,24 +15,14 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
-  // ─── Scroll listener ───
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    handleScroll(); // check on mount
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // ─── Close mobile menu on outside click ───
   useEffect(() => {
     if (!mobileOpen) return;
 
-    const handleClickOutside = (e: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setMobileOpen(false);
       }
     };
@@ -41,50 +31,39 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileOpen]);
 
-  // ─── Close mobile menu on route change ───
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
 
-  const bgClass = scrolled
-    ? "bg-ink shadow-md"
-    : "bg-transparent";
-
-  const textClass = scrolled
-    ? "text-parchment"
-    : "text-white";
-
   return (
     <nav
       ref={navRef}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${bgClass}`}
+      className="fixed inset-x-0 top-0 z-50 border-b border-border bg-white/95 shadow-sm backdrop-blur"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 no-underline">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-red text-lg text-white">
-            🍳
-          </span>
-          <span
-            className={`font-playfair text-xl font-bold transition-colors duration-300 ${textClass}`}
-          >
+        <Link href="/" className="flex items-center gap-3 no-underline">
+          <span className="text-2xl text-accent">🍳</span>
+          <span className="font-playfair text-2xl font-bold text-text">
             Halfway Cafe
           </span>
         </Link>
 
-        {/* Desktop links */}
         <ul className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive =
+              pathname === link.href || pathname.startsWith(`${link.href}/`);
+
             return (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`relative font-lora text-sm tracking-wide no-underline transition-colors duration-200 ${textClass} hover:text-gold`}
+                  className={`relative font-inter text-sm font-medium no-underline transition-colors duration-200 ${
+                    isActive ? "text-accent" : "text-text hover:text-accent"
+                  }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-gold" />
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-accent" />
                   )}
                 </Link>
               </li>
@@ -92,19 +71,17 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Desktop CTA */}
         <Link
           href="/contact"
-          className="hidden font-baskerville text-xs uppercase tracking-[0.15em] text-white no-underline transition-colors duration-200 hover:bg-red-dark md:inline-block md:bg-red md:px-5 md:py-2.5"
+          className="hidden rounded-full bg-accent px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark md:inline-block"
         >
           Visit Today
         </Link>
 
-        {/* Mobile hamburger button */}
         <button
           type="button"
           onClick={() => setMobileOpen((prev) => !prev)}
-          className={`flex flex-col gap-1.5 md:hidden ${textClass}`}
+          className="flex flex-col gap-1.5 text-text md:hidden"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
         >
@@ -126,23 +103,24 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile dropdown */}
       <div
-        className={`overflow-hidden bg-ink transition-all duration-300 md:hidden ${
-          mobileOpen ? "max-h-96 border-t border-ink-light" : "max-h-0"
+        className={`overflow-hidden border-t border-border bg-white transition-all duration-300 md:hidden ${
+          mobileOpen ? "max-h-96" : "max-h-0 border-t-0"
         }`}
       >
-        <div className="flex flex-col gap-1 px-4 pb-6 pt-4">
+        <div className="flex flex-col gap-2 px-4 pb-6 pt-4">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive =
+              pathname === link.href || pathname.startsWith(`${link.href}/`);
+
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded px-3 py-2.5 font-lora text-sm tracking-wide no-underline transition-colors duration-200 ${
+                className={`rounded-xl px-4 py-3 font-inter text-sm font-medium no-underline transition-colors duration-200 ${
                   isActive
-                    ? "bg-ink-light text-gold"
-                    : "text-parchment hover:bg-ink-light hover:text-gold"
+                    ? "bg-accent text-white"
+                    : "text-text hover:bg-bg-soft hover:text-accent"
                 }`}
               >
                 {link.label}
@@ -150,10 +128,9 @@ export default function Navbar() {
             );
           })}
 
-          {/* Mobile CTA */}
           <Link
             href="/contact"
-            className="mt-3 bg-red px-5 py-2.5 text-center font-baskerville text-xs uppercase tracking-[0.15em] text-white no-underline transition-colors duration-200 hover:bg-red-dark"
+            className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-inter text-xs font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark"
           >
             Visit Today
           </Link>

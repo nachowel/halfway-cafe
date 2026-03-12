@@ -34,7 +34,7 @@ export default function DishCard({ item, variant }: DishCardProps) {
 
 function FeaturedCard({ item }: { item: MenuItem }) {
   return (
-    <div className="group relative overflow-hidden border border-ink bg-white transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg">
+    <div className="group relative overflow-hidden rounded-xl border border-border bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Image */}
       <div className="relative h-[220px] w-full overflow-hidden">
         {item.image ? (
@@ -53,8 +53,8 @@ function FeaturedCard({ item }: { item: MenuItem }) {
 
         {/* Must Try ribbon */}
         {item.featured && (
-          <div className="absolute left-0 top-4 bg-red px-3 py-1">
-            <span className="font-baskerville text-xs uppercase tracking-wider text-white">
+          <div className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1.5">
+            <span className="font-inter text-[11px] font-bold uppercase tracking-[0.16em] text-white">
               Must Try
             </span>
           </div>
@@ -66,10 +66,10 @@ function FeaturedCard({ item }: { item: MenuItem }) {
         <h3 className="font-playfair text-lg font-bold text-ink">
           {item.name}
         </h3>
-        <p className="mt-2 font-lora text-sm italic leading-relaxed text-ink-light">
+        <p className="mt-2 font-inter text-sm leading-relaxed text-text-mid">
           {item.description}
         </p>
-        <p className="mt-4 font-playfair text-xl font-bold text-red">
+        <p className="mt-4 font-playfair text-xl font-bold text-accent">
           £{item.price.toFixed(2)}
         </p>
       </div>
@@ -81,7 +81,7 @@ function FeaturedCard({ item }: { item: MenuItem }) {
 
 function MenuCard({ item }: { item: MenuItem }) {
   return (
-    <div className="group flex flex-col overflow-hidden border border-ink bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
       <div className="relative h-[190px] w-full overflow-hidden">
         {item.image ? (
@@ -100,19 +100,19 @@ function MenuCard({ item }: { item: MenuItem }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-5">
         {/* Name + Price row */}
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-playfair text-base font-bold text-ink">
             {item.name}
           </h3>
-          <span className="shrink-0 font-playfair text-base font-bold text-red">
+          <span className="shrink-0 font-playfair text-base font-bold text-accent">
             £{item.price.toFixed(2)}
           </span>
         </div>
 
         {/* Description */}
-        <p className="mt-2 font-lora text-sm italic leading-relaxed text-ink-light">
+        <p className="mt-2 font-inter text-sm leading-relaxed text-text-mid">
           {item.description}
         </p>
 
@@ -122,7 +122,7 @@ function MenuCard({ item }: { item: MenuItem }) {
             {item.dietary.map((tag) => (
               <span
                 key={tag}
-                className={`inline-flex items-center rounded-sm border px-1.5 py-0.5 font-baskerville text-xs font-bold ${dietaryBadge[tag].className}`}
+                className={`inline-flex items-center rounded-full border px-2 py-1 font-inter text-[11px] font-bold uppercase tracking-[0.08em] ${dietaryBadge[tag].className}`}
               >
                 {dietaryBadge[tag].label}
               </span>
@@ -134,7 +134,7 @@ function MenuCard({ item }: { item: MenuItem }) {
         <div className="flex-1" />
 
         {/* Allergen warning */}
-        <p className="mt-4 border-t border-border pt-3 font-lora text-xs italic text-ink-light">
+        <p className="mt-4 border-t border-border pt-3 font-inter text-xs text-text-light">
           ⚠️ Allergies? Please inform a member of staff before ordering.
         </p>
       </div>

@@ -35,16 +35,7 @@ export default function FeaturedSection({ items }: FeaturedSectionProps) {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-parchment py-24">
-      {/* Decorative red dashed border strip */}
-      <div
-        className="absolute inset-x-0 top-0 h-2"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, var(--color-red) 0px, var(--color-red) 12px, transparent 12px, transparent 24px)",
-        }}
-      />
-
+    <section className="relative overflow-hidden bg-white py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <SectionHeader
           kicker="Chef's Picks"

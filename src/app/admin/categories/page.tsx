@@ -3,6 +3,7 @@
 
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
 import { createClientComponentClient } from "@/lib/supabase";
 
@@ -12,6 +13,7 @@ interface Category {
   slug: string;
   sort_order: number;
   active: boolean;
+  image_url?: string | null;
 }
 
 export default function CategoriesPage() {
@@ -24,12 +26,14 @@ export default function CategoriesPage() {
   const [showForm, setShowForm] = useState(false);
   const [newName, setNewName] = useState("");
   const [newOrder, setNewOrder] = useState(0);
+  const [newImageUrl, setNewImageUrl] = useState("");
   const [saving, setSaving] = useState(false);
 
   // Edit state
   const [editId, setEditId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editOrder, setEditOrder] = useState(0);
+  const [editImageUrl, setEditImageUrl] = useState("");
 
   const supabase = createClientComponentClient();
 
@@ -72,11 +76,13 @@ export default function CategoriesPage() {
         name: newName.trim(),
         slug: toSlug(newName),
         sort_order: newOrder,
+        image_url: newImageUrl.trim() || null,
       });
       if (err) throw err;
 
       setNewName("");
       setNewOrder(0);
+      setNewImageUrl("");
       setShowForm(false);
       setSuccess("Category added.");
       await fetchCategories();
@@ -150,6 +156,7 @@ export default function CategoriesPage() {
           name: editName.trim(),
           slug: toSlug(editName),
           sort_order: editOrder,
+          image_url: editImageUrl.trim() || null,
         })
         .eq("id", editId);
       if (err) throw err;
@@ -166,10 +173,18 @@ export default function CategoriesPage() {
     setEditId(cat.id);
     setEditName(cat.name);
     setEditOrder(cat.sort_order);
+    setEditImageUrl(cat.image_url ?? "");
+  }
+
+  function cancelEdit() {
+    setEditId(null);
+    setEditName("");
+    setEditOrder(0);
+    setEditImageUrl("");
   }
 
   const inputClass =
-    "rounded-sm border border-neutral-300 px-2.5 py-1.5 text-sm outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500";
+    "rounded-xl border border-neutral-300 px-2.5 py-1.5 text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 
   return (
     <div>
@@ -190,7 +205,7 @@ export default function CategoriesPage() {
             setError("");
             setSuccess("");
           }}
-          className="rounded-sm bg-red-600 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700"
+          className="rounded-xl bg-accent px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-accent-dark"
         >
           {showForm ? "Cancel" : "+ Add Category"}
         </button>
@@ -209,10 +224,10 @@ export default function CategoriesPage() {
       )}
 
       {/* Table */}
-      <div className="mt-6 overflow-hidden rounded-sm border border-neutral-200 bg-white">
+      <div className="mt-6 overflow-hidden rounded-xl border border-neutral-200 border-t-4 border-t-accent bg-white">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
           </div>
         ) : categories.length === 0 ? (
           <p className="px-5 py-12 text-center text-sm text-neutral-400">
@@ -224,6 +239,9 @@ export default function CategoriesPage() {
               <tr className="border-b border-neutral-100 bg-neutral-50">
                 <th className="w-16 px-4 py-3 text-center font-medium text-neutral-600">
                   Order
+                </th>
+                <th className="w-24 px-4 py-3 text-center font-medium text-neutral-600">
+                  Image
                 </th>
                 <th className="px-4 py-3 font-medium text-neutral-600">Name</th>
                 <th className="px-4 py-3 font-medium text-neutral-600">Slug</th>
@@ -251,6 +269,28 @@ export default function CategoriesPage() {
                         />
                       </td>
                       <td className="px-4 py-3">
+                        <div className="space-y-2">
+                          <input
+                            type="text"
+                            value={editImageUrl}
+                            onChange={(e) => setEditImageUrl(e.target.value)}
+                            placeholder="https://..."
+                            className={`${inputClass} w-full min-w-40`}
+                          />
+                          {editImageUrl && (
+                            <div className="relative h-16 w-16 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
+                              <Image
+                                src={editImageUrl}
+                                alt={`${editName || "Category"} preview`}
+                                fill
+                                className="object-cover"
+                                sizes="64px"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
                         <input
                           type="text"
                           value={editName}
@@ -267,13 +307,13 @@ export default function CategoriesPage() {
                           <button
                             type="button"
                             onClick={handleSaveEdit}
-                            className="text-xs font-medium text-green-600 hover:underline"
+                            className="text-xs font-medium text-accent hover:underline"
                           >
                             Save
                           </button>
                           <button
                             type="button"
-                            onClick={() => setEditId(null)}
+                            onClick={cancelEdit}
                             className="text-xs font-medium text-neutral-400 hover:underline"
                           >
                             Cancel
@@ -287,6 +327,23 @@ export default function CategoriesPage() {
                       <td className="px-4 py-3 text-center text-neutral-500">
                         {cat.sort_order}
                       </td>
+                      <td className="px-4 py-3">
+                        {cat.image_url ? (
+                          <div className="relative mx-auto h-14 w-14 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
+                            <Image
+                              src={cat.image_url}
+                              alt={cat.name}
+                              fill
+                              className="object-cover"
+                              sizes="56px"
+                            />
+                          </div>
+                        ) : (
+                          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl border border-dashed border-neutral-200 bg-neutral-50 text-lg">
+                            🍽️
+                          </div>
+                        )}
+                      </td>
                       <td className="px-4 py-3 font-medium text-neutral-900">
                         {cat.name}
                       </td>
@@ -296,7 +353,7 @@ export default function CategoriesPage() {
                           type="button"
                           onClick={() => handleToggleActive(cat.id, cat.active)}
                           className={`inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                            cat.active ? "bg-green-500" : "bg-neutral-300"
+                            cat.active ? "bg-accent" : "bg-neutral-300"
                           }`}
                         >
                           <span
@@ -311,14 +368,14 @@ export default function CategoriesPage() {
                           <button
                             type="button"
                             onClick={() => startEdit(cat)}
-                            className="text-xs font-medium text-red-600 hover:underline"
+                            className="text-xs font-medium text-accent hover:underline"
                           >
                             Edit
                           </button>
                           <button
                             type="button"
                             onClick={() => handleDelete(cat.id, cat.slug)}
-                            className="text-xs font-medium text-neutral-400 hover:text-red-600 hover:underline"
+                            className="text-xs font-medium text-neutral-400 hover:text-accent hover:underline"
                           >
                             Delete
                           </button>
@@ -364,11 +421,34 @@ export default function CategoriesPage() {
                   className={`${inputClass} w-20`}
                 />
               </div>
+              <div className="min-w-0 flex-1">
+                <label className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-600">
+                  Image URL
+                </label>
+                <input
+                  type="text"
+                  value={newImageUrl}
+                  onChange={(e) => setNewImageUrl(e.target.value)}
+                  placeholder="https://images.unsplash.com/..."
+                  className={`${inputClass} w-full`}
+                />
+                {newImageUrl && (
+                  <div className="mt-2 relative h-16 w-16 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
+                    <Image
+                      src={newImageUrl}
+                      alt="New category preview"
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </div>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={handleAdd}
                 disabled={saving}
-                className="flex items-center gap-2 rounded-sm bg-red-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700 disabled:opacity-60"
+                className="flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-accent-dark disabled:opacity-60"
               >
                 {saving && (
                   <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />

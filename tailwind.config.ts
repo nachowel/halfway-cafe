@@ -9,31 +9,51 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        parchment: {
-          DEFAULT: "var(--color-parchment)",
-          dark: "var(--color-parchment-dark)",
-        },
-        ink: {
-          DEFAULT: "var(--color-ink)",
-          light: "var(--color-ink-light)",
-        },
+      extend: {
+        colors: {
+          bg: {
+            DEFAULT: "var(--color-bg)",
+            soft: "var(--color-bg-soft)",
+            dark: "var(--color-bg-dark)",
+          },
+          text: {
+            DEFAULT: "var(--color-text)",
+            mid: "var(--color-text-mid)",
+            light: "var(--color-text-light)",
+          },
+          parchment: {
+            DEFAULT: "var(--color-bg)",
+            dark: "var(--color-bg-soft)",
+          },
+          ink: {
+            DEFAULT: "var(--color-text)",
+            light: "var(--color-text-mid)",
+          },
+          accent: {
+            DEFAULT: "var(--color-accent)",
+            dark: "var(--color-accent-dark)",
+          },
         red: {
-          DEFAULT: "var(--color-red)",
-          dark: "var(--color-red-dark)",
+          DEFAULT: "var(--color-accent)",
+          dark: "var(--color-accent-dark)",
         },
-        gold: {
-          DEFAULT: "var(--color-gold)",
-          light: "var(--color-gold-light)",
+          gold: {
+            DEFAULT: "var(--color-yellow)",
+            light: "var(--color-gold-light)",
+          },
+          yellow: {
+            DEFAULT: "var(--color-yellow)",
+            light: "var(--color-gold-light)",
+          },
+          border: "var(--color-border)",
+          white: "var(--color-white)",
         },
-        border: "var(--color-border)",
-      },
-      fontFamily: {
-        playfair: ["var(--font-playfair)", "serif"],
-        lora: ["var(--font-lora)", "serif"],
-        baskerville: ["var(--font-baskerville)", "serif"],
-      },
+        fontFamily: {
+          playfair: ["var(--font-playfair)", "serif"],
+          inter: ["var(--font-inter)", "sans-serif"],
+          lora: ["var(--font-inter)", "sans-serif"],
+          baskerville: ["var(--font-inter)", "sans-serif"],
+        },
       spacing: {
         18: "4.5rem",
         88: "22rem",
