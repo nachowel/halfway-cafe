@@ -9,7 +9,7 @@ export async function getCategories() {
     const supabase = await createServerComponentClient();
     const { data, error } = await supabase
       .from("categories")
-      .select("name, slug")
+      .select("id, name, slug, image_url")
       .eq("active", true)
       .order("sort_order", { ascending: true });
 

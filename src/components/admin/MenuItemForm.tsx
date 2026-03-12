@@ -181,6 +181,8 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
           throw err;
         }
         setSuccess("Changes saved successfully.");
+        router.push("/admin/menu");
+        router.refresh();
       } else {
         const { error: err } = await supabase
           .from("menu_items")
@@ -190,6 +192,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
           throw err;
         }
         router.push("/admin/menu");
+        router.refresh();
       }
     } catch (e: any) {
       console.error("[MenuItemForm] caught error:", e);

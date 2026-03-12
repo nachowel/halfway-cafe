@@ -6,15 +6,18 @@ const ABOUT_IMAGE =
   "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80";
 
 const bulletPoints = [
-  "Fresh ingredients prepared every day",
-  "Cooked to order from breakfast through dinner",
-  "A warm welcome for locals, regulars, and first-timers",
+  "Family-run for over 20 years — proudly serving Sidcup, DA15",
+  "Fresh, quality ingredients prepared every single day",
+  "Full English breakfast, lunch plates, burgers & more",
+  "Cooked to order, every time, no shortcuts",
+  "Customer satisfaction is always our first priority",
+  "A warm welcome for locals, families, and first-timers alike",
 ];
 
 const stats = [
-  { value: "16+", label: "Years Open" },
-  { value: "4.8★", label: "Google Rating" },
-  { value: "7 Days", label: "Open Weekly" },
+  { value: "Over 20 years", label: "Established" },
+  { value: "176 Halfway St", label: "Sidcup DA15 8DJ" },
+  { value: "Family Run", label: "Local Cafe" },
 ];
 
 export default function AboutSection() {
@@ -36,10 +39,10 @@ export default function AboutSection() {
 
             <div className="absolute bottom-4 right-4 rounded-2xl bg-orange-500 px-5 py-4 text-center shadow-lg">
               <span className="block font-playfair text-3xl font-black text-white md:text-4xl">
-                2008
+                Over 20
               </span>
               <span className="mt-1 block font-inter text-[10px] font-bold uppercase tracking-[0.22em] text-white/80">
-                Est. London
+                Years Serving Sidcup
               </span>
             </div>
           </div>
@@ -56,15 +59,19 @@ export default function AboutSection() {
 
             <div className="mt-6 space-y-4">
               <p className="font-inter text-base leading-7 text-gray-300">
-                Halfway Cafe has been serving High Street since 2008. What began
-                as a compact kitchen and a handful of tables grew into a cafe
-                known for honest plates, strong coffee, and the kind of service
-                that remembers your order.
+                Halfway Cafe has been serving Sidcup and the wider DA15 area for
+                over 20 years. What started as a family kitchen on Halfway
+                Street grew into one of Sidcup&apos;s most loved neighbourhood
+                cafes — a place where familiar faces sit next to first-timers,
+                and everyone leaves satisfied.
               </p>
               <p className="font-inter text-base leading-7 text-gray-300">
-                We keep things simple in the right way: breakfast cooked fresh,
-                lunch done properly, and a room that feels busy, warm, and lived
-                in from the first service to the last cup of tea.
+                We&apos;re a family-run cafe in Sidcup, and that means something
+                to us. Every plate is made with quality ingredients, cooked
+                fresh to order, and served with the kind of care that only comes
+                when it&apos;s personal. Whether you&apos;re looking for a full
+                English breakfast in Sidcup, a hearty lunch, or just a proper
+                cup of tea — Halfway Cafe is your local.
               </p>
             </div>
 

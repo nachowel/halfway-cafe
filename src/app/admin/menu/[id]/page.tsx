@@ -74,8 +74,12 @@ export default function EditMenuItemPage() {
 
   return (
     <div>
-      <Link href="/admin/menu" className="text-sm text-neutral-500 no-underline hover:text-red-600">
-        ← Back to menu
+      <Link
+        href="/admin/menu"
+        className="inline-flex items-center gap-2 text-sm text-neutral-500 no-underline hover:text-orange-500"
+      >
+        <span aria-hidden="true">←</span>
+        <span>Back to Menu Items</span>
       </Link>
       <h1 className="mt-3 font-playfair text-2xl font-bold text-neutral-900">
         Edit Item

@@ -3,10 +3,11 @@
 import SectionHeader from "@/components/ui/SectionHeader";
 
 const infoCards = [
-  { label: "Address", value: "123 High Street\nLondon EC1A 1BB" },
-  { label: "Phone", value: "+44 1234 567890" },
-  { label: "Mon–Fri", value: "07:00 – 21:00" },
-  { label: "Sat–Sun", value: "08:00 – 22:00" },
+  { label: "Address", value: "176 Halfway St\nSidcup DA15 8DJ" },
+  { label: "Phone", value: "020 3343 5303" },
+  { label: "Mon–Fri", value: "07:00 – 15:00" },
+  { label: "Sat", value: "07:00 – 15:00" },
+  { label: "Sun", value: "09:00 – 14:00" },
 ];
 
 export default function LocationSection() {
@@ -44,38 +45,21 @@ export default function LocationSection() {
 
             {/* Transport note */}
             <p className="mt-6 font-lora text-sm italic text-ink-light">
-              5 min walk from Oxford Circus · Buses: 7, 23, 55
+              Located in Sidcup town centre · Easy parking nearby
             </p>
           </div>
 
-          {/* Right — Map placeholder */}
-          {/* TODO: Replace with Google Maps embed (<iframe>) when API key is available */}
-          <div
-            className="relative flex h-[380px] items-center justify-center overflow-hidden border border-border md:h-[460px]"
-            style={{
-              backgroundColor: "var(--color-parchment)",
-              backgroundImage:
-                "linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          >
-            <div className="relative z-10 text-center">
-              <span className="block text-5xl">📍</span>
-              <h3 className="mt-3 font-playfair text-2xl font-bold text-ink">
-                Halfway Cafe
-              </h3>
-              <p className="mt-1 font-lora text-sm italic text-ink-light">
-                123 High Street, London EC1A 1BB
-              </p>
-              <a
-                href="https://maps.google.com/?q=123+High+Street+London+EC1A+1BB"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-block bg-ink px-6 py-3 font-baskerville text-xs uppercase tracking-wider text-parchment no-underline transition-colors duration-200 hover:bg-red"
-              >
-                Get Directions
-              </a>
-            </div>
+          <div className="w-full h-[450px] overflow-hidden rounded-xl border border-border shadow-sm">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1243.8!2d0.09854!3d51.44075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a951f76511e5%3A0x80acf6d03005ae8c!2sHalfWay%20Cafe!5e0!3m2!1sen!2suk!4v1773275560534!5m2!1sen!2suk"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Halfway Cafe location map"
+            />
           </div>
         </div>
       </div>

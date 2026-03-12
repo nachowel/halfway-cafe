@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CategoryMenuContent from "@/components/menu/CategoryMenuContent";
+import CategoryHero from "@/components/sections/CategoryHero";
 import { menuItems as fallbackMenu } from "@/data/menu";
+import { menuCategoryDefinitions } from "@/data/menuCategories";
 import { createServerComponentClient } from "@/lib/supabase-server";
 import type { MenuItem } from "@/types";
 
@@ -20,12 +22,24 @@ interface PageProps {
   };
 }
 
+const breakfastHero = {
+  imageUrl:
+    "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/Hero/breakfast-hero.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL2JyZWFrZmFzdC1oZXJvLndlYnAiLCJpYXQiOjE3NzMyODEzMzEsImV4cCI6MjA4ODY0MTMzMX0.8pqxUYhssRLbIZjZR0xhCO5JvzF14lphA-AqZAg0nzg",
+  label: "THE BREAKFAST MENU",
+  title: "Proper Breakfast",
+  subtitle: "Classic cafe breakfasts made fresh every morning.",
+  info: "Breakfast served daily · 176 Halfway St, Sidcup",
+};
+
 function toMenuItem(row: any): MenuItem {
   return {
     id: row.id,
     name: row.name,
     description: row.description ?? "",
     price: Number(row.price),
+    price_roll: row.price_roll ?? null,
+    price_sandwich: row.price_sandwich ?? null,
+    price_baguette: row.price_baguette ?? null,
     category: row.category,
     image: row.image_url ?? undefined,
     allergens: [],
@@ -83,13 +97,13 @@ async function getMenuCategoryData(categorySlug: string) {
   } catch (error) {
     console.error("getMenuCategoryData:", error);
 
-    const fallbackCategories: CategoryRecord[] = [
-      { id: "breakfast", slug: "breakfast", name: "Breakfast" },
-      { id: "lunch", slug: "lunch", name: "Lunch" },
-      { id: "burgers", slug: "burgers", name: "Burgers" },
-      { id: "desserts", slug: "desserts", name: "Desserts" },
-      { id: "drinks", slug: "drinks", name: "Drinks" },
-    ];
+    const fallbackCategories: CategoryRecord[] = menuCategoryDefinitions.map(
+      (category) => ({
+        id: category.id,
+        slug: category.slug,
+        name: category.name,
+      })
+    );
 
     return {
       categories: fallbackCategories,
@@ -135,20 +149,30 @@ export default async function MenuCategoryPage({ params }: PageProps) {
     return accumulator;
   }, {});
 
+  const breadcrumb = (
+    <nav className="mb-8 font-lora text-sm text-ink-light">
+      <Link href="/" className="text-ink-light no-underline hover:text-accent">
+        Home
+      </Link>
+      <span className="mx-2">→</span>
+      <Link href="/menu" className="text-ink-light no-underline hover:text-accent">
+        Menu
+      </Link>
+      <span className="mx-2">→</span>
+      <span className="text-ink">{activeCategory.name}</span>
+    </nav>
+  );
+
   return (
     <section className="min-h-screen bg-parchment pb-16 pt-28 md:pt-32">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <nav className="mb-8 font-lora text-sm text-ink-light">
-          <Link href="/" className="text-ink-light no-underline hover:text-accent">
-            Home
-          </Link>
-          <span className="mx-2">→</span>
-          <Link href="/menu" className="text-ink-light no-underline hover:text-accent">
-            Menu
-          </Link>
-          <span className="mx-2">→</span>
-          <span className="text-ink">{activeCategory.name}</span>
-        </nav>
+        {params.category === "breakfast" && (
+          <div className="mb-8">
+            <CategoryHero {...breakfastHero} />
+          </div>
+        )}
+
+        {breadcrumb}
 
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start">
           <aside className="lg:w-64 lg:shrink-0">

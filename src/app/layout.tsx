@@ -3,9 +3,10 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "@/styles/globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import StickyContactBar from "@/components/layout/StickyContactBar";
+import AppChrome from "@/components/layout/AppChrome";
+import { openingHours as fallbackHours } from "@/data/opening-hours";
+import { getOpeningHours } from "@/lib/queries";
+import type { OpeningHours } from "@/types";
 
 // ─── Fonts ───
 
@@ -87,11 +88,24 @@ const jsonLd = {
 
 // ─── Layout ───
 
-export default function RootLayout({
+function toOpeningHours(row: Record<string, unknown>): OpeningHours {
+  return {
+    day: typeof row.day_name === "string" ? row.day_name : "Day",
+    open: typeof row.open_time === "string" ? row.open_time.slice(0, 5) : "00:00",
+    close: typeof row.close_time === "string" ? row.close_time.slice(0, 5) : "00:00",
+    closed: row.is_closed === true,
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const dbHours = await getOpeningHours();
+  const openingHours =
+    dbHours.length > 0 ? dbHours.map(toOpeningHours) : fallbackHours;
+
   return (
     <html
       lang="en"
@@ -104,10 +118,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <StickyContactBar />
+        <AppChrome openingHours={openingHours}>{children}</AppChrome>
       </body>
     </html>
   );

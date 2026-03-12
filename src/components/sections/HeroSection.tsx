@@ -8,9 +8,9 @@ import OpenStatus from "@/components/ui/OpenStatus";
 import type { OpeningHours } from "@/types";
 
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1800&q=85";
+  "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/Hero/Hero.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL0hlcm8ucG5nIiwiaWF0IjoxNzczMjgwMDk0LCJleHAiOjIwODg2NDAwOTR9.hha4cTF20htivfn1PiITQ4wy5fwFmgEzrD3oddYKTf0";
 const DIRECTIONS_URL =
-  "https://www.google.com/maps/search/?api=1&query=123+High+Street+London+EC1A+1BB";
+  "https://www.google.com/maps/dir/?api=1&destination=176+Halfway+St+Sidcup+DA15+8DJ";
 const CAFE_ADDRESS = "123 High Street, London EC1A 1BB";
 
 interface HeroSectionProps {

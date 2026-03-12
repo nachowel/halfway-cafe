@@ -1,12 +1,24 @@
-/* Footer — 4-column grid with branding, links, hours & allergen notice */
+/* Footer — local SEO copy, dynamic opening hours, and social links */
 
 import Link from "next/link";
-import { openingHours } from "@/data/opening-hours";
+import { Facebook, Instagram } from "lucide-react";
+import type { OpeningHours } from "@/types";
+
+interface FooterProps {
+  openingHours: OpeningHours[];
+}
+
+interface FooterHoursEntry {
+  label: string;
+  value: string;
+  isToday: boolean;
+}
 
 const menuLinks = [
   { href: "/menu/breakfast", label: "Breakfast" },
   { href: "/menu/lunch", label: "Lunch" },
   { href: "/menu/burgers", label: "Burgers" },
+  { href: "/menu/sandwiches", label: "Sandwiches" },
   { href: "/menu/desserts", label: "Desserts" },
   { href: "/menu/drinks", label: "Drinks" },
 ];
@@ -18,16 +30,97 @@ const pageLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-const socialLinks = [
-  { href: "https://instagram.com", label: "IG", ariaLabel: "Instagram" },
-  { href: "https://facebook.com", label: "FB", ariaLabel: "Facebook" },
-  { href: "https://x.com", label: "X", ariaLabel: "X (Twitter)" },
+const fallbackHours: FooterHoursEntry[] = [
+  { label: "Mon–Fri", value: "07:00–15:00", isToday: false },
+  { label: "Sat", value: "07:00–15:00", isToday: false },
+  { label: "Sun", value: "09:00–14:00", isToday: false },
 ];
 
-export default function Footer() {
+const footerSchema = {
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  name: "Halfway Cafe",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "176 Halfway St",
+    addressLocality: "Sidcup",
+    postalCode: "DA15 8DJ",
+    addressCountry: "GB",
+  },
+  telephone: "02033435303",
+  openingHours: ["Mo-Fr 07:00-15:00", "Sa 07:00-15:00", "Su 09:00-14:00"],
+  servesCuisine: "British",
+  priceRange: "£",
+};
+
+function getTodayName() {
+  return new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    timeZone: "Europe/London",
+  }).format(new Date());
+}
+
+function mapHoursToFooterEntries(rows: OpeningHours[]): FooterHoursEntry[] {
+  const todayName = getTodayName();
+
+  if (rows.length === 0) {
+    const isWeekday =
+      todayName === "Monday" ||
+      todayName === "Tuesday" ||
+      todayName === "Wednesday" ||
+      todayName === "Thursday" ||
+      todayName === "Friday";
+
+    return fallbackHours.map((entry) => ({
+      ...entry,
+      isToday:
+        (entry.label === "Mon–Fri" && isWeekday) ||
+        (entry.label === "Sat" && todayName === "Saturday") ||
+        (entry.label === "Sun" && todayName === "Sunday"),
+    }));
+  }
+
+  return rows.map((row) => {
+    return {
+      label: row.day,
+      value: row.closed ? "Closed" : `${row.open}–${row.close}`,
+      isToday: row.day === todayName,
+    };
+  });
+}
+
+function SocialIconLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-400 no-underline transition duration-200 hover:border-orange-500 hover:bg-orange-500 hover:text-white"
+    >
+      {children}
+    </a>
+  );
+}
+
+export default function Footer({ openingHours }: FooterProps) {
+  const hours = mapHoursToFooterEntries(openingHours);
+
   return (
     <footer>
-      {/* Allergen notice bar */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(footerSchema) }}
+      />
+
       <div className="border-t border-accent bg-[#151515] px-4 py-4 text-center">
         <p className="mx-auto max-w-3xl font-inter text-sm text-white/65">
           We handle allergens in our kitchen. Please speak to a member of staff
@@ -35,42 +128,42 @@ export default function Footer() {
         </p>
       </div>
 
-      {/* Main footer */}
       <div className="border-t-4 border-accent bg-bg-dark">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-2 md:px-8 lg:grid-cols-4 lg:gap-8">
-          {/* Column 1 — Branding */}
           <div>
             <Link href="/" className="no-underline">
               <span className="font-playfair text-2xl font-bold text-white">
-                Halfway Cafe
+                HALFWAY CAFE · SIDCUP
               </span>
             </Link>
-            <p className="mt-1 font-inter text-xs font-bold uppercase tracking-[0.18em] text-gray-500">
-              Est. 2008 · London
-            </p>
             <p className="mt-4 font-inter text-sm leading-relaxed text-gray-400">
-              A proper London caff. Full English breakfasts, honest grub &
-              builder&apos;s tea — no fuss, no frills, just good food.
+              A family-run cafe in Sidcup, DA15, serving the local community for
+              over 20 years. Visit us at 176 Halfway St for a full English
+              breakfast, fresh lunch, and proper coffee.
             </p>
+            <p className="mt-3 font-inter text-sm text-gray-500">
+              Serving Sidcup, DA15 and the wider London area.
+            </p>
+            <div className="mt-5 space-y-2 font-inter text-sm text-gray-400">
+              <p>📍 176 Halfway St, Sidcup DA15 8DJ</p>
+              <p>📞 020 3343 5303</p>
+            </div>
 
-            {/* Social buttons */}
-            <div className="mt-5 flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.ariaLabel}
-                  className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-gray-600 font-inter text-xs font-bold text-gray-300 no-underline transition-all duration-200 hover:border-orange-500 hover:bg-orange-500 hover:text-white"
-                >
-                  {social.label}
-                </a>
-              ))}
+            <div className="mt-6 flex gap-3">
+              <SocialIconLink href="#" label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </SocialIconLink>
+              <SocialIconLink href="#" label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </SocialIconLink>
+              <SocialIconLink href="#" label="TikTok">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z" />
+                </svg>
+              </SocialIconLink>
             </div>
           </div>
 
-          {/* Column 2 — Menu links */}
           <div>
             <h3 className="font-inter text-xs font-bold uppercase tracking-wider text-orange-400">
               Menu
@@ -90,7 +183,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Page links */}
           <div>
             <h3 className="font-inter text-xs font-bold uppercase tracking-wider text-orange-400">
               Pages
@@ -110,23 +202,34 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4 — Opening hours */}
           <div>
             <h3 className="font-inter text-xs font-bold uppercase tracking-wider text-orange-400">
               Opening Hours
             </h3>
             <div className="mb-4 mt-1 h-px w-8 bg-accent" />
             <ul className="flex flex-col gap-2">
-              {openingHours.map((entry) => (
+              {hours.map((entry) => (
                 <li
-                  key={entry.day}
+                  key={entry.label}
                   className="flex justify-between gap-4 font-inter text-sm"
                 >
-                  <span className="font-inter text-gray-400">{entry.day}</span>
-                  <span className="text-right font-inter text-gray-500">
-                    {entry.closed
-                      ? "Closed"
-                      : `${entry.open} – ${entry.close}`}
+                  <span
+                    className={
+                      entry.isToday
+                        ? "font-bold text-orange-400"
+                        : "text-gray-400"
+                    }
+                  >
+                    {entry.label}
+                  </span>
+                  <span
+                    className={
+                      entry.isToday
+                        ? "text-right font-bold text-orange-400"
+                        : "text-right text-gray-500"
+                    }
+                  >
+                    {entry.value}
                   </span>
                 </li>
               ))}
@@ -134,14 +237,13 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-5 md:flex-row md:px-8">
             <p className="font-inter text-xs text-gray-500">
-              © {new Date().getFullYear()} Halfway Cafe. All rights reserved.
+              © 2026 Halfway Cafe. All rights reserved.
             </p>
             <p className="font-inter text-xs text-gray-500">
-              🍳 Proudly serving London since 2008
+              Proudly serving Sidcup, DA15 · 176 Halfway St
             </p>
           </div>
         </div>

@@ -1,14 +1,8 @@
-/* Halfway Cafe — Public menu page with sticky category navigation */
+/* Halfway Cafe — Menu landing page */
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import MenuCategoryNav from "@/components/menu/MenuCategoryNav";
-import MenuCategorySection from "@/components/menu/MenuCategorySection";
-import {
-  getMenuCategoryDefinitionBySlug,
-  menuCategoryDefinitions,
-  type MenuCategoryDefinition,
-} from "@/data/menuCategories";
+import CategoriesSection from "@/components/sections/CategoriesSection";
 import { getCategories } from "@/lib/queries";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -16,33 +10,17 @@ import { getCategories } from "@/lib/queries";
 export const metadata: Metadata = {
   title: "Menu | Halfway Cafe",
   description:
-    "Explore the Halfway Cafe menu including breakfast, omelettes, burgers, sandwiches, drinks and more.",
+    "Browse the Halfway Cafe menu by category, from breakfast and sandwiches to burgers, panini, extras, and drinks.",
 };
-
-function buildMenuCategories(dbCategories: any[]): MenuCategoryDefinition[] {
-  const dbCategoryMap = new Map(
-    dbCategories.map((category) => [category.slug, category])
-  );
-
-  const mergedCategories = menuCategoryDefinitions.map((category) => {
-    const dbCategory = dbCategoryMap.get(category.slug);
-
-    return {
-      id: dbCategory?.id ?? category.id,
-      name: dbCategory?.name ?? category.name,
-      slug: category.slug,
-      description:
-        getMenuCategoryDefinitionBySlug(category.slug)?.description ??
-        category.description,
-    };
-  });
-
-  return mergedCategories;
-}
 
 export default async function MenuPage() {
   const dbCategories = await getCategories();
-  const categories = buildMenuCategories(dbCategories);
+  const categories = dbCategories.map((category: any) => ({
+    id: category.id ?? category.slug,
+    name: category.name,
+    slug: category.slug,
+    image_url: category.image_url ?? undefined,
+  }));
 
   return (
     <>
@@ -61,24 +39,29 @@ export default async function MenuPage() {
               Our Menu
             </h1>
             <p className="mt-4 font-inter text-base leading-7 text-text-mid md:text-lg">
-              Explore the full Halfway Cafe menu by category. The structure is
-              in place and each section is ready for dishes to be added next.
+              Browse the Halfway Cafe menu by category and head straight into
+              the dishes you&apos;re after.
             </p>
           </div>
         </div>
       </section>
 
-      <MenuCategoryNav categories={categories} />
-
-      <section className="bg-white py-10 md:py-12">
-        <div className="mx-auto max-w-7xl px-4 md:px-8">
-          <div className="rounded-3xl border border-border bg-white px-5 py-2 shadow-sm md:px-8">
-            {categories.map((category) => (
-              <MenuCategorySection key={category.slug} category={category} />
-            ))}
+      {categories.length > 0 ? (
+        <CategoriesSection categories={categories} />
+      ) : (
+        <section className="bg-white pb-20">
+          <div className="mx-auto max-w-7xl px-4 md:px-8">
+            <div className="rounded-3xl border border-border bg-bg-soft px-6 py-12 text-center shadow-sm">
+              <p className="font-playfair text-2xl font-bold text-text">
+                Menu categories are being updated.
+              </p>
+              <p className="mt-3 font-inter text-sm leading-6 text-text-mid">
+                Please check back shortly or contact the cafe for the latest menu.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

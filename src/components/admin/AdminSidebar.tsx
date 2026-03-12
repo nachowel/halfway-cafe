@@ -42,14 +42,14 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col border-r border-white/10 bg-bg-dark">
+    <aside className="fixed left-0 top-0 flex h-screen w-64 shrink-0 flex-col border-r border-white/10 bg-[#1a1a1a]">
       {/* Logo area */}
       <div className="border-b border-white/10 px-6 py-5">
         <h1 className="font-playfair text-lg font-bold text-white">
           Halfway Cafe
         </h1>
-        <span className="mt-0.5 inline-block rounded-xl bg-accent px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-          Admin
+        <span className="mt-0.5 inline-block rounded-lg bg-red-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+          ADMIN
         </span>
       </div>
 
@@ -62,14 +62,14 @@ export default function AdminSidebar() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm no-underline transition-colors ${
+                  className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm no-underline transition-colors ${
                     isActive
-                      ? "bg-accent text-white"
-                      : "text-white/65 hover:bg-white/5 hover:text-white"
+                      ? "bg-orange-500 text-white"
+                      : "text-gray-400 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   <span className="text-base">{item.icon}</span>
-                  <span>{item.label}</span>
+                  <span className="truncate">{item.label}</span>
                 </Link>
               </li>
             );
@@ -80,7 +80,7 @@ export default function AdminSidebar() {
       {/* User section */}
       <div className="border-t border-white/10 px-4 py-4">
         {userEmail && (
-          <p className="mb-2 truncate text-xs text-white/45">
+          <p className="mb-3 truncate text-xs text-gray-400">
             {userEmail}
           </p>
         )}
@@ -88,7 +88,7 @@ export default function AdminSidebar() {
           type="button"
           onClick={handleSignOut}
           disabled={signingOut}
-          className="w-full rounded-xl border border-white/10 px-3 py-2 text-xs text-white/70 transition-colors hover:border-accent hover:bg-white/5 hover:text-white disabled:opacity-50"
+          className="w-full text-left text-xs text-gray-400 transition-colors hover:text-red-400 disabled:opacity-50"
         >
           {signingOut ? "Signing out…" : "Sign Out"}
         </button>
