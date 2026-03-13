@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createClientComponentClient } from "@/lib/supabase";
@@ -21,8 +21,6 @@ interface DbMenuItem {
   sort_order: number;
 }
 
-const categories = ["all", "breakfast", "lunch", "burgers", "desserts", "drinks"];
-
 const categoryColors: Record<string, string> = {
   breakfast: "bg-amber-100 text-amber-800",
   lunch: "bg-green-100 text-green-800",
@@ -31,9 +29,21 @@ const categoryColors: Record<string, string> = {
   drinks: "bg-blue-100 text-blue-800",
 };
 
+function formatCategoryLabel(category: string) {
+  return category
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
 export default function AdminMenuPage() {
   const [items, setItems] = useState<DbMenuItem[]>([]);
-  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [onlyActive, setOnlyActive] = useState(false);
+  const [onlyFeatured, setOnlyFeatured] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const fetchItems = useCallback(async () => {
@@ -78,8 +88,59 @@ export default function AdminMenuPage() {
     }
   }
 
-  const filtered =
-    filter === "all" ? items : items.filter((i) => i.category === filter);
+  const categories = useMemo(
+    () => ["All", ...new Set(items.map((item) => item.category))],
+    [items]
+  );
+
+  const filtered = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+    const parsedMinPrice = minPrice === "" ? null : parseFloat(minPrice);
+    const parsedMaxPrice = maxPrice === "" ? null : parseFloat(maxPrice);
+
+    return items.filter((item) => {
+      const itemPrice = Number(item.price);
+      const matchSearch = item.name.toLowerCase().includes(normalizedSearch);
+      const matchCategory =
+        activeCategory === "All" || item.category === activeCategory;
+      const matchMin =
+        parsedMinPrice === null || Number.isNaN(parsedMinPrice)
+          ? true
+          : itemPrice >= parsedMinPrice;
+      const matchMax =
+        parsedMaxPrice === null || Number.isNaN(parsedMaxPrice)
+          ? true
+          : itemPrice <= parsedMaxPrice;
+      const matchActive = !onlyActive || item.active;
+      const matchFeatured = !onlyFeatured || item.featured;
+
+      return (
+        matchSearch &&
+        matchCategory &&
+        matchMin &&
+        matchMax &&
+        matchActive &&
+        matchFeatured
+      );
+    });
+  }, [items, search, activeCategory, minPrice, maxPrice, onlyActive, onlyFeatured]);
+
+  const hasActiveFilters =
+    search.trim() !== "" ||
+    activeCategory !== "All" ||
+    minPrice !== "" ||
+    maxPrice !== "" ||
+    onlyActive ||
+    onlyFeatured;
+
+  function clearFilters() {
+    setSearch("");
+    setActiveCategory("All");
+    setMinPrice("");
+    setMaxPrice("");
+    setOnlyActive(false);
+    setOnlyFeatured(false);
+  }
 
   return (
     <div>
@@ -90,7 +151,11 @@ export default function AdminMenuPage() {
             Menu Items
           </h1>
           <p className="mt-1 text-sm text-neutral-500">
-            {items.length} items total
+            {loading
+              ? "Loading items..."
+              : hasActiveFilters
+                ? `Showing ${filtered.length} of ${items.length} items`
+                : `${items.length} items found`}
           </p>
         </div>
         <Link
@@ -101,22 +166,117 @@ export default function AdminMenuPage() {
         </Link>
       </div>
 
-      {/* Category filter */}
-      <div className="mt-6 flex gap-1">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            type="button"
-            onClick={() => setFilter(cat)}
-            className={`rounded-sm px-4 py-2 text-xs font-medium capitalize transition-colors ${
-              filter === cat
-                ? "bg-neutral-900 text-white"
-                : "bg-white text-neutral-600 hover:bg-neutral-100"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+      {/* Filters */}
+      <div className="mt-6 rounded-xl border border-neutral-200 bg-white p-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="grid flex-1 gap-4 sm:grid-cols-2 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)]">
+            <div>
+              <label
+                htmlFor="menu-search"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600"
+              >
+                Search
+              </label>
+              <input
+                id="menu-search"
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search menu items..."
+                className="w-full rounded-xl border border-neutral-300 px-3 py-2.5 text-sm text-neutral-900 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="min-price"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600"
+              >
+                Min Price (£)
+              </label>
+              <input
+                id="min-price"
+                type="number"
+                min="0"
+                step="0.01"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                placeholder="0.00"
+                className="w-full rounded-xl border border-neutral-300 px-3 py-2.5 text-sm text-neutral-900 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="max-price"
+                className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600"
+              >
+                Max Price (£)
+              </label>
+              <input
+                id="max-price"
+                type="number"
+                min="0"
+                step="0.01"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                placeholder="20.00"
+                className="w-full rounded-xl border border-neutral-300 px-3 py-2.5 text-sm text-neutral-900 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <label className="flex items-center gap-2 text-sm text-neutral-700">
+              <input
+                type="checkbox"
+                checked={onlyActive}
+                onChange={(e) => setOnlyActive(e.target.checked)}
+                className="h-4 w-4 rounded border-neutral-300 text-accent focus:ring-accent"
+              />
+              Show only active
+            </label>
+
+            <label className="flex items-center gap-2 text-sm text-neutral-700">
+              <input
+                type="checkbox"
+                checked={onlyFeatured}
+                onChange={(e) => setOnlyFeatured(e.target.checked)}
+                className="h-4 w-4 rounded border-neutral-300 text-accent focus:ring-accent"
+              />
+              Show only featured
+            </label>
+
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="rounded-xl border border-neutral-300 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-neutral-50"
+              >
+                Clear filters
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-4 overflow-x-auto whitespace-nowrap">
+          <div className="flex min-w-max gap-2 pb-1">
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setActiveCategory(category)}
+                className={`rounded-full border px-4 py-2 text-xs font-semibold transition-colors ${
+                  activeCategory === category
+                    ? "border-[#F97316] bg-[#F97316] text-white"
+                    : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50"
+                }`}
+              >
+                {category === "All" ? category : formatCategoryLabel(category)}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Table */}
@@ -179,7 +339,7 @@ export default function AdminMenuPage() {
                         categoryColors[item.category] ?? "bg-neutral-100 text-neutral-600"
                       }`}
                     >
-                      {item.category}
+                      {formatCategoryLabel(item.category)}
                     </span>
                   </td>
 
