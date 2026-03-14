@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     template: "%s | Halfway Cafe",
   },
   description:
-    "Full English breakfasts, proper burgers & builder's tea since 2008. A genuine London caff on High Street, EC1.",
+    "Full English breakfasts, proper burgers & builder's tea since 2008. Visit Halfway Cafe at 176 Halfway St, Sidcup DA15 8DJ.",
   keywords: [
     "Halfway Cafe",
     "greasy spoon",
-    "London cafe",
+    "Sidcup cafe",
     "full English breakfast",
     "British caff",
-    "EC1",
+    "DA15",
   ],
   openGraph: {
     title: "Halfway Cafe — London's Favourite Greasy Spoon",
@@ -62,9 +62,9 @@ const jsonLd = {
   telephone: "+441234567890",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "123 High Street",
-    addressLocality: "London",
-    postalCode: "EC1A 1BB",
+    streetAddress: "176 Halfway St",
+    addressLocality: "Sidcup",
+    postalCode: "DA15 8DJ",
     addressCountry: "GB",
   },
   servesCuisine: ["British", "Breakfast", "Cafe"],
@@ -117,7 +117,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>
+      <body className="overflow-x-hidden">
         <AppChrome openingHours={openingHours}>{children}</AppChrome>
       </body>
     </html>

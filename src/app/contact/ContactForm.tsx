@@ -55,7 +55,7 @@ export default function ContactForm() {
           id="name"
           name="name"
           required
-          className="w-full border border-border bg-parchment px-4 py-3 font-lora text-sm text-ink outline-none transition-shadow duration-200 focus:ring-2 focus:ring-red/30"
+          className="w-full rounded-[10px] border border-border bg-parchment px-4 py-[14px] font-lora text-[16px] text-ink outline-none transition-[border-color,box-shadow] duration-200 focus:border-[#d77a37] focus:ring-2 focus:ring-red/20"
           placeholder="Your name"
         />
       </div>
@@ -73,7 +73,7 @@ export default function ContactForm() {
           id="email"
           name="email"
           required
-          className="w-full border border-border bg-parchment px-4 py-3 font-lora text-sm text-ink outline-none transition-shadow duration-200 focus:ring-2 focus:ring-red/30"
+          className="w-full rounded-[10px] border border-border bg-parchment px-4 py-[14px] font-lora text-[16px] text-ink outline-none transition-[border-color,box-shadow] duration-200 focus:border-[#d77a37] focus:ring-2 focus:ring-red/20"
           placeholder="you@example.com"
         />
       </div>
@@ -91,7 +91,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={5}
-          className="w-full resize-none border border-border bg-parchment px-4 py-3 font-lora text-sm text-ink outline-none transition-shadow duration-200 focus:ring-2 focus:ring-red/30"
+          className="w-full resize-none rounded-[10px] border border-border bg-parchment px-4 py-[14px] font-lora text-[16px] text-ink outline-none transition-[border-color,box-shadow] duration-200 focus:border-[#d77a37] focus:ring-2 focus:ring-red/20"
           placeholder="How can we help?"
         />
       </div>
@@ -99,7 +99,7 @@ export default function ContactForm() {
       {/* Submit */}
       <button
         type="submit"
-        className="w-full bg-red py-3.5 font-baskerville text-xs uppercase tracking-wider text-white transition-colors duration-200 hover:bg-red-dark"
+        className="w-full rounded-[10px] bg-red py-3.5 font-baskerville text-xs uppercase tracking-wider text-white transition-colors duration-200 hover:bg-[#c86821]"
       >
         Send Message
       </button>

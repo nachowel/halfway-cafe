@@ -1,174 +1,369 @@
-/* Admin — Site Settings (key-value pairs from site_settings table) */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* Admin — Site Settings grouped by section */
 
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createClientComponentClient } from "@/lib/supabase";
 
-interface SettingRow {
-  id: string;
-  key: string;
-  value: string;
-}
+type GroupKey = "hero" | "social" | "delivery";
 
-const settingLabels: Record<string, string> = {
-  cafe_name: "Cafe Name",
-  tagline: "Tagline",
-  phone: "Phone Number",
-  email: "Email Address",
-  address: "Address",
-  instagram_url: "Instagram URL",
-  facebook_url: "Facebook URL",
-  google_maps_url: "Google Maps URL",
-};
+type SettingValues = Record<string, string>;
 
-function labelFor(key: string) {
-  return settingLabels[key] ?? key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
+type GroupMessage = {
+  type: "success" | "error";
+  text: string;
+} | null;
+
+const heroFields = [
+  {
+    key: "hero_image_web",
+    label: "Desktop Hero Image",
+    helper: "Recommended size: 1920×1080px",
+  },
+  {
+    key: "hero_image_mobile",
+    label: "Mobile Hero Image",
+    helper: "Recommended size: 800×600px. Falls back to desktop image if empty.",
+  },
+];
+
+const socialFields = [
+  { key: "social_instagram", label: "Instagram URL" },
+  { key: "social_facebook", label: "Facebook URL" },
+  { key: "social_tiktok", label: "TikTok URL" },
+];
+
+const deliveryPlatforms = [
+  {
+    name: "Uber Eats",
+    logoKey: "delivery_ubereats_logo",
+    linkKey: "delivery_ubereats",
+  },
+  {
+    name: "Just Eat",
+    logoKey: "delivery_justeat_logo",
+    linkKey: "delivery_justeat",
+  },
+  {
+    name: "Deliveroo",
+    logoKey: "delivery_deliveroo_logo",
+    linkKey: "delivery_deliveroo",
+  },
+];
+
+const allSettingKeys = [
+  ...heroFields.map((field) => field.key),
+  ...socialFields.map((field) => field.key),
+  ...deliveryPlatforms.flatMap((platform) => [platform.logoKey, platform.linkKey]),
+];
+
+const defaultValues: SettingValues = Object.fromEntries(
+  allSettingKeys.map((key) => [key, ""])
+);
+
+const inputClass =
+  "w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400";
+
+const cardClass = "mb-6 rounded-xl bg-white p-6 shadow-sm";
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState<SettingRow[]>([]);
+  const [values, setValues] = useState<SettingValues>(defaultValues);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [savingGroup, setSavingGroup] = useState<GroupKey | null>(null);
+  const [messages, setMessages] = useState<Record<GroupKey, GroupMessage>>({
+    hero: null,
+    social: null,
+    delivery: null,
+  });
+  const timeoutRefs = useRef<Record<GroupKey, ReturnType<typeof setTimeout> | null>>({
+    hero: null,
+    social: null,
+    delivery: null,
+  });
+
+  const setGroupMessage = useCallback((group: GroupKey, message: GroupMessage) => {
+    setMessages((prev) => ({ ...prev, [group]: message }));
+
+    if (timeoutRefs.current[group]) {
+      clearTimeout(timeoutRefs.current[group]!);
+      timeoutRefs.current[group] = null;
+    }
+
+    if (message?.type === "success") {
+      timeoutRefs.current[group] = setTimeout(() => {
+        setMessages((prev) => ({ ...prev, [group]: null }));
+        timeoutRefs.current[group] = null;
+      }, 3000);
+    }
+  }, []);
 
   const fetchSettings = useCallback(async () => {
     try {
       const supabase = createClientComponentClient();
-      const { data, error: err } = await supabase
+      const { data, error } = await supabase
         .from("site_settings")
-        .select("*")
-        .order("key", { ascending: true });
+        .select("key, value");
 
-      if (err) throw err;
-      setSettings((data as SettingRow[]) ?? []);
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to load settings.");
+      if (error) throw error;
+
+      const nextValues = { ...defaultValues };
+
+      for (const row of data ?? []) {
+        if (typeof row.key === "string" && row.key in nextValues) {
+          nextValues[row.key] = typeof row.value === "string" ? row.value : "";
+        }
+      }
+
+      setValues(nextValues);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchSettings();
-  }, [fetchSettings]);
+    fetchSettings().catch((error: { message?: string }) => {
+      setGroupMessage("hero", {
+        type: "error",
+        text: error?.message ?? "Failed to load settings.",
+      });
+      setGroupMessage("social", {
+        type: "error",
+        text: error?.message ?? "Failed to load settings.",
+      });
+      setGroupMessage("delivery", {
+        type: "error",
+        text: error?.message ?? "Failed to load settings.",
+      });
+    });
+  }, [fetchSettings, setGroupMessage]);
 
-  function updateValue(index: number, value: string) {
-    setSettings((prev) =>
-      prev.map((row, i) => (i === index ? { ...row, value } : row))
-    );
-    setError("");
-    setSuccess("");
+  useEffect(() => {
+    const timeoutMap = timeoutRefs.current;
+
+    return () => {
+      for (const group of Object.keys(timeoutMap) as GroupKey[]) {
+        if (timeoutMap[group]) {
+          clearTimeout(timeoutMap[group]!);
+        }
+      }
+    };
+  }, []);
+
+  function updateValue(key: string, value: string) {
+    setValues((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSave() {
-    setSaving(true);
-    setError("");
-    setSuccess("");
+  async function saveGroup(group: GroupKey, keys: string[], successText: string) {
+    setSavingGroup(group);
+    setGroupMessage(group, null);
 
     try {
       const supabase = createClientComponentClient();
+      const timestamp = new Date().toISOString();
+      const payload = keys.map((key) => ({
+        key,
+        value: values[key]?.trim() ?? "",
+        updated_at: timestamp,
+      }));
 
-      for (const row of settings) {
-        const { error: err } = await supabase
-          .from("site_settings")
-          .update({ value: row.value })
-          .eq("id", row.id);
+      const { error } = await supabase
+        .from("site_settings")
+        .upsert(payload, { onConflict: "key" });
 
-        if (err) throw err;
-      }
+      if (error) throw error;
 
-      setSuccess("Settings saved successfully.");
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to save. Please try again.");
+      setGroupMessage(group, {
+        type: "success",
+        text: successText,
+      });
+    } catch (error) {
+      setGroupMessage(group, {
+        type: "error",
+        text:
+          error instanceof Error ? error.message : "Failed to save. Please try again.",
+      });
     } finally {
-      setSaving(false);
+      setSavingGroup(null);
     }
   }
 
-  const inputClass =
-    "w-full rounded-sm border border-neutral-300 px-3 py-2.5 text-sm text-neutral-900 outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500";
+  function Message({ group }: { group: GroupKey }) {
+    const message = messages[group];
+
+    if (!message) {
+      return null;
+    }
+
+    return (
+      <p
+        className={`mt-4 text-sm ${
+          message.type === "success" ? "text-green-600" : "text-red-600"
+        }`}
+      >
+        {message.type === "success" ? `${message.text} ✓` : message.text}
+      </p>
+    );
+  }
 
   return (
-    <div>
-      {/* Header */}
-      <h1 className="font-playfair text-2xl font-bold text-neutral-900">
-        Site Settings
-      </h1>
-      <p className="mt-1 text-sm text-neutral-500">
-        Manage general information displayed across the website.
-      </p>
-
-      {/* Messages */}
-      {error && (
-        <div className="mt-4 rounded-sm border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
-      {success && (
-        <div className="mt-4 rounded-sm border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-          {success}
-        </div>
-      )}
-
-      {/* Settings form */}
-      <div className="mt-6 rounded-sm border border-neutral-200 bg-white">
-        {loading ? (
-          <div className="flex items-center justify-center py-16">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" />
-          </div>
-        ) : settings.length === 0 ? (
-          <p className="px-5 py-12 text-center text-sm text-neutral-400">
-            No settings found. Add rows to the site_settings table in Supabase.
-          </p>
-        ) : (
-          <div className="divide-y divide-neutral-100">
-            {settings.map((row, i) => (
-              <div key={row.id} className="px-5 py-4">
-                <label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600">
-                  {labelFor(row.key)}
-                </label>
-                {row.value && row.value.length > 100 ? (
-                  <textarea
-                    value={row.value}
-                    onChange={(e) => updateValue(i, e.target.value)}
-                    rows={3}
-                    className={inputClass}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={row.value}
-                    onChange={(e) => updateValue(i, e.target.value)}
-                    className={inputClass}
-                  />
-                )}
-                <p className="mt-1 text-xs text-neutral-400">
-                  Key: {row.key}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="bg-white">
+      <div className="mb-6">
+        <h1 className="font-playfair text-3xl font-bold text-neutral-900">
+          Site Settings
+        </h1>
+        <p className="mt-1 text-sm text-neutral-500">
+          Manage your cafe&apos;s public information
+        </p>
       </div>
 
-      {/* Save button */}
-      {settings.length > 0 && (
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={saving}
-            className="flex items-center gap-2 rounded-sm bg-red-600 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700 disabled:opacity-60"
-          >
-            {saving && (
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            )}
-            {saving ? "Saving…" : "Save All Changes"}
-          </button>
+      {loading ? (
+        <div className={`${cardClass} flex items-center justify-center py-16`}>
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#FF6B35] border-t-transparent" />
         </div>
+      ) : (
+        <>
+          <section className={cardClass}>
+            <h2 className="font-playfair text-xl font-bold text-neutral-900">
+              Hero Images
+            </h2>
+
+            <div className="mt-5 space-y-5">
+              {heroFields.map((field) => (
+                <div key={field.key}>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {field.label}
+                  </label>
+                  <input
+                    type="text"
+                    value={values[field.key]}
+                    onChange={(e) => updateValue(field.key, e.target.value)}
+                    className={inputClass}
+                  />
+                  <p className="mt-1 text-xs text-gray-400">{field.helper}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() =>
+                  saveGroup(
+                    "hero",
+                    heroFields.map((field) => field.key),
+                    "Saved successfully"
+                  )
+                }
+                disabled={savingGroup === "hero"}
+                className="rounded-lg bg-[#FF6B35] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#E85E2E] disabled:opacity-60"
+              >
+                {savingGroup === "hero" ? "Saving..." : "Save Hero Images"}
+              </button>
+              <Message group="hero" />
+            </div>
+          </section>
+
+          <section className={cardClass}>
+            <h2 className="font-playfair text-xl font-bold text-neutral-900">
+              Social Media
+            </h2>
+
+            <div className="mt-5 space-y-5">
+              {socialFields.map((field) => (
+                <div key={field.key}>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {field.label}
+                  </label>
+                  <input
+                    type="text"
+                    value={values[field.key]}
+                    onChange={(e) => updateValue(field.key, e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() =>
+                  saveGroup(
+                    "social",
+                    socialFields.map((field) => field.key),
+                    "Saved successfully"
+                  )
+                }
+                disabled={savingGroup === "social"}
+                className="rounded-lg bg-[#FF6B35] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#E85E2E] disabled:opacity-60"
+              >
+                {savingGroup === "social" ? "Saving..." : "Save Social Links"}
+              </button>
+              <Message group="social" />
+            </div>
+          </section>
+
+          <section className={cardClass}>
+            <h2 className="font-playfair text-xl font-bold text-neutral-900">
+              Delivery Platforms
+            </h2>
+            <p className="mt-1 text-xs text-gray-400">
+              Upload logos to Supabase Storage and paste the public URL here.
+            </p>
+
+            <div className="mt-5 space-y-5">
+              {deliveryPlatforms.map((platform) => (
+                <div key={platform.name} className="rounded-lg border border-gray-100 p-4">
+                  <p className="text-sm font-semibold text-gray-700">{platform.name}</p>
+
+                  <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Logo URL
+                      </label>
+                      <input
+                        type="text"
+                        value={values[platform.logoKey]}
+                        onChange={(e) => updateValue(platform.logoKey, e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Order Link
+                      </label>
+                      <input
+                        type="text"
+                        value={values[platform.linkKey]}
+                        onChange={(e) => updateValue(platform.linkKey, e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() =>
+                  saveGroup(
+                    "delivery",
+                    deliveryPlatforms.flatMap((platform) => [platform.logoKey, platform.linkKey]),
+                    "Saved successfully"
+                  )
+                }
+                disabled={savingGroup === "delivery"}
+                className="rounded-lg bg-[#FF6B35] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#E85E2E] disabled:opacity-60"
+              >
+                {savingGroup === "delivery" ? "Saving..." : "Save Delivery Settings"}
+              </button>
+              <Message group="delivery" />
+            </div>
+          </section>
+        </>
       )}
     </div>
   );

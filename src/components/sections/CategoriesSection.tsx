@@ -15,7 +15,7 @@ interface CategoriesSectionProps {
 }
 
 const fallbackImages: Record<string, string> = {
-  breakfast: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=80",
+  breakfast: "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3MzQyNjk2NSwiZXhwIjoyMDU3MjUwOTY1fQ.E5RRa5BpNR83mUgmP0-WqnBhKletvw7WTFWn0HAm3oI",
   lunch: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80",
   burgers: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
   desserts: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80",
@@ -29,18 +29,9 @@ function getCategoryImage(category: Category): string | null {
 
 export default function CategoriesSection({ categories }: CategoriesSectionProps) {
   return (
-    <section className="bg-bg-soft py-20">
+    <section className="bg-[linear-gradient(180deg,#f6efe6_0%,#faf7f2_100%)] pb-24 pt-0">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-playfair text-4xl font-bold text-text md:text-5xl">
-            What Would You Like?
-          </h2>
-          <p className="mt-4 font-inter text-lg text-text-mid">
-            Freshly made, every single day.
-          </p>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {categories.map((category) => {
             const imageSrc = getCategoryImage(category);
 
@@ -48,24 +39,34 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
               <Link
                 key={category.id}
                 href={`/menu/${category.slug}`}
-                className="group relative block h-[200px] overflow-hidden rounded-xl no-underline shadow-sm transition-transform duration-300 hover:scale-[1.05] hover:shadow-xl"
+                className="group relative block h-[180px] overflow-hidden rounded-[20px] no-underline shadow-[0_16px_38px_rgba(29,21,14,0.16)] ring-1 ring-black/5 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(29,21,14,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#faf7f2] md:h-[220px]"
               >
                 {imageSrc ? (
                   <Image
                     src={imageSrc}
                     alt={category.name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-[linear-gradient(135deg,#ff6b35_0%,#ffc857_100%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(135deg,#c86f33_0%,#f1c37a_100%)]" />
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent transition-opacity duration-300 group-hover:opacity-85" />
+                <div className="absolute inset-0 bg-black/10" />
+                <div
+                  className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-90"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.25), transparent)",
+                  }}
+                />
 
                 <div className="absolute inset-x-0 bottom-0 p-5">
-                  <h3 className="font-playfair text-2xl font-bold text-white">
+                  <h3
+                    className="max-w-[85%] font-playfair text-[24px] font-bold leading-[1.06] text-white md:text-4xl"
+                    style={{ textShadow: "0 2px 12px rgba(0, 0, 0, 0.4)" }}
+                  >
                     {category.name}
                   </h3>
                 </div>

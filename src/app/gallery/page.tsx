@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import MobileGalleryPage from "@/components/MobileGalleryPage";
 import { getGalleryImages } from "@/lib/queries";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -36,6 +37,53 @@ const defaultImages = [
   },
 ];
 
+type GalleryImage = {
+  src: string;
+  alt: string;
+};
+
+type GallerySection = {
+  title: string;
+  images: GalleryImage[];
+};
+
+function getSectionTitleIndex(alt: string) {
+  const normalizedAlt = alt.toLowerCase();
+
+  if (
+    ["coffee", "latte", "espresso", "cappuccino", "tea", "cup"].some((keyword) =>
+      normalizedAlt.includes(keyword)
+    )
+  ) {
+    return 2;
+  }
+
+  if (
+    ["breakfast", "food", "plate", "burger", "toast", "egg", "dish", "sandwich"].some((keyword) =>
+      normalizedAlt.includes(keyword)
+    )
+  ) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function buildGallerySections(images: GalleryImage[]): GallerySection[] {
+  const sections: GallerySection[] = [
+    { title: "Inside the cafe", images: [] },
+    { title: "Food & breakfast", images: [] },
+    { title: "Coffee moments", images: [] },
+  ];
+
+  images.forEach((image) => {
+    const index = getSectionTitleIndex(image.alt);
+    sections[index].images.push(image);
+  });
+
+  return sections.filter((section) => section.images.length > 0);
+}
+
 export default async function GalleryPage() {
   const dbGallery = await getGalleryImages();
 
@@ -43,14 +91,15 @@ export default async function GalleryPage() {
     dbGallery.length > 0
       ? dbGallery.map((img: any) => ({ src: img.url, alt: img.alt_text ?? "" }))
       : defaultImages;
+  const mobileSections = buildGallerySections(images);
 
   return (
     <>
-      {/* Page hero */}
-      <section className="bg-parchment-dark pb-12 pt-32">
-        <div className="mx-auto max-w-7xl px-4 text-center md:px-8">
-          {/* Breadcrumb */}
-          <nav className="mb-6 font-lora text-sm text-ink-light">
+      <MobileGalleryPage sections={mobileSections} />
+
+      <section className="hidden bg-[linear-gradient(180deg,#f8f4ee_0%,#faf8f5_100%)] pb-6 pt-20 md:block md:pb-12 md:pt-32">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <nav className="mb-4 font-lora text-sm text-ink-light">
             <Link href="/" className="text-ink-light no-underline hover:text-red">
               Home
             </Link>
@@ -58,18 +107,18 @@ export default async function GalleryPage() {
             <span className="text-ink">Gallery</span>
           </nav>
 
-          <h1 className="font-playfair text-4xl font-bold text-ink md:text-5xl">
-            Our Gallery
-          </h1>
-          <p className="mx-auto mt-4 max-w-lg font-lora text-base italic text-ink-light">
-            A glimpse inside Halfway Cafe &mdash; the food, the space, and the
-            people who make it special.
-          </p>
+          <div className="text-center md:text-left">
+            <h1 className="font-playfair text-[2.25rem] font-bold text-ink md:text-5xl">
+              Gallery
+            </h1>
+            <p className="mt-1.5 font-inter text-[15px] text-[#7C746B] md:mt-3 md:max-w-lg md:text-base">
+              Inside Halfway Cafe
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Gallery grid */}
-      <section className="bg-parchment py-24">
+      <section className="hidden bg-[#FAF8F5] pb-28 pt-2 md:block md:py-24">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           {images.length === 0 ? (
             <div className="text-center">
@@ -81,44 +130,42 @@ export default async function GalleryPage() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-              {images.map((img: { src: string; alt: string }, i: number) => (
-                <div
-                  key={img.src}
-                  className={`group relative overflow-hidden ${
-                    i === 0
-                      ? "col-span-2 row-span-2 h-[400px] lg:h-[544px]"
-                      : "h-[260px] lg:h-[264px]"
-                  }`}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes={
+            <div className="grid md:grid-cols-3 md:gap-4">
+                {images.map((img: GalleryImage, i: number) => (
+                  <div
+                    key={img.src}
+                    className={`group relative overflow-hidden rounded-2xl ${
                       i === 0
-                        ? "(max-width: 768px) 100vw, 66vw"
-                        : "(max-width: 768px) 50vw, 33vw"
-                    }
-                  />
-                  {/* Hover overlay with alt text */}
-                  <div className="absolute inset-0 flex items-end bg-ink/0 transition-colors duration-500 group-hover:bg-ink/30">
-                    {img.alt && (
-                      <p className="w-full bg-gradient-to-t from-ink/60 to-transparent px-4 pb-4 pt-10 font-lora text-sm text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                        {img.alt}
-                      </p>
-                    )}
+                        ? "col-span-2 row-span-2 h-[400px] lg:h-[544px]"
+                        : "h-[260px] lg:h-[264px]"
+                    }`}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes={
+                        i === 0
+                          ? "(max-width: 768px) 100vw, 66vw"
+                          : "(max-width: 768px) 50vw, 33vw"
+                      }
+                    />
+                    <div className="absolute inset-0 flex items-end bg-ink/0 transition-colors duration-500 group-hover:bg-ink/30">
+                      {img.alt && (
+                        <p className="w-full bg-gradient-to-t from-ink/60 to-transparent px-4 pb-4 pt-10 font-lora text-sm text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                          {img.alt}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* Spacer before footer */}
-      <div className="h-12 bg-parchment" />
+      <div className="h-4 bg-[#FAF8F5] md:h-12 md:bg-parchment" />
     </>
   );
 }

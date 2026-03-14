@@ -4,17 +4,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import OpenStatus from "@/components/ui/OpenStatus";
 import type { OpeningHours } from "@/types";
 
-const HERO_IMAGE =
-  "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/Hero/Hero.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL0hlcm8ucG5nIiwiaWF0IjoxNzczMjgwMDk0LCJleHAiOjIwODg2NDAwOTR9.hha4cTF20htivfn1PiITQ4wy5fwFmgEzrD3oddYKTf0";
-const DIRECTIONS_URL =
-  "https://www.google.com/maps/dir/?api=1&destination=176+Halfway+St+Sidcup+DA15+8DJ";
-const CAFE_ADDRESS = "123 High Street, London EC1A 1BB";
+const CAFE_ADDRESS = "176 Halfway St, Sidcup DA15 8DJ";
 
 interface HeroSectionProps {
   openingHours: OpeningHours[];
+  heroImageUrl?: string | null;
 }
 
 function getTodayHours(hours: OpeningHours[]): string {
@@ -32,19 +30,21 @@ function getTodayHours(hours: OpeningHours[]): string {
   return `${today.open} - ${today.close}`;
 }
 
-export default function HeroSection({ openingHours }: HeroSectionProps) {
+export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionProps) {
   const todayHours = getTodayHours(openingHours);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg-dark">
-      <Image
-        src={HERO_IMAGE}
-        alt="Inside Halfway Cafe with warm light, busy tables, and classic breakfast plates"
-        fill
-        priority
-        className="object-cover object-center"
-        sizes="100vw"
-      />
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#2C1A0E]">
+      {heroImageUrl ? (
+        <Image
+          src={heroImageUrl}
+          alt="Inside Halfway Cafe with warm light, busy tables, and classic breakfast plates"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      ) : null}
 
       <div className="absolute inset-0 bg-[rgba(0,0,0,0.45)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,200,87,0.14),transparent_50%)]" />
@@ -69,13 +69,13 @@ export default function HeroSection({ openingHours }: HeroSectionProps) {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/menu"
-              className="rounded-full bg-accent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark"
+              className="rounded-full bg-accent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark hover:text-white focus:text-white active:text-white [&>*]:text-inherit"
             >
               See Our Menu
             </Link>
 
             <a
-              href={DIRECTIONS_URL}
+              href={HALFWAY_CAFE_DIRECTIONS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full border border-white/80 bg-transparent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-white/10"

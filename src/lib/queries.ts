@@ -1,6 +1,7 @@
 /* Supabase query helpers — used in Server Components */
 
 import { createServerComponentClient } from "./supabase-server";
+import { toSiteSettingsMap } from "./site-settings";
 
 // ─── Categories ───
 
@@ -125,9 +126,25 @@ export async function getSiteSettings(): Promise<Record<string, string>> {
     if (error) throw error;
     if (!data) return {};
 
-    return Object.fromEntries(data.map((row) => [row.key, row.value ?? ""]));
+    return toSiteSettingsMap(data);
   } catch (e) {
     console.error("getSiteSettings:", e);
+    return {};
+  }
+}
+
+export async function getSiteSettingsByKeys(keys: string[]): Promise<Record<string, string>> {
+  try {
+    const supabase = await createServerComponentClient();
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("key, value")
+      .in("key", keys);
+
+    if (error) throw error;
+    return toSiteSettingsMap(data ?? []);
+  } catch (e) {
+    console.error("getSiteSettingsByKeys:", e);
     return {};
   }
 }
