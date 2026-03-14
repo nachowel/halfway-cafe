@@ -89,7 +89,7 @@ export default function AdminMenuPage() {
   }
 
   const categories = useMemo(
-    () => ["All", ...new Set(items.map((item) => item.category))],
+    () => ["All", ...Array.from(new Set(items.map((item) => item.category)))],
     [items]
   );
 
