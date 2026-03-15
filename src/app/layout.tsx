@@ -55,6 +55,14 @@ export const metadata: Metadata = {
     siteName: "Halfway Cafe",
     locale: "en_GB",
     type: "website",
+    images: [
+      {
+        url: "https://halfwaycafe.co.uk/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Halfway Cafe Sidcup — Full English Breakfast & British Caff",
+      },
+    ],
   },
 };
 
@@ -65,7 +73,8 @@ const jsonLd = {
   "@type": "Restaurant",
   name: "Halfway Cafe",
   description:
-    "London greasy spoon serving full English breakfasts, burgers & classic British cafe food since 2008.",
+    "Family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
+  image: "https://halfwaycafe.co.uk/og-image.jpg",
   url: "https://halfwaycafe.co.uk",
   telephone: HALFWAY_CAFE_PHONE_E164,
   address: {
