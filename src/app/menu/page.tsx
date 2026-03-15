@@ -3,9 +3,9 @@ import DesktopMenuPage from "@/components/DesktopMenuPage";
 import MenuPageSwitcher from "@/components/MenuPageSwitcher";
 
 export const metadata: Metadata = {
-  title: "Menu | Halfway Cafe",
+  title: "Our Menu",
   description:
-    "Browse the Halfway Cafe menu by category, from breakfast and sandwiches to burgers, panini, extras, and drinks.",
+    "Browse the full Halfway Cafe menu — breakfasts, sandwiches, burgers, panini, extras and drinks. Fresh food served daily in Sidcup DA15.",
 };
 
 export default function MenuPage() {

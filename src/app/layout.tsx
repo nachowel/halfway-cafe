@@ -27,23 +27,30 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Halfway Cafe — London's Favourite Greasy Spoon",
-    template: "%s | Halfway Cafe",
+    default: "Halfway Cafe Sidcup | Full English Breakfast & British Caff",
+    template: "%s | Halfway Cafe Sidcup",
   },
   description:
-    "Full English breakfasts, proper burgers & builder's tea since 2008. Visit Halfway Cafe at 176 Halfway St, Sidcup DA15 8DJ.",
+    "Halfway Cafe is a family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, Bexley and surrounding areas since 2003.",
   keywords: [
     "Halfway Cafe",
-    "greasy spoon",
-    "Sidcup cafe",
-    "full English breakfast",
-    "British caff",
-    "DA15",
+    "cafe Sidcup",
+    "breakfast Sidcup",
+    "full English breakfast Sidcup",
+    "British caff DA15",
+    "greasy spoon Sidcup",
+    "cafe Eltham",
+    "breakfast Eltham",
+    "cafe Bexley",
+    "cafe Blackfen",
+    "cafe Bexleyheath",
+    "New Eltham cafe",
+    "DA15 cafe",
   ],
   openGraph: {
-    title: "Halfway Cafe — London's Favourite Greasy Spoon",
+    title: "Halfway Cafe Sidcup | Full English Breakfast & British Caff",
     description:
-      "Full English breakfasts, proper burgers & builder's tea since 2008.",
+      "Family-run British caff in Sidcup DA15. Full English breakfasts, burgers & builder's tea. Serving Sidcup, Eltham, Bexley and surrounding areas.",
     url: "https://halfwaycafe.co.uk",
     siteName: "Halfway Cafe",
     locale: "en_GB",
@@ -73,15 +80,15 @@ const jsonLd = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       opens: "07:00",
-      closes: "21:00",
+      closes: "15:00",
     },
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Saturday", "Sunday"],
-      opens: "08:00",
-      closes: "22:00",
+      dayOfWeek: ["Sunday"],
+      opens: "09:00",
+      closes: "14:00",
     },
   ],
   foundingDate: "2008",

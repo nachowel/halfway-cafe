@@ -9,9 +9,9 @@ import LocationSection from "@/components/sections/LocationSection";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact & Find Us",
   description:
-    "Get in touch with Halfway Cafe — find our address, opening hours, phone number, or send us a message. 176 Halfway St, Sidcup DA15 8DJ.",
+    "Find Halfway Cafe at 176 Halfway St, Sidcup DA15 8DJ. Opening hours, phone number and directions. Easily reachable from Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
 };
 
 function SectionLoader() {

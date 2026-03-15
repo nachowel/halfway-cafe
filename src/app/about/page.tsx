@@ -7,9 +7,9 @@ import AboutSection from "@/components/sections/AboutSection";
 import GallerySection from "@/components/sections/GallerySection";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us",
   description:
-    "The story of Halfway Cafe — a proper London greasy spoon serving the community since 2008. Fresh food, friendly faces, no fuss.",
+    "The story of Halfway Cafe — a family-run British caff at 176 Halfway St, Sidcup DA15 8DJ. Serving the local community across Sidcup, Eltham, Bexley and beyond for over 20 years.",
 };
 
 const values = [
