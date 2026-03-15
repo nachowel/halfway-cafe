@@ -315,7 +315,7 @@ export default function MobileCategoryPage({
                     {item.image_url ? (
                       <Image
                         src={item.image_url}
-                        alt={item.name ?? "Menu item"}
+                        alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                         fill
                         sizes="112px"
                         className="object-cover"
@@ -449,7 +449,7 @@ export default function MobileCategoryPage({
                 {previewItem.image_url ? (
                   <Image
                     src={previewItem.image_url}
-                    alt={previewItem.name ?? "Menu item"}
+                    alt={previewItem.name ? `${previewItem.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                     width={1200}
                     height={1200}
                     className="block h-auto max-h-[80vh] w-full object-contain"

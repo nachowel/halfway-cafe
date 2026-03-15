@@ -651,7 +651,7 @@ export default function MobileHome() {
                             {item.image_url ? (
                               <Image
                                 src={item.image_url}
-                                alt={item.name ?? "Popular dish"}
+                                alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Popular dish at Halfway Cafe Sidcup"}
                                 fill
                                 sizes="168px"
                                 className="object-cover object-center"
@@ -712,7 +712,7 @@ export default function MobileHome() {
                         {category.image_url ? (
                           <Image
                             src={category.image_url}
-                            alt={category.name ?? "Menu category"}
+                            alt={category.name ? `${category.name} menu — Halfway Cafe Sidcup` : "Menu category at Halfway Cafe Sidcup"}
                             width={400}
                             height={180}
                             sizes="(max-width: 767px) 50vw, 180px"

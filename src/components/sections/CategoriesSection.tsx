@@ -45,7 +45,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                 {imageSrc ? (
                   <Image
                     src={imageSrc}
-                    alt={category.name}
+                    alt={`${category.name} at Halfway Cafe Sidcup`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"

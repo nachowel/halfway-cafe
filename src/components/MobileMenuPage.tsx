@@ -240,7 +240,7 @@ export default function MobileMenuPage() {
                       {category.image_url ? (
                         <Image
                           src={category.image_url}
-                          alt={category.name ?? "Menu category"}
+                          alt={category.name ? `${category.name} — Halfway Cafe Sidcup menu` : "Menu category at Halfway Cafe Sidcup"}
                           fill
                           priority
                           sizes="96px"

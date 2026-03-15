@@ -30,7 +30,7 @@ export default function AboutSection() {
             <div className="relative overflow-hidden rounded-2xl">
               <Image
                 src={ABOUT_IMAGE}
-                alt="Halfway Cafe kitchen and counter"
+                alt="Halfway Cafe Sidcup — family-run British caff on Halfway Street DA15"
                 width={720}
                 height={840}
                 className="h-full w-full object-cover"
