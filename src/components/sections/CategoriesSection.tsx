@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { BUILDERS_BREAKFAST_IMAGE_URL } from "@/lib/storage";
 
 interface Category {
   id: string;
@@ -15,7 +16,7 @@ interface CategoriesSectionProps {
 }
 
 const fallbackImages: Record<string, string> = {
-  breakfast: "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3MzQyNjk2NSwiZXhwIjoyMDU3MjUwOTY1fQ.E5RRa5BpNR83mUgmP0-WqnBhKletvw7WTFWn0HAm3oI",
+  breakfast: BUILDERS_BREAKFAST_IMAGE_URL,
   lunch: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80",
   burgers: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
   desserts: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80",

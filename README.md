@@ -20,6 +20,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Development Safety Note
+
+- Do not run `next dev` and `next build` at the same time in this project. They share the same `.next` output and can corrupt chunk/build state.
+- If you see chunk 404s such as `main-app.js`, `page.js`, `layout.js`, `app-pages-internals.js`, or `layout.css`, stop all Next.js/Node processes for this repo and delete `.next`.
+- After that, start a clean session with either `npm run dev` or `npm run build`, not both together.
+- On Windows, stuck `node` processes and `EPERM` errors on `.next/trace` are a common sign of stale asset/build issues.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

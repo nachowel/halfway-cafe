@@ -5,6 +5,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "@/styles/globals.css";
 import AppChrome from "@/components/layout/AppChrome";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
+import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
 import { getOpeningHours } from "@/lib/queries";
 import type { OpeningHours } from "@/types";
 
@@ -59,7 +60,7 @@ const jsonLd = {
   description:
     "London greasy spoon serving full English breakfasts, burgers & classic British cafe food since 2008.",
   url: "https://halfwaycafe.co.uk",
-  telephone: "+441234567890",
+  telephone: HALFWAY_CAFE_PHONE_E164,
   address: {
     "@type": "PostalAddress",
     streetAddress: "176 Halfway St",

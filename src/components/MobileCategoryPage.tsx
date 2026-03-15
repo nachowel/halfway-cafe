@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { createClientComponentClient } from "@/lib/supabase";
+import { createOptionalClientComponentClient } from "@/lib/supabase";
 
 type CategoryRow = {
   id: string;
@@ -24,6 +24,9 @@ type MenuItemRow = {
   name?: string | null;
   description?: string | null;
   price?: number | string | null;
+  price_roll?: number | string | null;
+  price_sandwich?: number | string | null;
+  price_baguette?: number | string | null;
   image_url?: string | null;
   category?: string | null;
   active?: boolean | null;
@@ -55,6 +58,19 @@ function formatPrice(value: number | string | null | undefined) {
     currency: "GBP",
     minimumFractionDigits: 2,
   }).format(numericValue);
+}
+
+function getSandwichExtraFormatPrices(item: MenuItemRow) {
+  return [
+    item.price_roll != null ? { label: "Roll", value: item.price_roll } : null,
+    item.price_baguette != null
+      ? { label: "Baguette", value: item.price_baguette }
+      : null,
+  ].filter(
+    (
+      variant
+    ): variant is { label: "Roll" | "Baguette"; value: number | string } => variant !== null
+  );
 }
 
 function LoadingSkeleton() {
@@ -95,24 +111,35 @@ export default function MobileCategoryPage({
 
   useEffect(() => {
     let isMounted = true;
-    const supabase = createClientComponentClient();
+    const supabase = createOptionalClientComponentClient("Mobile category page");
+
+    if (!supabase) {
+      setLoading(false);
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    const client = supabase;
 
     async function loadCategoryData() {
       setLoading(true);
 
       const [categoriesRes, menuItemsRes, countsRes] = await Promise.all([
-        supabase
+        client
           .from("categories")
           .select("id, name, slug")
           .eq("active", true)
           .order("sort_order", { ascending: true }),
-        supabase
+        client
           .from("menu_items")
-          .select("id, name, description, price, image_url, category, active, sort_order")
+          .select(
+            "id, name, description, price, price_roll, price_sandwich, price_baguette, image_url, category, active, sort_order"
+          )
           .eq("active", true)
           .eq("category", categorySlug)
           .order("sort_order", { ascending: true }),
-        supabase
+        client
           .from("menu_items")
           .select("id, category")
           .eq("active", true),
@@ -267,74 +294,94 @@ export default function MobileCategoryPage({
         ) : filteredItems.length > 0 ? (
           <div className="px-3 pb-3 pt-3">
             <div className="flex flex-col gap-[10px]">
-            {filteredItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex cursor-pointer items-center gap-4 rounded-2xl bg-white px-[18px] py-4 transition duration-150 ease-out active:scale-[0.98] active:bg-[#FAF8F5]"
-                style={{
-                  border: "0.5px solid rgba(0,0,0,0.07)",
-                  boxShadow: "0 6px 20px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.04)",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => openPreview(item)}
-                  className="relative flex h-[100px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#F5F5F5]"
-                  aria-label={`Preview ${item.name ?? "menu item"}`}
+            {filteredItems.map((item) => {
+              const sandwichExtraFormatPrices = getSandwichExtraFormatPrices(item);
+
+              return (
+                <div
+                  key={item.id}
+                  className="flex cursor-pointer items-center gap-4 rounded-2xl bg-white px-[18px] py-4 transition duration-150 ease-out active:scale-[0.98] active:bg-[#FAF8F5]"
+                  style={{
+                    border: "0.5px solid rgba(0,0,0,0.07)",
+                    boxShadow: "0 6px 20px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.04)",
+                  }}
                 >
-                  {item.image_url ? (
-                    <Image
-                      src={item.image_url}
-                      alt={item.name ?? "Menu item"}
-                      fill
-                      sizes="112px"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <span className="text-3xl">🍽</span>
-                  )}
-                </button>
-
-                <div className="item-body flex flex-1 flex-col justify-center">
-                  <div>
-                    <div className="flex items-start justify-between gap-3">
-                      <p
-                        className="item-name font-inter text-[15px] font-semibold leading-snug text-[#1A1A1A]"
-                        style={{ letterSpacing: "-0.1px" }}
-                      >
-                        {item.name ?? "Menu item"}
-                      </p>
-                      <p className="item-price shrink-0 font-inter text-[16px] font-bold text-[#D45E1A]">
-                        {formatPrice(item.price)}
-                      </p>
-                    </div>
-                    {item.description?.trim() ? (
-                      <p
-                        className="item-desc mt-[3px] overflow-hidden font-inter text-[14px] leading-[1.4] text-[#6B6B6B]"
-                        style={{
-                          display: "-webkit-box",
-                          WebkitBoxOrient: "vertical",
-                          WebkitLineClamp: 2,
-                        }}
-                      >
-                        {item.description.trim()}
-                      </p>
-                    ) : null}
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-end">
-                    <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#F3F0EB]">
-                      <ChevronRight
-                        size={16}
-                        strokeWidth={1.5}
-                        className="text-[#C77B42]"
-                        style={{ opacity: 1 }}
+                  <button
+                    type="button"
+                    onClick={() => openPreview(item)}
+                    className="relative flex h-[100px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#F5F5F5]"
+                    aria-label={`Preview ${item.name ?? "menu item"}`}
+                  >
+                    {item.image_url ? (
+                      <Image
+                        src={item.image_url}
+                        alt={item.name ?? "Menu item"}
+                        fill
+                        sizes="112px"
+                        className="object-cover"
                       />
-                    </span>
+                    ) : (
+                      <span className="text-3xl">🍽</span>
+                    )}
+                  </button>
+
+                  <div className="item-body flex min-w-0 flex-1 flex-col justify-center">
+                    <div>
+                      <div className="flex items-start justify-between gap-3">
+                        <p
+                          className="item-name min-w-0 flex-1 font-inter text-[15px] font-semibold leading-snug text-[#1A1A1A]"
+                          style={{ letterSpacing: "-0.1px" }}
+                        >
+                          {item.name ?? "Menu item"}
+                        </p>
+                        <p className="item-price shrink-0 font-inter text-[16px] font-bold text-[#D45E1A]">
+                          {formatPrice(item.price)}
+                        </p>
+                      </div>
+                      {item.description?.trim() ? (
+                        <p
+                          className="item-desc mt-[3px] overflow-hidden font-inter text-[14px] leading-[1.4] text-[#6B6B6B]"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: sandwichExtraFormatPrices.length > 0 ? 1 : 2,
+                          }}
+                        >
+                          {item.description.trim()}
+                        </p>
+                      ) : null}
+
+                      {sandwichExtraFormatPrices.length > 0 ? (
+                        <div className="mt-[7px] flex flex-wrap gap-x-3 gap-y-1">
+                          {sandwichExtraFormatPrices.map((variant) => (
+                            <span
+                              key={variant.label}
+                              className="inline-flex items-center gap-1 font-inter text-[12px] leading-4 text-[#7A6A5C]"
+                            >
+                              <span className="font-medium text-[#8A7969]">{variant.label}</span>
+                              <span className="font-semibold text-[#D45E1A]">
+                                {formatPrice(variant.value)}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-end">
+                      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#F3F0EB]">
+                        <ChevronRight
+                          size={16}
+                          strokeWidth={1.5}
+                          className="text-[#C77B42]"
+                          style={{ opacity: 1 }}
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             </div>
           </div>
         ) : (
@@ -415,20 +462,44 @@ export default function MobileCategoryPage({
               </div>
 
               <div className="px-4 pb-4 pt-[12px] text-[#1A1A1A]">
-                <div className="flex items-start justify-between gap-3">
-                  <p className="font-inter text-base font-semibold leading-snug text-[#1A1A1A]">
-                    {previewItem.name ?? "Menu item"}
-                  </p>
-                  <p className="shrink-0 font-inter text-base font-bold text-[#D45E1A]">
-                    {formatPrice(previewItem.price)}
-                  </p>
-                </div>
+                {(() => {
+                  const sandwichExtraFormatPrices = getSandwichExtraFormatPrices(previewItem);
 
-                {previewItem.description?.trim() ? (
-                  <p className="mt-2 font-inter text-sm leading-6 text-[#6B6B6B]">
-                    {previewItem.description.trim()}
-                  </p>
-                ) : null}
+                  return (
+                    <>
+                      <div className="flex items-start justify-between gap-3">
+                        <p className="font-inter text-base font-semibold leading-snug text-[#1A1A1A]">
+                          {previewItem.name ?? "Menu item"}
+                        </p>
+                        <p className="shrink-0 font-inter text-base font-bold text-[#D45E1A]">
+                          {formatPrice(previewItem.price)}
+                        </p>
+                      </div>
+
+                      {previewItem.description?.trim() ? (
+                        <p className="mt-2 font-inter text-sm leading-6 text-[#6B6B6B]">
+                          {previewItem.description.trim()}
+                        </p>
+                      ) : null}
+
+                      {sandwichExtraFormatPrices.length > 0 ? (
+                        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1">
+                          {sandwichExtraFormatPrices.map((variant) => (
+                            <span
+                              key={variant.label}
+                              className="inline-flex items-center gap-1 font-inter text-[12px] leading-5 text-[#7A6A5C]"
+                            >
+                              <span className="font-medium text-[#8A7969]">{variant.label}</span>
+                              <span className="font-semibold text-[#D45E1A]">
+                                {formatPrice(variant.value)}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>

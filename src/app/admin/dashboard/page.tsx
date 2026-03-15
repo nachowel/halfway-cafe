@@ -9,6 +9,10 @@ async function getStats() {
   try {
     const supabase = await createServerComponentClient();
 
+    if (!supabase) {
+      return { total: 0, active: 0, featured: 0, categories: 0, recent: [] };
+    }
+
     const [totalRes, activeRes, featuredRes, categoriesRes, recentRes] =
       await Promise.all([
         supabase.from("menu_items").select("id", { count: "exact", head: true }),

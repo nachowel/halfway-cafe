@@ -22,6 +22,11 @@ interface PageProps {
 async function getMenuCategoryData() {
   try {
     const supabase = await createServerComponentClient();
+
+    if (!supabase) {
+      throw new Error("Supabase env is not configured.");
+    }
+
     const { data, error } = await supabase
       .from("categories")
       .select("id, name, slug")

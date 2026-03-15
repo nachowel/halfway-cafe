@@ -8,6 +8,7 @@ import { toSiteSettingsMap } from "./site-settings";
 export async function getCategories() {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("categories")
       .select("id, name, slug, image_url")
@@ -27,6 +28,7 @@ export async function getCategories() {
 export async function getMenuItems() {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("menu_items")
       .select("*")
@@ -44,6 +46,7 @@ export async function getMenuItems() {
 export async function getMenuItemsByCategory(category: string) {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("menu_items")
       .select("*")
@@ -62,6 +65,7 @@ export async function getMenuItemsByCategory(category: string) {
 export async function getFeaturedItems() {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("menu_items")
       .select("*")
@@ -82,6 +86,7 @@ export async function getFeaturedItems() {
 export async function getOpeningHours() {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("opening_hours")
       .select("*")
@@ -100,6 +105,7 @@ export async function getOpeningHours() {
 export async function getGalleryImages() {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return [];
     const { data, error } = await supabase
       .from("gallery_images")
       .select("*")
@@ -119,6 +125,7 @@ export async function getGalleryImages() {
 export async function getSiteSettings(): Promise<Record<string, string>> {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return {};
     const { data, error } = await supabase
       .from("site_settings")
       .select("key, value");
@@ -136,6 +143,7 @@ export async function getSiteSettings(): Promise<Record<string, string>> {
 export async function getSiteSettingsByKeys(keys: string[]): Promise<Record<string, string>> {
   try {
     const supabase = await createServerComponentClient();
+    if (!supabase) return {};
     const { data, error } = await supabase
       .from("site_settings")
       .select("key, value")

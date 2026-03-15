@@ -10,7 +10,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { createClientComponentClient } from "@/lib/supabase";
+import { createOptionalClientComponentClient } from "@/lib/supabase";
 
 type CategoryRow = {
   id: string;
@@ -100,22 +100,31 @@ export default function MobileMenuPage() {
 
   useEffect(() => {
     let isMounted = true;
-    const supabase = createClientComponentClient();
+    const supabase = createOptionalClientComponentClient("Mobile menu page");
+
+    if (!supabase) {
+      setLoading(false);
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    const client = supabase;
 
     async function loadMenuData() {
       setLoading(true);
 
-      const { data: categoriesData } = await supabase
+      const { data: categoriesData } = await client
         .from("categories")
         .select("id, name, slug, image_url")
         .order("sort_order", { ascending: true });
 
       const [countsRes, hoursRes] = await Promise.all([
-        supabase
+        client
           .from("menu_items")
           .select("category")
           .eq("active", true),
-        supabase
+        client
           .from("opening_hours")
           .select("id, day_name, day_order, open_time, close_time, is_closed")
           .order("day_order", { ascending: true }),

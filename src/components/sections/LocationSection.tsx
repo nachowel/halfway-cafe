@@ -1,10 +1,12 @@
 /* LocationSection — Find us with info cards & map placeholder */
 
 import { MapPin, Phone } from "lucide-react";
+import {
+  HALFWAY_CAFE_PHONE_DISPLAY,
+  HALFWAY_CAFE_PHONE_TEL,
+} from "@/lib/contact";
 import { HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
 import SectionHeader from "@/components/ui/SectionHeader";
-
-const phoneValue = "020 3343 5303";
 const openingHours = [
   { label: "Mon–Fri", value: "07:00 – 15:00" },
   { label: "Sat", value: "07:00 – 15:00" },
@@ -47,7 +49,7 @@ export default function LocationSection() {
               </a>
 
               <a
-                href="tel:02033435303"
+                href={`tel:${HALFWAY_CAFE_PHONE_TEL}`}
                 className="block w-full cursor-pointer rounded-[14px] border border-border bg-white p-4 no-underline transition-colors duration-150 hover:bg-parchment active:bg-parchment md:rounded-none"
                 style={{ borderTopWidth: "3px", borderTopColor: "var(--color-red)" }}
               >
@@ -56,7 +58,7 @@ export default function LocationSection() {
                   <span>Phone</span>
                 </span>
                 <span className="mt-2 block font-playfair text-base text-ink">
-                  {phoneValue}
+                  {HALFWAY_CAFE_PHONE_DISPLAY}
                 </span>
               </a>
 

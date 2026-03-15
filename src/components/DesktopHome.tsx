@@ -14,6 +14,7 @@ import {
 } from "@/lib/queries";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
 import { getDesktopHeroImage } from "@/lib/site-settings";
+import { BUILDERS_BREAKFAST_IMAGE_URL } from "@/lib/storage";
 import type { OpeningHours } from "@/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -58,8 +59,7 @@ export default async function DesktopHome() {
           id: "breakfast",
           slug: "breakfast",
           name: "Breakfast",
-          image_url:
-            "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3MzQyNjk2NSwiZXhwIjoyMDU3MjUwOTY1fQ.E5RRa5BpNR83mUgmP0-WqnBhKletvw7WTFWn0HAm3oI",
+          image_url: BUILDERS_BREAKFAST_IMAGE_URL,
         },
         { id: "lunch", slug: "lunch", name: "Lunch", image_url: undefined },
         { id: "burgers", slug: "burgers", name: "Burgers", image_url: undefined },

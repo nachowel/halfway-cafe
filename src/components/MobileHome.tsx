@@ -6,7 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Phone } from "lucide-react";
 import { HALFWAY_CAFE_DIRECTIONS_URL, HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
-import { createClientComponentClient } from "@/lib/supabase";
+import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
+import { createOptionalClientComponentClient } from "@/lib/supabase";
 import { getMobileHeroImage, toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
 
 type OpeningHoursRow = {
@@ -33,6 +34,7 @@ type MenuItemRow = {
   image_url?: string | null;
   category?: string | null;
   price?: number | string | null;
+  sort_order?: number | null;
   created_at?: string | null;
   featured?: boolean | null;
   is_featured?: boolean | null;
@@ -75,7 +77,6 @@ type SocialLink = {
 };
 
 const defaultHeroBackground = "#2C1A0E";
-const cafePhoneNumber = "+441234567890";
 const todayNames = [
   "Sunday",
   "Monday",
@@ -233,6 +234,47 @@ function getSiteUrl(settings: Record<string, string>, key: string) {
   return /^https?:\/\//i.test(value) ? value : null;
 }
 
+function getSortOrderValue(item: MenuItemRow) {
+  return typeof item.sort_order === "number" ? item.sort_order : Number.MAX_SAFE_INTEGER;
+}
+
+function getCreatedAtValue(item: MenuItemRow) {
+  if (!item.created_at) {
+    return 0;
+  }
+
+  const timestamp = new Date(item.created_at).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+function comparePopularDishPriority(a: MenuItemRow, b: MenuItemRow) {
+  const sortOrderDifference = getSortOrderValue(a) - getSortOrderValue(b);
+
+  if (sortOrderDifference !== 0) {
+    return sortOrderDifference;
+  }
+
+  const createdAtDifference = getCreatedAtValue(b) - getCreatedAtValue(a);
+
+  if (createdAtDifference !== 0) {
+    return createdAtDifference;
+  }
+
+  return (a.name ?? "").localeCompare(b.name ?? "");
+}
+
+function getPopularDishes(items: MenuItemRow[]) {
+  const featuredItems = items.filter((item) => item.featured === true || item.is_featured === true);
+
+  if (featuredItems.length > 0) {
+    return [...featuredItems].sort(comparePopularDishPriority);
+  }
+
+  return [...items]
+    .sort((a, b) => getCreatedAtValue(b) - getCreatedAtValue(a))
+    .slice(0, 4);
+}
+
 export default function MobileHome() {
   const pathname = usePathname();
   const [data, setData] = useState<HomeData>({
@@ -252,13 +294,22 @@ export default function MobileHome() {
 
   useEffect(() => {
     let isMounted = true;
-    const supabase = createClientComponentClient();
+    const supabase = createOptionalClientComponentClient("Mobile home");
+
+    if (!supabase) {
+      setLoading(false);
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    const client = supabase;
 
     async function loadHomeData() {
       setLoading(true);
 
       const [settingsRes, hoursRes, categoriesRes, menuItemsRes, googleReviewsRes] = await Promise.all([
-        supabase
+        client
           .from("site_settings")
           .select("key, value")
           .in("key", [
@@ -274,13 +325,13 @@ export default function MobileHome() {
             "social_facebook",
             "social_tiktok",
           ]),
-        supabase.from("opening_hours").select("*").order("day_order", { ascending: true }),
-        supabase
+        client.from("opening_hours").select("*").order("day_order", { ascending: true }),
+        client
           .from("categories")
           .select("*")
           .eq("active", true)
           .order("sort_order", { ascending: true }),
-        supabase
+        client
           .from("menu_items")
           .select("*")
           .eq("active", true)
@@ -299,8 +350,7 @@ export default function MobileHome() {
         ? {}
         : toSiteSettingsMap((settingsRes.data ?? []) as SiteSettingRow[]);
 
-      const featuredItems = menuItems.filter((item) => item.featured === true || item.is_featured === true);
-      const dishes = (featuredItems.length > 0 ? featuredItems : menuItems).slice(0, 4);
+      const dishes = getPopularDishes(menuItems);
       const nextDeliveryPlatforms: PlatformCard[] = [
         {
           name: "Uber Eats",
@@ -383,7 +433,7 @@ export default function MobileHome() {
           </span>
         </Link>
         <a
-          href={`tel:${cafePhoneNumber}`}
+          href={`tel:${HALFWAY_CAFE_PHONE_E164}`}
           aria-label="Call Halfway Cafe"
           className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E8E8E8] text-[#1A1A1A] no-underline shadow-[0_1px_4px_rgba(0,0,0,0.04)]"
         >
@@ -585,12 +635,11 @@ export default function MobileHome() {
                   <div
                     className="flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   >
-                    {data.dishes.map((item, index) => {
+                    {data.dishes.map((item) => {
                       const matchingCategory = data.categories.find(
                         (category) => category.slug === item.category
                       );
-                      const badgeLabel =
-                        index === 0 ? "Popular" : index === 1 ? "Favourite" : null;
+                      const badgeLabel = "Popular";
 
                       return (
                         <Link
@@ -608,20 +657,18 @@ export default function MobileHome() {
                                 className="object-cover object-center"
                               />
                             ) : null}
-                            {badgeLabel ? (
-                              <span
-                                className="absolute rounded-full font-inter text-[12px] font-semibold leading-none tracking-[0.02em] text-[#7A5B48]"
-                                style={{
-                                  top: "10px",
-                                  left: "10px",
-                                  backgroundColor: "rgba(255,255,255,0.85)",
-                                  backdropFilter: "blur(4px)",
-                                  padding: "4px 8px",
-                                }}
-                              >
-                                {badgeLabel}
-                              </span>
-                            ) : null}
+                            <span
+                              className="absolute rounded-full font-inter text-[12px] font-semibold leading-none tracking-[0.02em] text-[#7A5B48]"
+                              style={{
+                                top: "10px",
+                                left: "10px",
+                                backgroundColor: "rgba(255,255,255,0.85)",
+                                backdropFilter: "blur(4px)",
+                                padding: "4px 8px",
+                              }}
+                            >
+                              {badgeLabel}
+                            </span>
                           </div>
                           <div className="space-y-2 px-3 py-3">
                             <p className="truncate font-inter text-[14px] font-semibold leading-5 text-[#1A1A1A]">

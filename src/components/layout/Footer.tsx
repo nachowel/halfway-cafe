@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { Facebook, Instagram } from "lucide-react";
+import {
+  HALFWAY_CAFE_PHONE_DISPLAY,
+  HALFWAY_CAFE_PHONE_TEL,
+} from "@/lib/contact";
 import type { OpeningHours } from "@/types";
 
 interface FooterProps {
@@ -47,7 +51,7 @@ const footerSchema = {
     postalCode: "DA15 8DJ",
     addressCountry: "GB",
   },
-  telephone: "02033435303",
+  telephone: HALFWAY_CAFE_PHONE_TEL,
   openingHours: ["Mo-Fr 07:00-15:00", "Sa 07:00-15:00", "Su 09:00-14:00"],
   servesCuisine: "British",
   priceRange: "£",
@@ -146,7 +150,7 @@ export default function Footer({ openingHours }: FooterProps) {
             </p>
             <div className="mt-5 space-y-2 font-inter text-sm text-gray-400">
               <p>📍 176 Halfway St, Sidcup DA15 8DJ</p>
-              <p>📞 020 3343 5303</p>
+              <p>📞 {HALFWAY_CAFE_PHONE_DISPLAY}</p>
             </div>
 
             <div className="mt-6 flex gap-3">

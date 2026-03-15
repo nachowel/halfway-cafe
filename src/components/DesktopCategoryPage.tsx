@@ -4,6 +4,7 @@ import CategoryMenuContent from "@/components/menu/CategoryMenuContent";
 import CategoryHero from "@/components/sections/CategoryHero";
 import { menuItems as fallbackMenu } from "@/data/menu";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
+import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { createServerComponentClient } from "@/lib/supabase-server";
 import type { MenuItem } from "@/types";
 
@@ -16,8 +17,7 @@ interface CategoryRecord {
 }
 
 const breakfastHero = {
-  imageUrl:
-    "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/Hero/breakfast-hero.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL2JyZWFrZmFzdC1oZXJvLndlYnAiLCJpYXQiOjE3NzMyODEzMzEsImV4cCI6MjA4ODY0MTMzMX0.8pqxUYhssRLbIZjZR0xhCO5JvzF14lphA-AqZAg0nzg",
+  imageUrl: BREAKFAST_HERO_IMAGE_URL,
   label: "THE BREAKFAST MENU",
   title: "Proper Breakfast",
   subtitle: "Classic cafe breakfasts made fresh every morning.",
@@ -52,6 +52,11 @@ function formatCategoryLabel(slug: string): string {
 async function getMenuCategoryData(categorySlug: string) {
   try {
     const supabase = await createServerComponentClient();
+
+    if (!supabase) {
+      throw new Error("Supabase env is not configured.");
+    }
+
     const [categoriesRes, menuItemsRes, countsRes] = await Promise.all([
       supabase
         .from("categories")
