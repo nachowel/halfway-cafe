@@ -1,0 +1,15 @@
+
+> halfway-temp@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1825ms
+ ○ Compiling /menu/[category] ...
+ ✓ Compiled /menu/[category] in 4.4s (856 modules)
+ ✓ Compiled in 335ms (371 modules)
+ GET /menu/breakfast 200 in 5452ms
+ ✓ Compiled in 426ms (371 modules)

@@ -1,6 +1,7 @@
-const SUPABASE_STORAGE_BASE_URL =
+const SUPABASE_STORAGE_BASE_URL = (
   process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
-  "https://jbatmtnlegydsjerkuml.supabase.co";
+  "https://jbatmtnlegydsjerkuml.supabase.co"
+).replace(/\/+$/, "");
 
 export function getSupabasePublicImageUrl(path: string): string {
   const normalizedPath = path
