@@ -6,6 +6,8 @@ import {
   HALFWAY_CAFE_PHONE_DISPLAY,
   HALFWAY_CAFE_PHONE_TEL,
 } from "@/lib/contact";
+import { toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
+import { createServerComponentClient } from "@/lib/supabase-server";
 import type { OpeningHours } from "@/types";
 
 interface FooterProps {
@@ -115,8 +117,33 @@ function SocialIconLink({
   );
 }
 
-export default function Footer({ openingHours }: FooterProps) {
+function getSocialHref(settings: Record<string, string>, key: string) {
+  const value = settings[key]?.trim();
+
+  return value && /^https?:\/\//i.test(value) ? value : "#";
+}
+
+export default async function Footer({ openingHours }: FooterProps) {
   const hours = mapHoursToFooterEntries(openingHours);
+  const supabase = await createServerComponentClient();
+  let socialSettings: Record<string, string> = {};
+
+  if (supabase) {
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("key, value")
+      .in("key", ["social_instagram", "social_facebook", "social_tiktok"]);
+
+    if (error) {
+      console.error("Footer social links:", error);
+    } else {
+      socialSettings = toSiteSettingsMap((data ?? []) as SiteSettingRow[]);
+    }
+  }
+
+  const instagramHref = getSocialHref(socialSettings, "social_instagram");
+  const facebookHref = getSocialHref(socialSettings, "social_facebook");
+  const tiktokHref = getSocialHref(socialSettings, "social_tiktok");
 
   return (
     <footer>
@@ -154,13 +181,13 @@ export default function Footer({ openingHours }: FooterProps) {
             </div>
 
             <div className="mt-6 flex gap-3">
-              <SocialIconLink href="#" label="Instagram">
+              <SocialIconLink href={instagramHref} label="Instagram">
                 <Instagram className="h-5 w-5" />
               </SocialIconLink>
-              <SocialIconLink href="#" label="Facebook">
+              <SocialIconLink href={facebookHref} label="Facebook">
                 <Facebook className="h-5 w-5" />
               </SocialIconLink>
-              <SocialIconLink href="#" label="TikTok">
+              <SocialIconLink href={tiktokHref} label="TikTok">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z" />
                 </svg>

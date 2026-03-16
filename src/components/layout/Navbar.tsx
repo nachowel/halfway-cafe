@@ -3,6 +3,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -60,8 +61,6 @@ export default function Navbar() {
       ? "border-white/10 bg-[rgba(20,20,20,0.78)] shadow-lg backdrop-blur-xl"
       : "border-white/10 bg-[rgba(20,20,20,0.45)] backdrop-blur-xl"
     : "border-border bg-white/95 shadow-sm backdrop-blur";
-
-  const brandTextClass = isHomePage ? "text-white" : "text-text";
   const linkTextClass = isHomePage
     ? "text-white/88 hover:text-white"
     : "text-text hover:text-accent";
@@ -80,8 +79,19 @@ export default function Navbar() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         <Link href="/" className="flex items-center gap-3 no-underline">
-          <span className="text-2xl text-accent">☕</span>
-          <span className={`font-playfair text-2xl font-bold ${brandTextClass}`}>
+          <Image
+            src="https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/icon-logo.png"
+            alt="Halfway Cafe logo"
+            width={36}
+            height={36}
+            className="rounded-full"
+          />
+          <span
+            className="font-playfair text-2xl font-bold"
+            style={{
+              color: isHomePage && !scrolled ? "#FF6B35" : isHomePage && scrolled ? "#ffffff" : "#1A1A1A",
+            }}
+          >
             Halfway Cafe
           </span>
         </Link>
@@ -111,7 +121,7 @@ export default function Navbar() {
 
         <Link
           href="/contact"
-          className="hidden rounded-full bg-accent px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark md:inline-block"
+          className="hidden rounded-full bg-accent px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-[0.16em] !text-white no-underline transition-colors duration-200 hover:bg-[#E55A2B] md:inline-block"
         >
           Visit Today
         </Link>

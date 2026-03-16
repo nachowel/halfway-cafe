@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "@/styles/globals.css";
 import AppChrome from "@/components/layout/AppChrome";
+import Footer from "@/components/layout/Footer";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
 import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
 import { getOpeningHours } from "@/lib/queries";
@@ -135,7 +136,9 @@ export default async function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden">
-        <AppChrome openingHours={openingHours}>{children}</AppChrome>
+        <AppChrome desktopFooter={<Footer openingHours={openingHours} />}>
+          {children}
+        </AppChrome>
       </body>
     </html>
   );

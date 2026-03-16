@@ -427,7 +427,15 @@ export default function MobileHome() {
     <div className="min-h-screen bg-white text-[#1A1A1A] md:hidden">
       <header className="sticky top-0 z-50 flex h-14 items-center justify-between bg-white px-4 shadow-[0_1px_10px_rgba(0,0,0,0.06)]">
         <Link href="/" className="flex items-center no-underline">
-          <span className="mr-1 text-xl">☕</span>
+          <span className="mr-1">
+            <Image
+              src="https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/icon-logo.png"
+              alt="Halfway Cafe logo"
+              width={36}
+              height={36}
+              className="rounded-full"
+            />
+          </span>
           <span className="font-playfair text-xl font-bold text-[#FF6B35]">
             Halfway Cafe
           </span>
@@ -502,7 +510,7 @@ export default function MobileHome() {
                     className="mt-2 max-w-[220px] font-inter text-sm leading-5 text-white"
                     style={{ opacity: 0.94, textShadow: "0 2px 8px rgba(0, 0, 0, 0.18)" }}
                   >
-                    Fresh breakfast & lunch made daily
+                    Proper Full English Breakfast
                   </p>
                   <div className="mt-4 flex flex-wrap gap-3">
                     <Link
