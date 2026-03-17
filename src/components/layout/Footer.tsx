@@ -106,7 +106,11 @@ function getSocialHref(settings: Record<string, string>, key: string) {
 export default async function Footer({ openingHours }: FooterProps) {
   const hours = mapHoursToFooterEntries(openingHours);
   const supabase = await createServerComponentClient();
-  let socialSettings: Record<string, string> = {};
+  let socialSettings: Record<string, string> = {
+    social_instagram: "https://instagram.com/halfwaycafesidcup",
+    social_facebook: "https://facebook.com/profile.php?id=61580807168670",
+    social_tiktok: "https://tiktok.com/@halfwaycafesidcup",
+  };
 
   if (supabase) {
     const { data, error } = await supabase
@@ -115,9 +119,12 @@ export default async function Footer({ openingHours }: FooterProps) {
       .in("key", ["social_instagram", "social_facebook", "social_tiktok"]);
 
     if (error) {
-      console.error("Footer social links:", error);
+      console.error("Footer social links error:", error);
+    } else if (data && data.length > 0) {
+      socialSettings = toSiteSettingsMap(data as SiteSettingRow[]);
+      console.log("Footer social links loaded:", Object.keys(socialSettings));
     } else {
-      socialSettings = toSiteSettingsMap((data ?? []) as SiteSettingRow[]);
+      console.warn("Footer social links: no data returned from Supabase");
     }
   }
 

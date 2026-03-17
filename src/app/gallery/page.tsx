@@ -111,9 +111,9 @@ export default async function GalleryPage() {
           </nav>
 
           <div className="text-center md:text-left">
-            <h1 className="font-playfair text-[2.25rem] font-bold text-ink md:text-5xl">
+            <h2 className="font-playfair text-[2.25rem] font-bold text-ink md:text-5xl">
               Gallery
-            </h1>
+            </h2>
             <p className="mt-1.5 font-inter text-[15px] text-[#7C746B] md:mt-3 md:max-w-lg md:text-base">
               Inside Halfway Cafe
             </p>

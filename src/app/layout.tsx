@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "Halfway Cafe Sidcup | Full English Breakfast & British Caff",
     description:
       "Family-run British caff in Sidcup DA15. Full English breakfasts, burgers & builder's tea. Serving Sidcup, Eltham, Bexley and surrounding areas.",
-    url: "https://halfwaycafe.co.uk",
+    url: "/",
     siteName: "Halfway Cafe",
     locale: "en_GB",
     type: "website",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Restaurant",
+  "@type": "CafeOrCoffeeShop",
   name: "Halfway Cafe",
   description:
     "Family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
@@ -89,6 +89,12 @@ const jsonLd = {
     postalCode: "DA15 8DJ",
     addressCountry: "GB",
   },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 51.4285,
+    longitude: 0.1056,
+  },
+  hasMap: "https://maps.google.com/?q=176+Halfway+St+Sidcup+DA15+8DJ",
   servesCuisine: ["British", "Breakfast", "Cafe"],
   priceRange: "£",
   openingHoursSpecification: [
@@ -105,7 +111,6 @@ const jsonLd = {
       closes: "14:00",
     },
   ],
-  foundingDate: "2008",
 };
 
 // ─── Layout ───
