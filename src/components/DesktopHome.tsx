@@ -63,7 +63,6 @@ export default async function DesktopHome() {
         },
         { id: "lunch", slug: "lunch", name: "Lunch", image_url: undefined },
         { id: "burgers", slug: "burgers", name: "Burgers", image_url: undefined },
-        { id: "desserts", slug: "desserts", name: "Desserts", image_url: undefined },
         { id: "drinks", slug: "drinks", name: "Drinks", image_url: undefined },
       ];
 

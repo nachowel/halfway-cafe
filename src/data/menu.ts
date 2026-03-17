@@ -200,33 +200,6 @@ export const menuItems: MenuItem[] = [
     available: true,
     featured: false,
   },
-
-  // ─── Desserts ───
-  {
-    id: 'sticky-toffee',
-    name: 'Sticky Toffee Pudding',
-    description: 'Warm date sponge drenched in toffee sauce, served with vanilla custard.',
-    price: 5.50,
-    category: 'desserts',
-    image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80',
-    allergens: ['cereals', 'eggs', 'milk'],
-    dietary: ['vegetarian'],
-    available: true,
-    featured: false,
-  },
-  {
-    id: 'apple-crumble',
-    name: 'Apple Crumble',
-    description: 'Bramley apple crumble with a golden oat topping, served with custard or ice cream.',
-    price: 5.00,
-    category: 'desserts',
-    image: 'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=600&q=80',
-    allergens: ['cereals', 'milk'],
-    dietary: ['vegetarian'],
-    available: true,
-    featured: false,
-  },
-
   // ─── Drinks ───
   {
     id: 'builders-tea',
