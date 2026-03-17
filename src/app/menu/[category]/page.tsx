@@ -74,14 +74,32 @@ export async function generateMetadata({
       alternates: {
         canonical: "/menu",
       },
+      openGraph: {
+        title: "Our Menu | Halfway Cafe Sidcup",
+        description: "Browse the full Halfway Cafe menu — breakfasts, burgers, sandwiches and more.",
+        url: "/menu",
+      },
     };
   }
 
   return {
     title: `${activeCategory.name} Menu`,
-    description: `Browse Halfway Cafe's ${activeCategory.name.toLowerCase()} menu with fresh daily dishes, prices, and dietary tags.`,
+    description: `Browse Halfway Cafe's ${activeCategory.name.toLowerCase()} menu — freshly made dishes served daily in Sidcup DA15. Full prices and dietary info included.`,
     alternates: {
       canonical: `/menu/${activeCategory.slug}`,
+    },
+    openGraph: {
+      title: `${activeCategory.name} Menu | Halfway Cafe Sidcup`,
+      description: `Browse Halfway Cafe's ${activeCategory.name.toLowerCase()} menu — freshly made dishes served daily in Sidcup DA15.`,
+      url: `/menu/${activeCategory.slug}`,
+      images: [
+        {
+          url: "https://halfwaycafe.co.uk/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: `Halfway Cafe ${activeCategory.name} Menu — Sidcup DA15`,
+        },
+      ],
     },
   };
 }

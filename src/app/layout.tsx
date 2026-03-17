@@ -28,6 +28,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://halfwaycafe.co.uk"),
+  robots: {
+    index: true,
+    follow: true,
+  },
   title: {
     default: "Halfway Cafe Sidcup | Full English Breakfast & British Caff",
     template: "%s | Halfway Cafe Sidcup",
@@ -69,6 +73,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  other: {
+    "theme-color": "#FF6B35",
+  },
 };
 
 // ─── JSON-LD Restaurant Schema ───
@@ -95,6 +102,12 @@ const jsonLd = {
     longitude: 0.1056,
   },
   hasMap: "https://maps.google.com/?q=176+Halfway+St+Sidcup+DA15+8DJ",
+  hasMenu: "https://halfwaycafe.co.uk/menu",
+  sameAs: [
+    "https://instagram.com/halfwaycafesidcup",
+    "https://facebook.com/profile.php?id=61580807168670",
+    "https://tiktok.com/@halfwaycafesidcup",
+  ],
   servesCuisine: ["British", "Breakfast", "Cafe"],
   priceRange: "£",
   openingHoursSpecification: [
