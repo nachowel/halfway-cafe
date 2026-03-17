@@ -86,11 +86,21 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-6 z-10 flex items-center gap-3 text-white/72 md:bottom-8 md:left-8">
-        <span className="font-inter text-[11px] font-bold uppercase tracking-[0.35em]">Scroll</span>
-        <span className="flex h-10 w-5 items-start justify-center rounded-full border border-white/30 p-1">
-          <span className="block h-2 w-2 animate-bounce rounded-full bg-yellow" />
-        </span>
+      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2">
+        <div className="flex flex-col items-center gap-1 animate-bounce">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="rgba(255,255,255,0.7)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </div>
       </div>
 
       <div className="absolute bottom-6 left-4 right-4 z-10 min-w-[280px] rounded-xl border border-accent/15 bg-white p-6 shadow-xl sm:left-auto sm:right-8 sm:max-w-sm md:bottom-8">
