@@ -71,12 +71,18 @@ export async function generateMetadata({
     return {
       title: "Menu",
       description: "Browse the Halfway Cafe menu by category.",
+      alternates: {
+        canonical: "/menu",
+      },
     };
   }
 
   return {
     title: `${activeCategory.name} Menu`,
     description: `Browse Halfway Cafe's ${activeCategory.name.toLowerCase()} menu with fresh daily dishes, prices, and dietary tags.`,
+    alternates: {
+      canonical: `/menu/${activeCategory.slug}`,
+    },
   };
 }
 
