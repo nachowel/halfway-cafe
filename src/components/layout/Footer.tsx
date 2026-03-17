@@ -19,10 +19,10 @@ interface FooterHoursEntry {
 
 const menuLinks = [
   { href: "/menu/breakfast", label: "Breakfast" },
-  { href: "/menu/lunch", label: "Lunch" },
-  { href: "/menu/burgers", label: "Burgers" },
   { href: "/menu/sandwiches", label: "Sandwiches" },
-  { href: "/menu/desserts", label: "Desserts" },
+  { href: "/menu/burgers", label: "Burgers" },
+  { href: "/menu/lunch", label: "Lunch" },
+  { href: "/menu/panini", label: "Panini" },
   { href: "/menu/drinks", label: "Drinks" },
 ];
 
