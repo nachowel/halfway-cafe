@@ -187,6 +187,7 @@ export default async function DesktopCategoryPage({
           <CategoryMenuContent
             categoryName={activeCategory.name ?? formatCategoryLabel(categorySlug)}
             items={items}
+            headingLevel={categorySlug === "breakfast" ? "h2" : "h1"}
           />
         </div>
       </div>

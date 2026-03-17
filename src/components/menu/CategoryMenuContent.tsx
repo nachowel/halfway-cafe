@@ -8,11 +8,13 @@ import type { DietaryTag, MenuItem } from "@/types";
 interface CategoryMenuContentProps {
   categoryName: string;
   items: MenuItem[];
+  headingLevel?: "h1" | "h2";
 }
 
 export default function CategoryMenuContent({
   categoryName,
   items,
+  headingLevel,
 }: CategoryMenuContentProps) {
   const [selectedDietary, setSelectedDietary] = useState<DietaryTag[]>([]);
 
@@ -36,9 +38,14 @@ export default function CategoryMenuContent({
       <div className="border-b border-border pb-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <h1 className="font-playfair text-4xl font-bold text-ink md:text-5xl">
-              {categoryName}
-            </h1>
+            {(() => {
+              const Heading = headingLevel ?? "h1";
+              return (
+                <Heading className="font-playfair text-4xl font-bold text-ink md:text-5xl">
+                  {categoryName}
+                </Heading>
+              );
+            })()}
             <p className="mt-2 font-lora text-base italic text-ink-light">
               {items.length} item{items.length === 1 ? "" : "s"} on this menu.
             </p>
