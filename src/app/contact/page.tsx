@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Contact & Find Us",
   description:
     "Find Halfway Cafe at 176 Halfway St, Sidcup DA15 8DJ. Opening hours, phone number and directions. Easily reachable from Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 function SectionLoader() {

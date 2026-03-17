@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Gallery",
   description:
     "Take a look inside Halfway Cafe — our cosy interior, freshly cooked food, and the community we love.",
+  alternates: {
+    canonical: "/gallery",
+  },
 };
 
 const defaultImages = [

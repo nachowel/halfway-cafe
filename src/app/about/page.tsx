@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "The story of Halfway Cafe — a family-run British caff at 176 Halfway St, Sidcup DA15 8DJ. Serving the local community across Sidcup, Eltham, Bexley and beyond for over 20 years.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 const values = [
