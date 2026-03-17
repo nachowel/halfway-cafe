@@ -27,9 +27,13 @@ const inter = Inter({
 // ─── Metadata ───
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://halfwaycafe.co.uk"),
   title: {
     default: "Halfway Cafe Sidcup | Full English Breakfast & British Caff",
     template: "%s | Halfway Cafe Sidcup",
+  },
+  alternates: {
+    canonical: "/",
   },
   description:
     "Halfway Cafe is a family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, Bexley and surrounding areas since 2003.",
