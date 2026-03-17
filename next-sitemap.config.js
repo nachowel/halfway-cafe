@@ -5,12 +5,13 @@ module.exports = {
   changefreq: "weekly",
   priority: 0.7,
   sitemapSize: 5000,
+  exclude: ["/api/*", "/admin/*", "/admin/login"],
 
   transform: async (config, path) => {
     return {
       loc: path,
       changefreq: config.changefreq,
-      priority: path === "/" ? 1.0 : config.priority,
+      priority: config.priority,
       lastmod: new Date().toISOString(),
     };
   },
@@ -29,13 +30,21 @@ module.exports = {
       .eq("active", true)
       .order("sort_order", { ascending: true });
 
-    if (!categories) return [];
-
-    return categories.map((cat) => ({
+    const categoryPaths = (categories ?? []).map((cat) => ({
       loc: `/menu/${cat.slug}`,
       changefreq: "weekly",
       priority: 0.8,
       lastmod: new Date().toISOString(),
     }));
+
+    return [
+      {
+        loc: "/",
+        changefreq: "weekly",
+        priority: 1.0,
+        lastmod: new Date().toISOString(),
+      },
+      ...categoryPaths,
+    ];
   },
 };
