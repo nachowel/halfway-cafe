@@ -1,0 +1,21 @@
+{
+  "name": "Halfway Cafe Sidcup",
+  "short_name": "Halfway Cafe",
+  "description": "Family-run British caff in Sidcup DA15. Full English breakfasts, burgers & builder's tea.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FF6B35",
+  "theme_color": "#FF6B35",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
