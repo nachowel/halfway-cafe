@@ -88,54 +88,6 @@ export const metadata: Metadata = {
   },
 };
 
-// ─── JSON-LD Restaurant Schema ───
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CafeOrCoffeeShop",
-  name: "Halfway Cafe",
-  description:
-    "Family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
-  image: "https://halfwaycafe.co.uk/og-image.jpg",
-  url: "https://halfwaycafe.co.uk",
-  telephone: HALFWAY_CAFE_PHONE_E164,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "176 Halfway St",
-    addressLocality: "Sidcup",
-    postalCode: "DA15 8DJ",
-    addressCountry: "GB",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 51.4285,
-    longitude: 0.1056,
-  },
-  hasMap: "https://maps.google.com/?q=176+Halfway+St+Sidcup+DA15+8DJ",
-  hasMenu: "https://halfwaycafe.co.uk/menu",
-  sameAs: [
-    "https://instagram.com/halfwaycafesidcup",
-    "https://facebook.com/profile.php?id=61580807168670",
-    "https://tiktok.com/@halfwaycafesidcup",
-  ],
-  servesCuisine: ["British", "Breakfast", "Cafe"],
-  priceRange: "£",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      opens: "07:00",
-      closes: "15:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Sunday"],
-      opens: "09:00",
-      closes: "14:00",
-    },
-  ],
-};
-
 // ─── Layout ───
 
 function toOpeningHours(row: Record<string, unknown>): OpeningHours {
@@ -155,6 +107,75 @@ export default async function RootLayout({
   const dbHours = await getOpeningHours();
   const openingHours =
     dbHours.length > 0 ? dbHours.map(toOpeningHours) : fallbackHours;
+
+  // Fetch live rating for JSON-LD aggregateRating
+  let aggregateRating: Record<string, string> | null = null;
+  try {
+    const reviewsRes = await fetch("https://halfwaycafe.co.uk/api/google-reviews", {
+      next: { revalidate: 3600 },
+    });
+    if (reviewsRes.ok) {
+      const reviewsData = await reviewsRes.json();
+      if (reviewsData.rating && reviewsData.reviewCount) {
+        aggregateRating = {
+          "@type": "AggregateRating",
+          ratingValue: String(reviewsData.rating),
+          reviewCount: String(reviewsData.reviewCount),
+          bestRating: "5",
+          worstRating: "1",
+        };
+      }
+    }
+  } catch {
+    // silently fail — aggregateRating is optional
+  }
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    name: "Halfway Cafe",
+    description:
+      "Family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
+    image: "https://halfwaycafe.co.uk/og-image.jpg",
+    url: "https://halfwaycafe.co.uk",
+    telephone: HALFWAY_CAFE_PHONE_E164,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "176 Halfway St",
+      addressLocality: "Sidcup",
+      postalCode: "DA15 8DJ",
+      addressCountry: "GB",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 51.4285,
+      longitude: 0.1056,
+    },
+    hasMap: "https://maps.google.com/?q=176+Halfway+St+Sidcup+DA15+8DJ",
+    hasMenu: "https://halfwaycafe.co.uk/menu",
+    sameAs: [
+      "https://instagram.com/halfwaycafesidcup",
+      "https://facebook.com/profile.php?id=61580807168670",
+      "https://tiktok.com/@halfwaycafesidcup",
+    ],
+    ...(aggregateRating ? { aggregateRating } : {}),
+    servesCuisine: ["British", "Breakfast", "Cafe"],
+    priceRange: "£",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "07:00",
+        closes: "15:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Sunday"],
+        opens: "09:00",
+        closes: "14:00",
+      },
+    ],
+  };
 
   return (
     <html

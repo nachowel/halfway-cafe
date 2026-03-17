@@ -112,10 +112,41 @@ export default async function MenuCategoryPage({ params }: PageProps) {
     notFound();
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://halfwaycafe.co.uk",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Menu",
+        item: "https://halfwaycafe.co.uk/menu",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: activeCategory.name,
+        item: `https://halfwaycafe.co.uk/menu/${activeCategory.slug}`,
+      },
+    ],
+  };
+
   return (
-    <CategoryPageSwitcher
-      categorySlug={params.category}
-      desktopCategory={<DesktopCategoryPage categorySlug={params.category} />}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <CategoryPageSwitcher
+        categorySlug={params.category}
+        desktopCategory={<DesktopCategoryPage categorySlug={params.category} />}
+      />
+    </>
   );
 }
