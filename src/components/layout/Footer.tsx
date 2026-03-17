@@ -2,10 +2,7 @@
 
 import Link from "next/link";
 import { Facebook, Instagram } from "lucide-react";
-import {
-  HALFWAY_CAFE_PHONE_DISPLAY,
-  HALFWAY_CAFE_PHONE_TEL,
-} from "@/lib/contact";
+import { HALFWAY_CAFE_PHONE_DISPLAY } from "@/lib/contact";
 import { toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
 import { createServerComponentClient } from "@/lib/supabase-server";
 import type { OpeningHours } from "@/types";
@@ -41,23 +38,6 @@ const fallbackHours: FooterHoursEntry[] = [
   { label: "Sat", value: "07:00–15:00", isToday: false },
   { label: "Sun", value: "09:00–14:00", isToday: false },
 ];
-
-const footerSchema = {
-  "@context": "https://schema.org",
-  "@type": "CafeOrCoffeeShop",
-  name: "Halfway Cafe",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "176 Halfway St",
-    addressLocality: "Sidcup",
-    postalCode: "DA15 8DJ",
-    addressCountry: "GB",
-  },
-  telephone: HALFWAY_CAFE_PHONE_TEL,
-  openingHours: ["Mo-Fr 07:00-15:00", "Sa 07:00-15:00", "Su 09:00-14:00"],
-  servesCuisine: "British",
-  priceRange: "£",
-};
 
 function getTodayName() {
   return new Intl.DateTimeFormat("en-GB", {
@@ -147,11 +127,6 @@ export default async function Footer({ openingHours }: FooterProps) {
 
   return (
     <footer>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(footerSchema) }}
-      />
-
       <div className="border-t border-accent bg-[#151515] px-4 py-4 text-center">
         <p className="mx-auto max-w-3xl font-inter text-sm text-white/65">
           We handle allergens in our kitchen. Please speak to a member of staff
