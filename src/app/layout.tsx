@@ -2,6 +2,7 @@
 
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "@/styles/globals.css";
 import AppChrome from "@/components/layout/AppChrome";
 import Footer from "@/components/layout/Footer";
@@ -187,6 +188,18 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-3PK8FCF09E"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3PK8FCF09E');
+          `}
+        </Script>
       </head>
       <body className="overflow-x-hidden">
         <AppChrome desktopFooter={<Footer openingHours={openingHours} />}>
