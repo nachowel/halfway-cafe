@@ -46,7 +46,7 @@ const faqSchema = {
       name: "Do you serve breakfast all day?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We serve our full breakfast menu from opening time until early afternoon. We recommend arriving before 1:00pm to make sure you get the full selection — popular items can sell out on busy mornings!",
+        text: "Yes — we serve our full menu from the moment we open until closing time, every day of the week. Whether you're after a Full English at 7am or a late breakfast at 2pm, we've got you covered.",
       },
     },
     {
