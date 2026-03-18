@@ -9,6 +9,7 @@ import { HALFWAY_CAFE_DIRECTIONS_URL, HALFWAY_CAFE_PLACE_URL } from "@/lib/maps"
 import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
 import { createOptionalClientComponentClient } from "@/lib/supabase";
 import { getMobileHeroImage, toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
+import MobileFooter from "@/components/MobileFooter";
 
 type OpeningHoursRow = {
   id: string;
@@ -823,6 +824,7 @@ export default function MobileHome() {
             ) : null}
           </>
         )}
+      <MobileFooter />
       </main>
 
       <nav
