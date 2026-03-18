@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import MobileFooter from "@/components/MobileFooter";
 import { createOptionalClientComponentClient } from "@/lib/supabase";
 
 type CategoryRow = {
@@ -506,6 +507,7 @@ export default function MobileCategoryPage({
         </div>
       ) : null}
 
+      <MobileFooter />
       <MobileBottomNav />
     </div>
   );

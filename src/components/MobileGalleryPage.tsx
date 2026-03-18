@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, X } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import MobileFooter from "@/components/MobileFooter";
 
 type GalleryImage = {
   src: string;
@@ -185,6 +186,7 @@ export default function MobileGalleryPage({
         </div>
       ) : null}
 
+      <MobileFooter />
       <MobileBottomNav />
     </div>
   );

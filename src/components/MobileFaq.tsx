@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Phone, MapPin } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import MobileFooter from "@/components/MobileFooter";
 
 const faqs = [
   {
@@ -201,6 +202,7 @@ export default function MobileFaq() {
         </div>
       </main>
 
+      <MobileFooter />
       <MobileBottomNav />
     </div>
   );

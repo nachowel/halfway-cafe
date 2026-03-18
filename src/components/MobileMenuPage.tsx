@@ -10,6 +10,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import MobileFooter from "@/components/MobileFooter";
 import { createOptionalClientComponentClient } from "@/lib/supabase";
 
 type CategoryRow = {
@@ -342,6 +343,7 @@ export default function MobileMenuPage() {
         </section>
       </main>
 
+      <MobileFooter />
       <MobileBottomNav />
     </div>
   );
