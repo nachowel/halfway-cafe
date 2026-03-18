@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
+import CookieBanner from "@/components/CookieBanner";
 import "@/styles/globals.css";
 import AppChrome from "@/components/layout/AppChrome";
 import Footer from "@/components/layout/Footer";
@@ -188,6 +189,23 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Script id="google-consent-default" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+
+            gtag('consent', 'default', {
+              analytics_storage: 'denied'
+            });
+
+            if (typeof window !== 'undefined' &&
+                localStorage.getItem('halfway_cookie_consent') === 'accepted') {
+              gtag('consent', 'update', {
+                analytics_storage: 'granted'
+              });
+            }
+          `}
+        </Script>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-3PK8FCF09E"
           strategy="afterInteractive"
@@ -205,6 +223,7 @@ export default async function RootLayout({
         <AppChrome desktopFooter={<Footer openingHours={openingHours} />}>
           {children}
         </AppChrome>
+        <CookieBanner />
       </body>
     </html>
   );
