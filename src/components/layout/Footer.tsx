@@ -41,9 +41,8 @@ const exploreSidcupLinks = [
 ];
 
 const fallbackHours: FooterHoursEntry[] = [
-  { label: "Mon–Fri", value: "07:00–15:00", isToday: false },
-  { label: "Sat", value: "07:00–15:00", isToday: false },
-  { label: "Sun", value: "09:00–14:00", isToday: false },
+  { label: "Mon – Sat:", value: "7:00am – 3:00pm", isToday: false },
+  { label: "Sunday:", value: "Closed", isToday: false },
 ];
 
 function getTodayName() {
@@ -56,30 +55,22 @@ function getTodayName() {
 function mapHoursToFooterEntries(rows: OpeningHours[]): FooterHoursEntry[] {
   const todayName = getTodayName();
 
+  // Footer hours are intentionally shown in a canonical two-line format.
   if (rows.length === 0) {
-    const isWeekday =
-      todayName === "Monday" ||
-      todayName === "Tuesday" ||
-      todayName === "Wednesday" ||
-      todayName === "Thursday" ||
-      todayName === "Friday";
-
     return fallbackHours.map((entry) => ({
       ...entry,
       isToday:
-        (entry.label === "Mon–Fri" && isWeekday) ||
-        (entry.label === "Sat" && todayName === "Saturday") ||
-        (entry.label === "Sun" && todayName === "Sunday"),
+        (entry.label === "Mon – Sat:" && todayName !== "Sunday") ||
+        (entry.label === "Sunday:" && todayName === "Sunday"),
     }));
   }
 
-  return rows.map((row) => {
-    return {
-      label: row.day,
-      value: row.closed ? "Closed" : `${row.open}–${row.close}`,
-      isToday: row.day === todayName,
-    };
-  });
+  return fallbackHours.map((entry) => ({
+    ...entry,
+    isToday:
+      (entry.label === "Mon – Sat:" && todayName !== "Sunday") ||
+      (entry.label === "Sunday:" && todayName === "Sunday"),
+  }));
 }
 
 function SocialIconLink({

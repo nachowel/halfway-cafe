@@ -8,9 +8,8 @@ import {
 import { HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
 import SectionHeader from "@/components/ui/SectionHeader";
 const openingHours = [
-  { label: "Mon–Fri", value: "07:00 – 15:00" },
-  { label: "Sat", value: "07:00 – 15:00" },
-  { label: "Sun", value: "09:00 – 14:00" },
+  { label: "Mon – Sat:", value: "7:00am – 3:00pm" },
+  { label: "Sunday:", value: "Closed" },
 ];
 
 export default function LocationSection() {

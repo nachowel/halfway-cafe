@@ -7,12 +7,12 @@ import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 export const metadata: Metadata = {
   title: "Cafe in Sidcup | Halfway Cafe – Local British Caff on Halfway Street",
   description:
-    "Looking for a cafe in Sidcup? Halfway Cafe on Halfway Street, DA15 serves full English breakfasts, sandwiches, burgers, tea and coffee. Open Monday to Saturday from 7am and Sunday from 9am.",
+    "Looking for a cafe in Sidcup? Halfway Cafe on Halfway Street, DA15 serves full English breakfasts, sandwiches, burgers, tea and coffee. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
   alternates: { canonical: "https://halfwaycafe.co.uk/cafe-sidcup" },
   openGraph: {
     title: "Cafe in Sidcup | Halfway Cafe",
     description:
-      "A proper British caff on Halfway Street, Sidcup DA15. Breakfasts, sandwiches, burgers and hot drinks. Open Monday to Saturday from 7am and Sunday from 9am.",
+      "A proper British caff on Halfway Street, Sidcup DA15. Breakfasts, sandwiches, burgers and hot drinks. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
     url: "https://halfwaycafe.co.uk/cafe-sidcup",
   },
 };
@@ -62,7 +62,7 @@ const faqs = [
   {
     question: "What are your opening hours?",
     answer:
-      "We're open Monday to Saturday from 7am to 3pm, and Sunday from 9am to 2pm.",
+      "We're open Monday to Saturday from 7am to 3pm. Sunday: Closed.",
   },
   {
     question: "Do I need to book a table?",
@@ -103,7 +103,7 @@ const jsonLd = {
       },
       servesCuisine: "British",
       priceRange: "£",
-      openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
+      openingHours: ["Mo-Sa 07:00-15:00"],
       sameAs: [
         "https://instagram.com/halfwaycafesidcup",
         "https://facebook.com/profile.php?id=61580807168670",
@@ -283,8 +283,8 @@ export default function CafeSidcupPage() {
             Opening Hours
           </h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Monday – Saturday: 7:00am – 3:00pm</p>
-            <p>Sunday: 9:00am – 2:00pm</p>
+            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Sunday: Closed</p>
           </div>
         </div>
       </section>

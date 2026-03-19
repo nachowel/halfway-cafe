@@ -7,12 +7,12 @@ import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 export const metadata: Metadata = {
   title: "Breakfast in Sidcup | Halfway Cafe – Full English & More",
   description:
-    "Looking for breakfast in Sidcup? Halfway Cafe on Halfway Street serves full English breakfasts, bacon sandwiches, tea and coffee in DA15. Open Monday to Saturday from 7am and Sunday from 9am.",
+    "Looking for breakfast in Sidcup? Halfway Cafe on Halfway Street serves full English breakfasts, bacon sandwiches, tea and coffee in DA15. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
   alternates: { canonical: "https://halfwaycafe.co.uk/breakfast-sidcup" },
   openGraph: {
     title: "Breakfast in Sidcup | Halfway Cafe",
     description:
-      "A proper British caff on Halfway Street, Sidcup DA15. Full English, bacon sandwiches, builder's tea. Open Monday to Saturday from 7am, Sunday from 9am.",
+      "A proper British caff on Halfway Street, Sidcup DA15. Full English, bacon sandwiches, builder's tea. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
     url: "https://halfwaycafe.co.uk/breakfast-sidcup",
   },
 };
@@ -56,7 +56,7 @@ const faqs = [
   {
     question: "Do you serve full English breakfast every day?",
     answer:
-      "Yes — we serve full English breakfast seven days a week. Monday to Saturday from 7am, Sunday from 9am.",
+      "Yes — we serve full English breakfast Monday to Saturday from 7am to 3pm. Sunday: Closed.",
   },
   {
     question: "Where exactly is Halfway Cafe in Sidcup?",
@@ -102,7 +102,7 @@ const jsonLd = {
       },
       servesCuisine: "British",
       priceRange: "£",
-      openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
+      openingHours: ["Mo-Sa 07:00-15:00"],
       sameAs: [
         "https://instagram.com/halfwaycafesidcup",
         "https://facebook.com/profile.php?id=61580807168670",
@@ -152,7 +152,7 @@ export default function BreakfastSidcupPage() {
         <div className="grid items-center gap-8 rounded-xl bg-white p-7 shadow-sm md:p-12 lg:grid-cols-2">
           <div>
             <h1 className="font-playfair text-4xl font-bold leading-tight text-ink md:text-5xl">
-              Full English Breakfast in Sidcup
+              Breakfast in Sidcup
             </h1>
             <p className="mt-5 font-inter text-[17px] leading-8 text-text-mid md:text-lg md:leading-9">
               Halfway Cafe is a proper local breakfast spot on Halfway Street in DA15,
@@ -299,8 +299,8 @@ export default function BreakfastSidcupPage() {
         <div className="rounded-xl bg-white p-7 shadow-sm md:p-8">
           <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">Opening Hours</h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Monday – Saturday: 7:00am – 3:00pm</p>
-            <p>Sunday: 9:00am – 2:00pm</p>
+            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Sunday: Closed</p>
           </div>
         </div>
       </section>

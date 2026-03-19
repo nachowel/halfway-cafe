@@ -25,7 +25,7 @@ const faqs = [
   {
     question: "Do you serve full English breakfast every day?",
     answer:
-      "Yes, we serve full English breakfast every day. We're open from 7am Monday to Saturday and from 9am on Sunday.",
+      "Yes, we serve full English breakfast Monday to Saturday from 7am to 3pm. Sunday: Closed.",
   },
   {
     question: "Where are you located?",
@@ -63,7 +63,7 @@ const jsonLd = {
       },
       servesCuisine: "British",
       priceRange: "£",
-      openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
+      openingHours: ["Mo-Sa 07:00-15:00"],
       sameAs: [
         "https://instagram.com/halfwaycafesidcup",
         "https://facebook.com/profile.php?id=61580807168670",
@@ -272,8 +272,8 @@ export default function FullEnglishBreakfastSidcupPage() {
         <div className="rounded-xl bg-white p-7 shadow-sm md:p-8">
           <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">Opening Hours</h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Monday – Saturday: 7:00am – 3:00pm</p>
-            <p>Sunday: 9:00am – 2:00pm</p>
+            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Sunday: Closed</p>
           </div>
         </div>
       </section>

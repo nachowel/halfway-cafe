@@ -3,13 +3,13 @@
 import { OpeningHours, OpenStatus } from '@/types';
 
 export const openingHours: OpeningHours[] = [
-  { day: 'Monday',    open: '07:00', close: '21:00', closed: false },
-  { day: 'Tuesday',   open: '07:00', close: '21:00', closed: false },
-  { day: 'Wednesday', open: '07:00', close: '21:00', closed: false },
-  { day: 'Thursday',  open: '07:00', close: '21:00', closed: false },
-  { day: 'Friday',    open: '07:00', close: '21:00', closed: false },
-  { day: 'Saturday',  open: '08:00', close: '22:00', closed: false },
-  { day: 'Sunday',    open: '08:00', close: '22:00', closed: false },
+  { day: 'Monday',    open: '07:00', close: '15:00', closed: false },
+  { day: 'Tuesday',   open: '07:00', close: '15:00', closed: false },
+  { day: 'Wednesday', open: '07:00', close: '15:00', closed: false },
+  { day: 'Thursday',  open: '07:00', close: '15:00', closed: false },
+  { day: 'Friday',    open: '07:00', close: '15:00', closed: false },
+  { day: 'Saturday',  open: '07:00', close: '15:00', closed: false },
+  { day: 'Sunday',    open: '00:00', close: '00:00', closed: true },
 ];
 
 /**
