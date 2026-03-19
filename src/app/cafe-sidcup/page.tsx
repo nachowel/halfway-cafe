@@ -5,14 +5,14 @@ import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 
 export const metadata: Metadata = {
-  title: "Cafe in Sidcup | Halfway Cafe – Local British Caff on Halfway Street",
+  title: "Cafe in Sidcup | Breakfast, Sandwiches & Coffee – Halfway Cafe",
   description:
-    "Looking for a cafe in Sidcup? Halfway Cafe on Halfway Street, DA15 serves full English breakfasts, sandwiches, burgers, tea and coffee. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
+    "Visit Halfway Cafe in Sidcup for breakfast, sandwiches and fresh coffee. A local favourite on Halfway Street, serving quality food with quick service.",
   alternates: { canonical: "https://halfwaycafe.co.uk/cafe-sidcup" },
   openGraph: {
-    title: "Cafe in Sidcup | Halfway Cafe",
+    title: "Cafe in Sidcup | Breakfast, Sandwiches & Coffee – Halfway Cafe",
     description:
-      "A proper British caff on Halfway Street, Sidcup DA15. Breakfasts, sandwiches, burgers and hot drinks. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
+      "Visit Halfway Cafe in Sidcup for breakfast, sandwiches and fresh coffee. A local favourite on Halfway Street, serving quality food with quick service.",
     url: "https://halfwaycafe.co.uk/cafe-sidcup",
   },
 };
@@ -22,27 +22,27 @@ const menuHighlights = [
     name: "Full English Breakfast",
     description:
       "Two eggs, bacon, sausage, beans, grilled tomato and toast, cooked to order and served hot.",
-    alt: "Full English breakfast at Halfway Cafe Sidcup",
+    alt: "Full English breakfast with toast and grilled tomato",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA",
   },
   {
     name: "Bacon Sandwich",
     description: "Thick-cut back bacon, hot from the grill, packed into fresh white or brown bread.",
-    alt: "Bacon sandwich at Halfway Cafe Sidcup DA15",
+    alt: "Fresh bacon sandwich filled with thick-cut back bacon",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/sandwiches/bacon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzYW5kd2ljaGVzL2JhY29uLnBuZyIsImlhdCI6MTc3Mzg4Mzk4MiwiZXhwIjoyMDU3NzA3OTgyfQ.yZdX9HfPuL8_QbbE3FmS-n-nkTBs8BzxK4mn-uJ8BhY",
   },
   {
     name: "Made-to-Order Burger",
     description: "Hot off the grill with a juicy centre, made to order and served fresh.",
-    alt: "Made-to-order burger at Halfway Cafe Sidcup",
+    alt: "Freshly made burger with a juicy centre and toasted bun",
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
   },
   {
     name: "Builder's Tea",
     description: "A strong, proper brew poured hot, just right with breakfast or a quick break.",
-    alt: "Builder's tea at Halfway Cafe Sidcup",
+    alt: "Strong builder's tea in a mug at the Sidcup cafe",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/drinks/tea.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkcmlua3MvdGVhLnBuZyIsImlhdCI6MTc3Mzg4NDAzNSwiZXhwIjoyMDU3NzA4MDM1fQ.8YrIRBpVvsoeVd2vKlQQ2sOx7llnjm1RQN_2WmgrVuc",
   },
@@ -85,30 +85,21 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "CafeOrCoffeeShop",
-      name: "Halfway Cafe",
-      url: "https://halfwaycafe.co.uk",
-      telephone: "020 3343 5303",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "176 Halfway Street",
-        addressLocality: "Sidcup",
-        postalCode: "DA15 8DJ",
-        addressCountry: "GB",
+      "@type": "WebPage",
+      "@id": "https://halfwaycafe.co.uk/cafe-sidcup#webpage",
+      name: "Cafe in Sidcup | Breakfast, Sandwiches & Coffee – Halfway Cafe",
+      url: "https://halfwaycafe.co.uk/cafe-sidcup",
+      about: "Cafe in Sidcup",
+      isPartOf: {
+        "@type": "WebSite",
+        name: "Halfway Cafe",
+        url: "https://halfwaycafe.co.uk",
       },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: 51.4285,
-        longitude: 0.1056,
+      primaryImageOfPage:
+        "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/breakfast-hero.webp",
+      mainEntity: {
+        "@id": "https://halfwaycafe.co.uk/#business",
       },
-      servesCuisine: "British",
-      priceRange: "£",
-      openingHours: ["Mo-Sa 07:00-15:00"],
-      sameAs: [
-        "https://instagram.com/halfwaycafesidcup",
-        "https://facebook.com/profile.php?id=61580807168670",
-        "https://tiktok.com/@halfwaycafesidcup",
-      ],
     },
     {
       "@type": "BreadcrumbList",
@@ -186,7 +177,7 @@ export default function CafeSidcupPage() {
           <div className="relative min-h-[300px] overflow-hidden rounded-xl">
             <Image
               src={BREAKFAST_HERO_IMAGE_URL}
-              alt="Halfway Cafe interior in Sidcup DA15"
+              alt="Breakfast and coffee on the table at Halfway Cafe in Sidcup"
               fill
               priority
               className="object-cover"

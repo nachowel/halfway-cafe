@@ -5,14 +5,14 @@ import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 
 export const metadata: Metadata = {
-  title: "Breakfast in Sidcup | Halfway Cafe – Full English & More",
+  title: "Breakfast in Sidcup | Full English & Morning Cafe – Halfway Cafe",
   description:
-    "Looking for breakfast in Sidcup? Halfway Cafe on Halfway Street serves full English breakfasts, bacon sandwiches, tea and coffee in DA15. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
+    "Discover breakfast in Sidcup at Halfway Cafe. From full English breakfast to fresh rolls and coffee, served Monday to Saturday. Walk in anytime.",
   alternates: { canonical: "https://halfwaycafe.co.uk/breakfast-sidcup" },
   openGraph: {
-    title: "Breakfast in Sidcup | Halfway Cafe",
+    title: "Breakfast in Sidcup | Full English & Morning Cafe – Halfway Cafe",
     description:
-      "A proper British caff on Halfway Street, Sidcup DA15. Full English, bacon sandwiches, builder's tea. Open Monday to Saturday from 7am to 3pm. Sunday closed.",
+      "Discover breakfast in Sidcup at Halfway Cafe. From full English breakfast to fresh rolls and coffee, served Monday to Saturday. Walk in anytime.",
     url: "https://halfwaycafe.co.uk/breakfast-sidcup",
   },
 };
@@ -22,7 +22,7 @@ const breakfastItems = [
     name: "Full English Breakfast",
     description:
       "Two eggs, back bacon and sausage with beans, grilled tomato and toast, cooked to order and plated hot.",
-    alt: "Full English breakfast in Sidcup cafe",
+    alt: "Cooked breakfast platter at Halfway Cafe in Sidcup",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA",
   },
@@ -30,7 +30,7 @@ const breakfastItems = [
     name: "Bacon Sandwich",
     description:
       "Thick-cut back bacon, hot off the grill, stacked into fresh white or brown bread with your choice of sauce.",
-    alt: "Bacon sandwich at Halfway Cafe Sidcup",
+    alt: "Thick-cut bacon sandwich on fresh white or brown bread",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/sandwiches/bacon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzYW5kd2ljaGVzL2JhY29uLnBuZyIsImlhdCI6MTc3Mzg4Mzk4MiwiZXhwIjoyMDU3NzA3OTgyfQ.yZdX9HfPuL8_QbbE3FmS-n-nkTBs8BzxK4mn-uJ8BhY",
   },
@@ -38,7 +38,7 @@ const breakfastItems = [
     name: "Eggs Florentine",
     description:
       "Two poached eggs, spinach and hollandaise on a toasted muffin, served with salad.",
-    alt: "Eggs Florentine at Halfway Cafe Sidcup",
+    alt: "Poached eggs florentine with spinach and hollandaise muffin",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/pancakes/eggfroentine.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwYW5jYWtlcy9lZ2dmcm9lbnRpbmUucG5nIiwiaWF0IjoxNzczODg0MTI1LCJleHAiOjIwNTc3MDgxMjV9.vufN2W1wPROEP8EEKpB-8xlzEQR4j1Q0F2yMhHH_oc8",
   },
@@ -46,7 +46,7 @@ const breakfastItems = [
     name: "Builder's Tea & Coffee",
     description:
       "Strong builder's tea or fresh coffee, served hot and poured the way you like it.",
-    alt: "Tea and coffee at Halfway Cafe Sidcup",
+    alt: "Morning tea and coffee on the counter in Sidcup",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/drinks/tea.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkcmlua3MvdGVhLnBuZyIsImlhdCI6MTc3Mzg4NDAzNSwiZXhwIjoyMDU3NzA4MDM1fQ.8YrIRBpVvsoeVd2vKlQQ2sOx7llnjm1RQN_2WmgrVuc",
   },
@@ -84,30 +84,21 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "CafeOrCoffeeShop",
-      name: "Halfway Cafe",
-      url: "https://halfwaycafe.co.uk",
-      telephone: "020 3343 5303",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "176 Halfway Street",
-        addressLocality: "Sidcup",
-        postalCode: "DA15 8DJ",
-        addressCountry: "GB",
+      "@type": "WebPage",
+      "@id": "https://halfwaycafe.co.uk/breakfast-sidcup#webpage",
+      name: "Breakfast in Sidcup | Full English & Morning Cafe – Halfway Cafe",
+      url: "https://halfwaycafe.co.uk/breakfast-sidcup",
+      about: "Breakfast in Sidcup",
+      isPartOf: {
+        "@type": "WebSite",
+        name: "Halfway Cafe",
+        url: "https://halfwaycafe.co.uk",
       },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: 51.4285,
-        longitude: 0.1056,
+      primaryImageOfPage:
+        "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/breakfast-hero.webp",
+      mainEntity: {
+        "@id": "https://halfwaycafe.co.uk/#business",
       },
-      servesCuisine: "British",
-      priceRange: "£",
-      openingHours: ["Mo-Sa 07:00-15:00"],
-      sameAs: [
-        "https://instagram.com/halfwaycafesidcup",
-        "https://facebook.com/profile.php?id=61580807168670",
-        "https://tiktok.com/@halfwaycafesidcup",
-      ],
     },
     {
       "@type": "BreadcrumbList",
@@ -185,7 +176,7 @@ export default function BreakfastSidcupPage() {
           <div className="relative min-h-[300px] overflow-hidden rounded-xl">
             <Image
               src={BREAKFAST_HERO_IMAGE_URL}
-              alt="Full English breakfast at Halfway Cafe in Sidcup DA15"
+              alt="Breakfast plate and tea at Halfway Cafe in Sidcup"
               fill
               priority
               className="object-cover"

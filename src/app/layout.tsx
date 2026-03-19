@@ -135,42 +135,37 @@ export default async function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CafeOrCoffeeShop",
+    "@id": "https://halfwaycafe.co.uk/#business",
     name: "Halfway Cafe",
     description:
-      "Family-run British caff in Sidcup DA15, serving full English breakfasts, burgers, sandwiches and builder's tea. Proudly serving Sidcup, Eltham, New Eltham, Bexley, Blackfen and Bexleyheath.",
+      "Family-run cafe in Sidcup DA15 serving full English breakfast, sandwiches, burgers and tea.",
     image: "https://halfwaycafe.co.uk/og-image.jpg",
     url: "https://halfwaycafe.co.uk",
     telephone: HALFWAY_CAFE_PHONE_E164,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "176 Halfway St",
+      streetAddress: "176 Halfway Street",
       addressLocality: "Sidcup",
       postalCode: "DA15 8DJ",
       addressCountry: "GB",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 51.4285,
-      longitude: 0.1056,
+      latitude: 51.440755,
+      longitude: 0.087568,
     },
-    hasMap: "https://maps.google.com/?q=176+Halfway+St+Sidcup+DA15+8DJ",
+    hasMap: "https://maps.google.com/?q=176+Halfway+Street+Sidcup+DA15+8DJ",
     hasMenu: "https://halfwaycafe.co.uk/menu",
+    areaServed: "Sidcup",
     sameAs: [
+      "https://maps.google.com/?q=176+Halfway+Street+Sidcup+DA15+8DJ",
       "https://instagram.com/halfwaycafesidcup",
       "https://facebook.com/profile.php?id=61580807168670",
-      "https://tiktok.com/@halfwaycafesidcup",
     ],
     ...(aggregateRating ? { aggregateRating } : {}),
-    servesCuisine: ["British", "Breakfast", "Cafe"],
+    servesCuisine: ["Breakfast", "British", "Cafe"],
     priceRange: "£",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "07:00",
-        closes: "15:00",
-      },
-    ],
+    openingHours: "Mo-Sa 07:00-15:00",
   };
 
   return (

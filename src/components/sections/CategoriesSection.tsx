@@ -28,10 +28,34 @@ function getCategoryImage(category: Category): string | null {
   return category.image_url || fallbackImages[category.slug] || null;
 }
 
+function getCategorySeoLine(category: Category): string {
+  const copyBySlug: Record<string, string> = {
+    breakfast: "Explore full English breakfast and morning favourites in Sidcup.",
+    sandwiches: "Freshly made sandwiches and hot rolls prepared daily.",
+    burgers: "Hot made-to-order burgers served fresh every day.",
+    lunch: "Hearty lunch plates for a quick midday stop.",
+    panini: "Crisp toasted paninis with generous fillings.",
+    drinks: "Builder's tea, coffee, and cold drinks all day.",
+    desserts: "Classic sweet treats to finish your meal.",
+  };
+
+  return copyBySlug[category.slug] ?? "Freshly prepared cafe favourites served daily in Sidcup.";
+}
+
 export default function CategoriesSection({ categories }: CategoriesSectionProps) {
   return (
     <section className="bg-[linear-gradient(180deg,#f6efe6_0%,#faf7f2_100%)] pb-24 pt-0">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div className="pb-10 pt-10 md:pb-12">
+          <p className="mx-auto max-w-5xl font-inter text-base leading-8 text-[#4A3B2D] md:text-lg">
+            Looking for the best breakfast in Sidcup? Halfway Cafe is a local favourite
+            serving full English breakfast, freshly made sandwiches, and quality coffee
+            every day. Located on Halfway Street (DA15), we&apos;re a family-run cafe known
+            for generous portions, quick service, and a proper traditional London caff
+            experience. Whether you&apos;re stopping by for a quick bite or a relaxed
+            breakfast, we&apos;re ready to serve.
+          </p>
+        </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {categories.map((category) => {
             const imageSrc = getCategoryImage(category);
@@ -45,7 +69,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                 {imageSrc ? (
                   <Image
                     src={imageSrc}
-                    alt={`${category.name} at Halfway Cafe Sidcup`}
+                    alt={`${category.name} dishes at Halfway Cafe in Sidcup`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
@@ -70,6 +94,12 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                   >
                     {category.name}
                   </h3>
+                  <p
+                    className="mt-2 max-w-[90%] font-inter text-sm leading-5 text-white/95"
+                    style={{ textShadow: "0 2px 10px rgba(0, 0, 0, 0.36)" }}
+                  >
+                    {getCategorySeoLine(category)}
+                  </p>
                 </div>
               </Link>
             );

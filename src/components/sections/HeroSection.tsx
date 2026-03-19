@@ -38,7 +38,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
       {heroImageUrl ? (
         <Image
           src={heroImageUrl}
-          alt="Inside Halfway Cafe with warm light, busy tables, and classic breakfast plates"
+          alt="Inside Halfway Cafe in Sidcup during a busy breakfast service"
           fill
           priority
           className="object-cover object-center"
@@ -57,11 +57,14 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
             className="mt-8 font-playfair text-[clamp(56px,8vw,96px)] font-black leading-[0.95] text-white"
             style={{ fontVariationSettings: '"wght" 900' }}
           >
-            Halfway Cafe
+            Best Breakfast in Sidcup
           </h1>
 
           <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
-            Breakfast · Lunch · Dinner
+            Full English Breakfast, Fresh Sandwiches &amp; Coffee - Served Daily in Sidcup
+          </p>
+          <p className="mt-2 font-inter text-sm text-white/90 sm:text-base">
+            176 Halfway Street, Sidcup DA15
           </p>
 
           <span className="mx-auto mt-6 block h-px w-16 bg-yellow" />

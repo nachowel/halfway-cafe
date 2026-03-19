@@ -505,13 +505,19 @@ export default function MobileHome() {
               >
                 <div className="max-w-[240px]">
                   <h1 className="font-playfair text-[28px] font-bold leading-tight text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.22)]">
-                    Halfway Cafe
+                    Best Breakfast in Sidcup
                   </h1>
                   <p
                     className="mt-2 max-w-[220px] font-inter text-sm leading-5 text-white"
                     style={{ opacity: 0.94, textShadow: "0 2px 8px rgba(0, 0, 0, 0.18)" }}
                   >
-                    Proper Full English Breakfast
+                    Full English Breakfast, Fresh Sandwiches &amp; Coffee - Served Daily in Sidcup
+                  </p>
+                  <p
+                    className="mt-2 max-w-[220px] font-inter text-xs leading-5 text-white"
+                    style={{ opacity: 0.92, textShadow: "0 2px 8px rgba(0, 0, 0, 0.18)" }}
+                  >
+                    176 Halfway Street, Sidcup DA15
                   </p>
                   <div className="mt-4 flex flex-wrap gap-3">
                     <Link
@@ -660,7 +666,11 @@ export default function MobileHome() {
                             {item.image_url ? (
                               <Image
                                 src={item.image_url}
-                                alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Popular dish at Halfway Cafe Sidcup"}
+                                alt={
+                                  item.name
+                                    ? `${item.name} from the menu at Halfway Cafe in Sidcup`
+                                    : "Full English breakfast plate with eggs and bacon"
+                                }
                                 fill
                                 sizes="168px"
                                 className="object-cover object-center"
@@ -721,7 +731,11 @@ export default function MobileHome() {
                         {category.image_url ? (
                           <Image
                             src={category.image_url}
-                            alt={category.name ? `${category.name} menu — Halfway Cafe Sidcup` : "Menu category at Halfway Cafe Sidcup"}
+                            alt={
+                              category.name
+                                ? `${category.name} menu options at Halfway Cafe in Sidcup`
+                                : "Breakfast menu options at Halfway Cafe in Sidcup"
+                            }
                             width={400}
                             height={180}
                             sizes="(max-width: 767px) 50vw, 180px"

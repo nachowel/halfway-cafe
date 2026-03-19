@@ -7,16 +7,16 @@ const BUILDERS_BREAKFAST_IMAGE_URL =
   "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA";
 
 export const metadata: Metadata = {
-  title: "Full English Breakfast in Sidcup | Halfway Cafe – Proper English Fry-Up",
+  title: "Full English Breakfast in Sidcup | Halfway Cafe",
   description:
-    "Looking for a full English breakfast in Sidcup? Halfway Cafe on Halfway Street serves proper fry-ups with eggs, bacon, sausage and beans. Fresh, hot and served daily.",
+    "Enjoy a proper full English breakfast in Sidcup at Halfway Cafe. Eggs, sausage, bacon, beans and more – freshly prepared and served hot.",
   alternates: {
     canonical: "https://halfwaycafe.co.uk/full-english-breakfast-sidcup",
   },
   openGraph: {
-    title: "Full English Breakfast in Sidcup | Halfway Cafe – Proper English Fry-Up",
+    title: "Full English Breakfast in Sidcup | Halfway Cafe",
     description:
-      "Looking for a full English breakfast in Sidcup? Halfway Cafe on Halfway Street serves proper fry-ups with eggs, bacon, sausage and beans. Fresh, hot and served daily.",
+      "Enjoy a proper full English breakfast in Sidcup at Halfway Cafe. Eggs, sausage, bacon, beans and more – freshly prepared and served hot.",
     url: "https://halfwaycafe.co.uk/full-english-breakfast-sidcup",
   },
 };
@@ -45,30 +45,21 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "CafeOrCoffeeShop",
-      name: "Halfway Cafe",
-      url: "https://halfwaycafe.co.uk",
-      telephone: "020 3343 5303",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "176 Halfway Street",
-        addressLocality: "Sidcup",
-        postalCode: "DA15 8DJ",
-        addressCountry: "GB",
+      "@type": "WebPage",
+      "@id": "https://halfwaycafe.co.uk/full-english-breakfast-sidcup#webpage",
+      name: "Full English Breakfast in Sidcup | Halfway Cafe",
+      url: "https://halfwaycafe.co.uk/full-english-breakfast-sidcup",
+      about: "Full English breakfast in Sidcup",
+      isPartOf: {
+        "@type": "WebSite",
+        name: "Halfway Cafe",
+        url: "https://halfwaycafe.co.uk",
       },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: 51.4285,
-        longitude: 0.1056,
+      primaryImageOfPage:
+        "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/set%20breakfast/Buildersbreakfast.png",
+      mainEntity: {
+        "@id": "https://halfwaycafe.co.uk/#business",
       },
-      servesCuisine: "British",
-      priceRange: "£",
-      openingHours: ["Mo-Sa 07:00-15:00"],
-      sameAs: [
-        "https://instagram.com/halfwaycafesidcup",
-        "https://facebook.com/profile.php?id=61580807168670",
-        "https://tiktok.com/@halfwaycafesidcup",
-      ],
     },
     {
       "@type": "BreadcrumbList",
@@ -145,7 +136,7 @@ export default function FullEnglishBreakfastSidcupPage() {
           <div className="relative min-h-[320px] overflow-hidden rounded-xl md:min-h-[360px]">
             <Image
               src={BUILDERS_BREAKFAST_IMAGE_URL}
-              alt="Proper full English breakfast plate at Halfway Cafe in Sidcup DA15"
+              alt="Full English breakfast with eggs, bacon, sausage and beans"
               fill
               priority
               className="object-cover"
@@ -224,7 +215,7 @@ export default function FullEnglishBreakfastSidcupPage() {
             <div className="relative h-[260px] overflow-hidden rounded-xl md:h-[340px]">
               <Image
                 src={BUILDERS_BREAKFAST_IMAGE_URL}
-                alt="Proper full English breakfast plate at Halfway Cafe Sidcup"
+                alt="Traditional full English breakfast plate at our Sidcup cafe"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 60vw"

@@ -82,6 +82,9 @@ export default function LocationSection() {
                     </div>
                   ))}
                 </div>
+                <p className="mt-3 font-lora text-sm italic text-ink-light">
+                  We serve breakfast in Sidcup Monday to Saturday with no booking needed.
+                </p>
               </div>
             </div>
 

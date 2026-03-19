@@ -6,23 +6,23 @@ import SectionHeader from "@/components/ui/SectionHeader";
 const defaultImages = [
   {
     src: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=80",
-    alt: "Halfway Cafe warm interior with morning light",
+    alt: "Morning seating area inside Halfway Cafe on Halfway Street",
   },
   {
     src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80",
-    alt: "Freshly brewed coffee on the counter",
+    alt: "Freshly brewed coffee ready at the counter in Sidcup",
   },
   {
     src: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=500&q=80",
-    alt: "Full English breakfast plate",
+    alt: "Full English breakfast with eggs, bacon and baked beans",
   },
   {
     src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=80",
-    alt: "Latte art in a ceramic cup",
+    alt: "Latte in a ceramic cup on a cafe table",
   },
   {
     src: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=500&q=80",
-    alt: "Cosy cafe seating area",
+    alt: "Cosy corner seating inside the local Sidcup cafe",
   },
 ];
 

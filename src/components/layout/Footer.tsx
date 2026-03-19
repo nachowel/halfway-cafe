@@ -155,6 +155,11 @@ export default async function Footer({ openingHours }: FooterProps) {
             <p className="mt-3 font-inter text-sm text-gray-500">
               Serving Sidcup, DA15 and the wider London area.
             </p>
+            <p className="mt-3 font-inter text-sm leading-relaxed text-gray-400">
+              Halfway Cafe is a breakfast and brunch cafe in Sidcup, serving full
+              English breakfast, sandwiches, and coffee daily. Located at 176 Halfway
+              Street, we are a popular local spot for a proper London caff experience.
+            </p>
             <div className="mt-5 space-y-2 font-inter text-sm text-gray-400">
               <p>📍 176 Halfway St, Sidcup DA15 8DJ</p>
               <p>📞 {HALFWAY_CAFE_PHONE_DISPLAY}</p>

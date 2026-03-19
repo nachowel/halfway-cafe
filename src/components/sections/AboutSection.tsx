@@ -31,7 +31,7 @@ export default function AboutSection() {
             <div className="relative overflow-hidden rounded-2xl">
               <Image
                 src={ABOUT_IMAGE}
-                alt="Halfway Cafe Sidcup — family-run British caff on Halfway Street DA15"
+                alt="Cafe team serving breakfast at Halfway Cafe in Sidcup"
                 width={720}
                 height={840}
                 className="h-full w-full object-cover"
@@ -60,21 +60,20 @@ export default function AboutSection() {
 
             <div className="mt-6 space-y-4">
               <p className="font-inter text-base leading-7 text-gray-300">
-                Halfway Cafe has been serving Sidcup and the wider DA15 area for
-                over 20 years. What started as a family kitchen on Halfway
-                Street grew into one of Sidcup&apos;s most loved neighbourhood
-                cafes — a place where familiar faces sit next to first-timers,
-                and everyone leaves satisfied.
+                Halfway Cafe has served Sidcup and the wider DA15 area for over
+                20 years, and we&apos;re still the spot many locals choose for
+                breakfast in Sidcup before work or on slower mornings. From full
+                English breakfast plates to fresh sandwiches and strong tea, this
+                is a Sidcup cafe built around proper portions and quick service.
               </p>
               <p className="font-inter text-base leading-7 text-gray-300">
                 We&apos;re a family-run{" "}
-                <Link href="/cafe-sidcup">cafe in Sidcup</Link>, and that means something
-                to us. Every plate is made with quality ingredients, cooked
-                fresh to order, and served with the kind of care that only comes
-                when it&apos;s personal. Whether you&apos;re looking for a full
-                English{" "}
-                <Link href="/breakfast-sidcup">breakfast in Sidcup</Link>, a hearty
-                lunch, or just a proper cup of tea — Halfway Cafe is your local.
+                <Link href="/cafe-sidcup">cafe in Sidcup</Link>, so we keep things
+                straightforward: fresh ingredients, food cooked to order, and a
+                warm local service style that regulars know well. If you&apos;re after
+                a full English or a reliable{" "}
+                <Link href="/breakfast-sidcup">breakfast in Sidcup</Link>, you&apos;ll
+                find it here on Halfway Street.
               </p>
             </div>
 
