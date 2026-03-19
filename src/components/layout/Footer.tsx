@@ -34,6 +34,12 @@ const pageLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+const exploreSidcupLinks = [
+  { href: "/breakfast-sidcup", label: "Breakfast in Sidcup" },
+  { href: "/cafe-sidcup", label: "Cafe in Sidcup" },
+  { href: "/full-english-breakfast-sidcup", label: "Full English Breakfast in Sidcup" },
+];
+
 const fallbackHours: FooterHoursEntry[] = [
   { label: "Mon–Fri", value: "07:00–15:00", isToday: false },
   { label: "Sat", value: "07:00–15:00", isToday: false },
@@ -143,7 +149,7 @@ export default async function Footer({ openingHours }: FooterProps) {
       </div>
 
       <div className="border-t-4 border-accent bg-bg-dark">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-2 md:px-8 lg:grid-cols-4 lg:gap-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-2 md:px-8 lg:grid-cols-5 lg:gap-8">
           <div>
             <Link href="/" className="no-underline">
               <span className="font-playfair text-2xl font-bold text-white">
@@ -204,6 +210,25 @@ export default async function Footer({ openingHours }: FooterProps) {
             <div className="mb-4 mt-1 h-px w-8 bg-accent" />
             <ul className="flex flex-col gap-2.5">
               {pageLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="font-inter text-sm text-gray-400 no-underline transition-colors duration-200 hover:text-orange-400"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-inter text-xs font-bold uppercase tracking-wider text-orange-400">
+              Explore Sidcup
+            </h3>
+            <div className="mb-4 mt-1 h-px w-8 bg-accent" />
+            <ul className="flex flex-col gap-2.5">
+              {exploreSidcupLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

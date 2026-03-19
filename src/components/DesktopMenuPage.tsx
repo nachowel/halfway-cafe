@@ -48,7 +48,11 @@ export default async function DesktopMenuPage() {
               Our Menu
             </h1>
             <p className="mt-2 font-inter text-base leading-7 text-text-mid md:text-lg">
-              Freshly made, every day.
+              Freshly made, every day. Looking for{" "}
+              <Link href="/breakfast-sidcup" className="text-text-mid no-underline hover:text-accent">
+                breakfast in Sidcup
+              </Link>
+              ? Start here.
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 /* AboutSection — Dark story section with readable copy and stat row */
 
 import Image from "next/image";
+import Link from "next/link";
 
 const ABOUT_IMAGE =
   "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80";
@@ -66,12 +67,14 @@ export default function AboutSection() {
                 and everyone leaves satisfied.
               </p>
               <p className="font-inter text-base leading-7 text-gray-300">
-                We&apos;re a family-run cafe in Sidcup, and that means something
+                We&apos;re a family-run{" "}
+                <Link href="/cafe-sidcup">cafe in Sidcup</Link>, and that means something
                 to us. Every plate is made with quality ingredients, cooked
                 fresh to order, and served with the kind of care that only comes
                 when it&apos;s personal. Whether you&apos;re looking for a full
-                English breakfast in Sidcup, a hearty lunch, or just a proper
-                cup of tea — Halfway Cafe is your local.
+                English{" "}
+                <Link href="/breakfast-sidcup">breakfast in Sidcup</Link>, a hearty
+                lunch, or just a proper cup of tea — Halfway Cafe is your local.
               </p>
             </div>
 
