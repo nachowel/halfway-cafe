@@ -63,7 +63,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
           <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
             Full English Breakfast, Sandwiches &amp; Coffee in Sidcup
           </p>
-          <p className="mt-3 font-inter text-sm text-white/85">
+          <p className="mt-3 font-inter text-sm text-white">
             Family-run · Big portions · No booking needed
           </p>
           <p
@@ -72,7 +72,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
           >
             176 Halfway Street, Sidcup DA15
           </p>
-          <p className="mt-1 font-inter text-sm text-white/75">Walk in for breakfast and coffee</p>
+          <p className="mt-1 font-inter text-sm text-white">Walk in for breakfast and coffee</p>
 
           <span className="mx-auto mt-6 block h-px w-16 bg-yellow" />
 
