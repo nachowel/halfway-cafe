@@ -60,19 +60,19 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
             Best Breakfast in Sidcup
           </h1>
 
-          <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
+          <p className="mt-5 font-inter text-xl italic text-white/90 sm:text-2xl">
             Full English Breakfast, Sandwiches &amp; Coffee in Sidcup
           </p>
-          <p className="mt-3 font-inter text-sm text-white/80">
+          <p className="mt-3 font-inter text-sm text-white/85">
             Family-run · Big portions · No booking needed
           </p>
           <p
-            className="mt-2 font-inter text-base font-medium text-white/90"
-            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}
+            className="mt-2 font-inter text-base font-medium tracking-wide text-white"
+            style={{ textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
           >
             176 Halfway Street, Sidcup DA15
           </p>
-          <p className="mt-1 font-inter text-sm text-white/80">Walk in for breakfast and coffee</p>
+          <p className="mt-1 font-inter text-sm text-white/75">Walk in for breakfast and coffee</p>
 
           <span className="mx-auto mt-6 block h-px w-16 bg-yellow" />
 
