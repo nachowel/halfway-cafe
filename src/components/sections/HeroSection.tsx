@@ -60,7 +60,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
             Best Breakfast in Sidcup
           </h1>
 
-          <p className="mt-5 font-inter text-xl italic text-white/90 sm:text-2xl">
+          <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
             Full English Breakfast, Sandwiches &amp; Coffee in Sidcup
           </p>
           <p className="mt-3 font-inter text-sm text-white/85">
