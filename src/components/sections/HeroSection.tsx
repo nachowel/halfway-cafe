@@ -46,7 +46,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
         />
       ) : null}
 
-      <div className="absolute inset-0 bg-[rgba(0,0,0,0.45)]" />
+      <div className="absolute inset-0 bg-black/40" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,200,87,0.14),transparent_50%)]" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl justify-center px-6 py-28 text-center sm:px-8">
@@ -54,18 +54,25 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
           <span className="mx-auto block h-px w-16 bg-yellow" />
 
           <h1
-            className="mt-8 font-playfair text-[clamp(56px,8vw,96px)] font-black leading-[0.95] text-white"
+            className="mt-8 font-playfair text-[clamp(44px,7vw,80px)] font-black leading-[0.95] text-white"
             style={{ fontVariationSettings: '"wght" 900' }}
           >
             Best Breakfast in Sidcup
           </h1>
 
           <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
-            Full English Breakfast, Fresh Sandwiches &amp; Coffee - Served Daily in Sidcup
+            Full English Breakfast, Sandwiches &amp; Coffee in Sidcup
           </p>
-          <p className="mt-2 font-inter text-sm text-white/90 sm:text-base">
+          <p className="mt-3 font-inter text-sm text-white/80">
+            Family-run · Big portions · No booking needed
+          </p>
+          <p
+            className="mt-2 font-inter text-base font-medium text-white/90"
+            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}
+          >
             176 Halfway Street, Sidcup DA15
           </p>
+          <p className="mt-1 font-inter text-sm text-white/80">Walk in for breakfast and coffee</p>
 
           <span className="mx-auto mt-6 block h-px w-16 bg-yellow" />
 
@@ -74,7 +81,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
               href="/menu"
               className="rounded-full bg-accent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark hover:text-white focus:text-white active:text-white [&>*]:text-inherit"
             >
-              See Our Menu
+              View Menu
             </Link>
 
             <a
@@ -106,7 +113,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-4 right-4 z-10 min-w-[280px] rounded-xl border border-accent/15 bg-white p-6 shadow-xl sm:left-auto sm:right-8 sm:max-w-sm md:bottom-8">
+      <div className="absolute bottom-6 left-4 right-4 z-10 min-w-[260px] rounded-xl border border-accent/15 bg-white p-5 shadow-xl sm:left-auto sm:right-8 sm:min-w-[280px] sm:max-w-sm sm:p-6 md:bottom-8">
         <OpenStatus variant="hero" />
 
         <p className="mt-4 font-inter text-sm font-medium text-text-mid">
