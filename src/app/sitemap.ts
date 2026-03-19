@@ -32,5 +32,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       priority: 0.8,
     },
+    {
+      url: "https://halfwaycafe.co.uk/breakfast-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: "https://halfwaycafe.co.uk/cafe-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: "https://halfwaycafe.co.uk/english-breakfast-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+    },
   ];
 }
