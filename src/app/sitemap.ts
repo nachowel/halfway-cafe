@@ -59,5 +59,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       changeFrequency: "monthly",
     },
+    {
+      url: "https://halfwaycafe.co.uk/pancakes-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "monthly",
+    },
   ];
 }

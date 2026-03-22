@@ -333,6 +333,17 @@ export default function FullEnglishBreakfastSidcupPage() {
                 Full English and more — ready to go from Halfway Cafe.
               </p>
             </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/pancakes-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Pancakes in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Something different — pancakes and egg dishes made fresh.
+              </p>
+            </article>
           </div>
         </div>
       </section>
