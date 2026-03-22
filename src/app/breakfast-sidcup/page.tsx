@@ -313,6 +313,60 @@ export default function BreakfastSidcupPage() {
       </section>
 
       <section className="mx-auto mt-14 max-w-[84rem] px-4 md:mt-20 md:px-8">
+        <div className="rounded-xl bg-white p-7 shadow-sm md:p-8">
+          <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
+            More from Halfway Cafe
+          </h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/full-english-breakfast-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Full English Breakfast in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                The full works — eggs, bacon, sausage, beans and toast.
+              </p>
+            </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/cafe-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Cafe in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                A proper local cafe on Halfway Street, open every day.
+              </p>
+            </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Halfway Cafe
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Family-run British caff in Sidcup DA15 for over 20 years.
+              </p>
+            </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/takeaway-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Takeaway in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Hot food and drinks ready to go from Halfway Street.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-14 max-w-[84rem] px-4 md:mt-20 md:px-8">
         <div className="rounded-xl bg-accent p-7 text-center shadow-sm md:p-12">
           <h2 className="font-playfair text-3xl font-bold leading-tight text-white md:text-5xl">
             Come In For Breakfast Tomorrow
