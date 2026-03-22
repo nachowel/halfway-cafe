@@ -5,6 +5,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import CategoriesSection from "@/components/sections/CategoriesSection";
 import AboutSection from "@/components/sections/AboutSection";
 import GallerySection from "@/components/sections/GallerySection";
+import GoogleReviewsSection from "@/components/sections/GoogleReviewsSection";
 import LocationSection from "@/components/sections/LocationSection";
 import {
   getOpeningHours,
@@ -89,6 +90,8 @@ export default async function DesktopHome() {
       <Suspense fallback={<SectionLoader />}>
         <GallerySection images={galleryImages} />
       </Suspense>
+
+      <GoogleReviewsSection />
 
       <Suspense fallback={<SectionLoader />}>
         <LocationSection />
