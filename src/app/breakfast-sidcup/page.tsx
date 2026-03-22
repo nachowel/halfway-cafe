@@ -362,6 +362,17 @@ export default function BreakfastSidcupPage() {
                 Hot food and drinks ready to go from Halfway Street.
               </p>
             </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/bacon-sandwich-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Bacon Sandwich in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Thick-cut back bacon on fresh bread, ready from 7am.
+              </p>
+            </article>
           </div>
         </div>
       </section>

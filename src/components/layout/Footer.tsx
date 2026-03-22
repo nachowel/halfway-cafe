@@ -39,6 +39,7 @@ const exploreSidcupLinks = [
   { href: "/cafe-sidcup", label: "Cafe in Sidcup" },
   { href: "/full-english-breakfast-sidcup", label: "Full English Breakfast in Sidcup" },
   { href: "/takeaway-sidcup", label: "Takeaway in Sidcup" },
+  { href: "/bacon-sandwich-sidcup", label: "Bacon Sandwich in Sidcup" },
 ];
 
 const fallbackHours: FooterHoursEntry[] = [

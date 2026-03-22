@@ -285,6 +285,17 @@ export default function TakeawaySidcupPage() {
                 A proper local cafe on Halfway Street, open every day.
               </p>
             </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/bacon-sandwich-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Bacon Sandwich in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Thick-cut back bacon — one of our most popular takeaway orders.
+              </p>
+            </article>
           </div>
         </div>
       </section>
