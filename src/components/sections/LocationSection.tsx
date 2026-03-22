@@ -91,7 +91,7 @@ export default function LocationSection() {
                   ))}
                 </div>
                 <p className="mt-3 font-lora text-sm italic text-ink-light">
-                  We serve breakfast in Sidcup Monday to Saturday with no booking needed.
+                  We serve breakfast in Sidcup Monday to Sunday with no booking needed.
                 </p>
 
                 <div className="mt-5">
@@ -111,7 +111,6 @@ export default function LocationSection() {
 
             <div className="mt-6 space-y-1.5 font-lora text-sm italic text-ink-light">
               <p>📍 Located in Sidcup town centre</p>
-              <p>🚗 Easy parking nearby</p>
             </div>
           </div>
 

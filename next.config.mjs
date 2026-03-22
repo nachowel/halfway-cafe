@@ -18,6 +18,11 @@ const nextConfig = {
         destination: "https://halfwaycafe.co.uk/:path*",
         permanent: true,
       },
+      {
+        source: "/english-breakfast-sidcup",
+        destination: "/full-english-breakfast-sidcup",
+        permanent: true,
+      },
     ];
   },
   images: {
