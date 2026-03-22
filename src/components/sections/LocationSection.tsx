@@ -9,7 +9,15 @@ import { HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
 import SectionHeader from "@/components/ui/SectionHeader";
 const openingHours = [
   { label: "Mon – Sat:", value: "7:00am – 3:00pm" },
-  { label: "Sunday:", value: "Closed" },
+  { label: "Sunday:", value: "9:00am – 2:00pm" },
+];
+
+const goodToKnowItems = [
+  "♿ Wheelchair accessible (entrance, seating & toilet)",
+  "🚗 Free street parking nearby",
+  "💳 Cards accepted (Visa, Mastercard, Amex & contactless)",
+  "👨‍👩‍👧 Kids welcome · High chairs available",
+  "🥡 Takeaway available",
 ];
 
 export default function LocationSection() {
@@ -85,6 +93,19 @@ export default function LocationSection() {
                 <p className="mt-3 font-lora text-sm italic text-ink-light">
                   We serve breakfast in Sidcup Monday to Saturday with no booking needed.
                 </p>
+
+                <div className="mt-5">
+                  <p className="font-baskerville text-xs uppercase tracking-wider text-red">
+                    Good to Know
+                  </p>
+                  <ul className="mt-2 space-y-1.5">
+                    {goodToKnowItems.map((item) => (
+                      <li key={item} className="font-lora text-sm leading-6 text-ink-light">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
 

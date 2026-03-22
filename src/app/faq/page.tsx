@@ -30,7 +30,7 @@ const faqSchema = {
       name: "What are your opening hours?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Mon – Sat: 7:00am – 3:00pm. Sunday: Closed.",
+        text: "Mon – Sat: 7:00am – 3:00pm. Sunday: 9:00am – 2:00pm.",
       },
     },
     {

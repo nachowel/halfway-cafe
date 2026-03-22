@@ -42,7 +42,7 @@ const exploreSidcupLinks = [
 
 const fallbackHours: FooterHoursEntry[] = [
   { label: "Mon – Sat:", value: "7:00am – 3:00pm", isToday: false },
-  { label: "Sunday:", value: "Closed", isToday: false },
+  { label: "Sunday:", value: "9:00am – 2:00pm", isToday: false },
 ];
 
 function getTodayName() {

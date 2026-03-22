@@ -25,7 +25,7 @@ const faqs = [
   {
     question: "Do you serve full English breakfast every day?",
     answer:
-      "Yes, we serve full English breakfast Monday to Saturday from 7am to 3pm. Sunday: Closed.",
+      "Yes, we serve full English breakfast Monday to Saturday from 7am to 3pm. Sunday: 9:00am – 2:00pm.",
   },
   {
     question: "Where are you located?",
@@ -264,7 +264,7 @@ export default function FullEnglishBreakfastSidcupPage() {
           <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">Opening Hours</h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
             <p>Mon – Sat: 7:00am – 3:00pm</p>
-            <p>Sunday: Closed</p>
+            <p>Sunday: 9:00am – 2:00pm</p>
           </div>
         </div>
       </section>

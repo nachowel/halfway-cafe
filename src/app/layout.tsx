@@ -165,7 +165,7 @@ export default async function RootLayout({
     ...(aggregateRating ? { aggregateRating } : {}),
     servesCuisine: ["Breakfast", "British", "Cafe"],
     priceRange: "£",
-    openingHours: "Mo-Sa 07:00-15:00",
+    openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
   };
 
   return (

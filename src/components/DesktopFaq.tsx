@@ -15,7 +15,7 @@ const faqs = [
   {
     question: "What are your opening hours?",
     answer:
-      "Mon – Sat: 7:00am – 3:00pm. Sunday: Closed.",
+      "Mon – Sat: 7:00am – 3:00pm. Sunday: 9:00am – 2:00pm.",
   },
   {
     question: "Is there parking near Halfway Cafe?",
