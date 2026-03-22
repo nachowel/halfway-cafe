@@ -296,6 +296,17 @@ export default function PancakesSidcupPage() {
                 Everything on the menu available to take away.
               </p>
             </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/eggs-benedict-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Eggs Benedict in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Poached eggs, hollandaise sauce — three ways to order.
+              </p>
+            </article>
           </div>
         </div>
       </section>

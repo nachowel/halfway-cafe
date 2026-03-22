@@ -41,6 +41,7 @@ const exploreSidcupLinks = [
   { href: "/takeaway-sidcup", label: "Takeaway in Sidcup" },
   { href: "/bacon-sandwich-sidcup", label: "Bacon Sandwich in Sidcup" },
   { href: "/pancakes-sidcup", label: "Pancakes in Sidcup" },
+  { href: "/eggs-benedict-sidcup", label: "Eggs Benedict in Sidcup" },
 ];
 
 const fallbackHours: FooterHoursEntry[] = [

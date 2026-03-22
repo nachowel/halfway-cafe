@@ -355,6 +355,17 @@ export default function CafeSidcupPage() {
                 Pancake breakfasts and egg dishes on the menu every day.
               </p>
             </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/eggs-benedict-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Eggs Benedict in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Poached eggs and hollandaise on the menu every day.
+              </p>
+            </article>
           </div>
         </div>
       </section>

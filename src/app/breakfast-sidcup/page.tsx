@@ -384,6 +384,17 @@ export default function BreakfastSidcupPage() {
                 Pancake breakfasts, eggs benedict, royale and florentine.
               </p>
             </article>
+            <article className="rounded-xl bg-parchment-dark p-5">
+              <Link
+                href="/eggs-benedict-sidcup"
+                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
+              >
+                Eggs Benedict in Sidcup
+              </Link>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+                Eggs benedict, royale and florentine made fresh to order.
+              </p>
+            </article>
           </div>
         </div>
       </section>
