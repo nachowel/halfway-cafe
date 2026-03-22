@@ -21,27 +21,30 @@ const menuHighlights = [
   {
     name: "Full English Breakfast",
     description:
-      "Two eggs, bacon, sausage, beans, grilled tomato and toast, cooked to order and served hot.",
+      "The full works — eggs, bacon, sausage, beans, toast and more. A proper sit-down plate cooked fresh to order.",
     alt: "Full English breakfast with toast and grilled tomato",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA",
   },
   {
     name: "Bacon Sandwich",
-    description: "Thick-cut back bacon, hot from the grill, packed into fresh white or brown bread.",
+    description:
+      "Thick-cut back bacon on fresh bread. One of our most popular orders — simple, hot and ready fast.",
     alt: "Fresh bacon sandwich filled with thick-cut back bacon",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/sandwiches/bacon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzYW5kd2ljaGVzL2JhY29uLnBuZyIsImlhdCI6MTc3Mzg4Mzk4MiwiZXhwIjoyMDU3NzA3OTgyfQ.yZdX9HfPuL8_QbbE3FmS-n-nkTBs8BzxK4mn-uJ8BhY",
   },
   {
     name: "Made-to-Order Burger",
-    description: "Hot off the grill with a juicy centre, made to order and served fresh.",
+    description:
+      "Freshly made burgers cooked to order, served all day. A proper lunch option right in the heart of Sidcup.",
     alt: "Freshly made burger with a juicy centre and toasted bun",
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
   },
   {
     name: "Builder's Tea",
-    description: "A strong, proper brew poured hot, just right with breakfast or a quick break.",
+    description:
+      "A strong, proper brew — the kind you get at a real British caff. Goes with everything on the menu.",
     alt: "Strong builder's tea in a mug at the Sidcup cafe",
     image:
       "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/drinks/tea.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkcmlua3MvdGVhLnBuZyIsImlhdCI6MTc3Mzg4NDAzNSwiZXhwIjoyMDU3NzA4MDM1fQ.8YrIRBpVvsoeVd2vKlQQ2sOx7llnjm1RQN_2WmgrVuc",
@@ -52,7 +55,7 @@ const faqs = [
   {
     question: "What type of food does Halfway Cafe serve?",
     answer:
-      "We serve full English breakfasts, bacon sandwiches, eggs on toast, made-to-order burgers, sandwiches, hot drinks and more. Everything is cooked fresh to order.",
+      "We serve a full menu of British cafe food — full English breakfasts, bacon sandwiches, made-to-order burgers, hot paninis, jacket potatoes, and hot drinks. Everything is cooked fresh to order, available to eat in or take away.",
   },
   {
     question: "Where is Halfway Cafe in Sidcup?",
@@ -147,10 +150,8 @@ export default function CafeSidcupPage() {
               Cafe in Sidcup
             </h1>
             <p className="mt-4 font-inter text-base leading-7 text-text-mid md:text-lg">
-              Halfway Cafe is where people in Sidcup come for breakfast, thick-cut bacon
-              sandwiches, made-to-order burgers and a proper mug of tea on Halfway Street,
-              DA15. Some pop in before work, some stop for a quick bite, and some sit down
-              for a full meal, with everything cooked fresh to order.
+              A proper local cafe on Halfway Street — coffee, food and a warm welcome,
+              every day of the week.
             </p>
             <p className="mt-3 font-inter text-sm font-semibold text-ink">
               Quick stop or proper sit-down, both work.
@@ -193,27 +194,28 @@ export default function CafeSidcupPage() {
         </h2>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           <article className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-2xl">🍳</p>
-            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Full English Breakfasts</p>
-            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-              Full English plates, bacon sandwiches, eggs on toast and more, cooked fresh
-              every morning. Sit in for breakfast or grab something hot before work.
-            </p>
-          </article>
-          <article className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-2xl">🍔</p>
-            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Sandwiches &amp; Burgers</p>
-            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-              Fresh sandwiches and made-to-order burgers are served right through the day.
-              Good for a quick lunch, a quick bite, or something filling on the go.
-            </p>
-          </article>
-          <article className="rounded-xl bg-white p-6 shadow-sm">
             <p className="text-2xl">☕</p>
-            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Hot Drinks &amp; Takeaway</p>
+            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Coffee &amp; Hot Drinks</p>
             <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-              Builder&apos;s tea, coffee and cold drinks are ready all day. Grab one for a
-              quick stop, or have it with your meal in or to take away.
+              Proper coffee, builder&apos;s tea and hot drinks made fresh all day.
+              Whether it&apos;s a quick takeaway cup or something to have with your meal,
+              we&apos;ve got you covered.
+            </p>
+          </article>
+          <article className="rounded-xl bg-white p-6 shadow-sm">
+            <p className="text-2xl">🥡</p>
+            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Takeaway &amp; Quick Bites</p>
+            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+              Everything on our menu is available to take away. Grab a hot sandwich,
+              a burger or a full plate on the go — no wait, no fuss.
+            </p>
+          </article>
+          <article className="rounded-xl bg-white p-6 shadow-sm">
+            <p className="text-2xl">🪑</p>
+            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Sit Down &amp; Stay a While</p>
+            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
+              A relaxed, no-fuss environment where you can eat in at your own pace.
+              Families, locals, workers — everyone&apos;s welcome at Halfway Cafe.
             </p>
           </article>
         </div>
@@ -250,20 +252,16 @@ export default function CafeSidcupPage() {
             A Local Cafe on Halfway Street, Sidcup
           </h2>
           <p className="mt-4 font-inter text-base leading-8 text-text-mid">
-            Halfway Cafe is a family-run local cafe in Sidcup that regulars rely on from
-            early breakfast through lunch. On this Halfway Street cafe menu you&apos;ll find
-            full English plates, sandwiches, made-to-order burgers and hot drinks, all
-            cooked fresh to order whether you&apos;re in before work or stopping for a quick
-            bite.
+            Halfway Cafe is a family-run cafe in Sidcup DA15 that has been part of the
+            local community for over 20 years. We&apos;re on Halfway Street, just off the
+            A211, and we serve the kind of food and drinks that working locals, families,
+            and regulars come back for every week.
           </p>
           <p className="mt-4 font-inter text-base leading-8 text-text-mid">
-            As a DA15 cafe on Halfway Street just off the A211, it&apos;s an easy stop if
-            you&apos;re on the way through Sidcup from Bexley, Eltham, Blackfen or Welling,
-            with street parking nearby. Walk-ins are always welcome, and you can{" "}
-            <Link href="/" className="font-semibold text-accent no-underline hover:text-accent-dark">
-              find out more about us
-            </Link>{" "}
-            before your next visit.
+            The menu covers everything from a full sit-down breakfast to a quick takeaway
+            coffee or sandwich. We&apos;re open Monday to Sunday, walk-ins always welcome,
+            and there&apos;s free street parking nearby. If you&apos;re looking for a reliable
+            local cafe in Sidcup, this is the spot.
           </p>
         </div>
       </section>
@@ -302,7 +300,7 @@ export default function CafeSidcupPage() {
             Come In Today
           </h2>
           <p className="mx-auto mt-3 max-w-2xl font-inter text-base text-white/90">
-            Walk-ins welcome every day. Good food, friendly service, no fuss.
+            A proper local cafe in Sidcup — good food, great coffee, no fuss.
           </p>
           <p className="mx-auto mt-2 max-w-xl font-inter text-sm text-white/80">
             Most people just walk in, no booking needed.
