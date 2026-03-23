@@ -24,6 +24,68 @@ const breakfastHero = {
   info: "Breakfast served daily · 176 Halfway St, Sidcup",
 };
 
+const paniniSeoBlock = (
+  <div className="mb-10 space-y-6">
+    <div className="prose prose-sm max-w-none font-inter text-base leading-7 text-ink-light">
+      <h3 className="font-playfair text-xl font-bold text-ink">Quick Lunch in Sidcup</h3>
+      <p>
+        If you&apos;re looking for a quick lunch in Sidcup that&apos;s hot, simple, and ready fast,
+        a panini is one of the easiest choices on the menu.
+      </p>
+      <ul className="mt-2 space-y-1 pl-0 list-none">
+        <li>
+          👉{" "}
+          <Link href="/menu" className="text-accent underline hover:text-accent/80">
+            View full menu
+          </Link>
+        </li>
+        <li>
+          👉{" "}
+          <Link href="/menu/drinks" className="text-accent underline hover:text-accent/80">
+            Grab a drink with your panini
+          </Link>
+        </li>
+        <li>
+          👉{" "}
+          <Link href="/menu/lunch" className="text-accent underline hover:text-accent/80">
+            See more lunch options
+          </Link>
+        </li>
+      </ul>
+    </div>
+  </div>
+);
+
+const kidsMenuSeoBlock = (
+  <div className="mb-10 space-y-6">
+    <div className="prose prose-sm max-w-none font-inter text-base leading-7 text-ink-light">
+      <p>
+        Bringing kids to a cafe should be easy. At Halfway Cafe in Sidcup, the kids menu is built
+        around the kind of food children actually want — simple plates, familiar flavours, and
+        portions sized right for smaller appetites. There&apos;s no fuss, no long wait, and no need
+        to book ahead. Just walk in, grab a table, and let us handle the rest. Whether you&apos;re
+        stopping by on a weekend morning or squeezing in lunch mid-week, families are always welcome
+        here on Halfway Street.
+      </p>
+      <p>
+        Halfway Cafe is a proper local{" "}
+        <Link href="/cafe-sidcup" className="text-accent underline hover:text-accent/80">
+          cafe in the DA15 area
+        </Link>
+        , and that means it suits families just as well as it suits the early-morning regulars.
+        Service is quick — important when you have hungry kids at the table — and the relaxed,
+        no-frills atmosphere means little ones can settle in without any pressure. If you&apos;re
+        looking for a straightforward family lunch or a casual breakfast out in Sidcup, we&apos;re
+        open Monday to Saturday from 7am, and Sundays from 9am. Browse the{" "}
+        <Link href="/menu" className="text-accent underline hover:text-accent/80">
+          full menu
+        </Link>{" "}
+        to see everything on offer.
+      </p>
+    </div>
+  </div>
+);
+
 function toMenuItem(row: any): MenuItem {
   return {
     id: row.id,
@@ -152,6 +214,9 @@ export default async function DesktopCategoryPage({
         )}
 
         {breadcrumb}
+
+        {categorySlug === "kids-menu" && kidsMenuSeoBlock}
+        {categorySlug === "panini" && paniniSeoBlock}
 
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start">
           <aside className="lg:w-64 lg:shrink-0">

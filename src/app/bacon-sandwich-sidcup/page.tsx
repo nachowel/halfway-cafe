@@ -194,10 +194,24 @@ export default function BaconSandwichSidcupPage() {
           <p className="mt-6 font-inter text-[17px] leading-9 text-text-mid md:text-[18px]">
             At Halfway Cafe on Halfway Street, the bacon sandwich has been a
             staple order for over 20 years. Early starters, tradespeople,
-            commuters heading through Sidcup DA15 — this is the sandwich they
-            stop for before the day begins. Thick-cut back bacon, fresh bread,
-            cooked to order. Nothing complicated. Just a proper bacon sandwich
-            in Sidcup, made the right way.
+            commuters heading through Sidcup DA15 looking for a{" "}
+            <Link
+              href="/cafe-near-sidcup-station"
+              className="text-accent underline hover:text-accent-dark"
+            >
+              cafe near Sidcup Station
+            </Link>{" "}
+            — this is the sandwich they stop for before the day begins.
+            Thick-cut back bacon, fresh bread, cooked to order. Nothing
+            complicated. Just a proper bacon sandwich in Sidcup, made the right
+            way. If you&apos;re after something different,{" "}
+            <Link
+              href="/menu/sandwiches"
+              className="text-accent underline hover:text-accent-dark"
+            >
+              see our full sandwich menu
+            </Link>
+            .
           </p>
           <ul className="mt-7 space-y-2 font-inter text-[15px] leading-7 text-text-mid">
             <li>• Thick-cut back bacon, grilled fresh to order</li>

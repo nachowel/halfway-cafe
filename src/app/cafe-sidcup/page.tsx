@@ -3,84 +3,95 @@ import Image from "next/image";
 import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
+import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
 
 export const metadata: Metadata = {
-  title: "Cafe in Sidcup | Breakfast, Sandwiches & Coffee – Halfway Cafe",
+  title: "Cafe in Sidcup | Breakfast, Brunch, Coffee & Takeaway in DA15 | Halfway Cafe",
   description:
-    "Visit Halfway Cafe in Sidcup for breakfast, sandwiches and fresh coffee. A local favourite on Halfway Street, serving quality food with quick service.",
+    "Halfway Cafe is a family-run cafe in Sidcup DA15 serving breakfast, brunch, coffee and takeaway daily. Walk in, call us, or get directions.",
   alternates: { canonical: "https://halfwaycafe.co.uk/cafe-sidcup" },
   openGraph: {
-    title: "Cafe in Sidcup | Breakfast, Sandwiches & Coffee – Halfway Cafe",
+    title: "Cafe in Sidcup | Breakfast, Brunch, Coffee & Takeaway in DA15 | Halfway Cafe",
     description:
-      "Visit Halfway Cafe in Sidcup for breakfast, sandwiches and fresh coffee. A local favourite on Halfway Street, serving quality food with quick service.",
+      "Your local Sidcup cafe for breakfast, brunch, coffee and takeaway. Family-run, walk-ins welcome, and easy to reach from DA15 and nearby areas.",
     url: "https://halfwaycafe.co.uk/cafe-sidcup",
   },
 };
 
-const menuHighlights = [
+const serviceCards = [
   {
-    name: "Full English Breakfast",
-    description:
-      "The full works — eggs, bacon, sausage, beans, toast and more. A proper sit-down plate cooked fresh to order.",
-    alt: "Full English breakfast with toast and grilled tomato",
-    image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA",
+    icon: "🍳",
+    title: "Breakfast",
+    body:
+      "Full English, bacon sandwiches, eggs, and proper morning plates cooked fresh to order.",
+    href: "/breakfast-sidcup",
+    cta: "Explore breakfast in Sidcup",
   },
   {
-    name: "Bacon Sandwich",
-    description:
-      "Thick-cut back bacon on fresh bread. One of our most popular orders — simple, hot and ready fast.",
-    alt: "Fresh bacon sandwich filled with thick-cut back bacon",
-    image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/sandwiches/bacon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzYW5kd2ljaGVzL2JhY29uLnBuZyIsImlhdCI6MTc3Mzg4Mzk4MiwiZXhwIjoyMDU3NzA3OTgyfQ.yZdX9HfPuL8_QbbE3FmS-n-nkTBs8BzxK4mn-uJ8BhY",
+    icon: "🥞",
+    title: "Brunch",
+    body:
+      "Pancakes, eggs benedict, eggs royale and brunch favourites for slower mornings and weekend catch-ups.",
+    href: "/brunch-sidcup",
+    cta: "See brunch in Sidcup",
   },
   {
-    name: "Made-to-Order Burger",
-    description:
-      "Freshly made burgers cooked to order, served all day. A proper lunch option right in the heart of Sidcup.",
-    alt: "Freshly made burger with a juicy centre and toasted bun",
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
+    icon: "☕",
+    title: "Coffee",
+    body:
+      "Fresh coffee, builder's tea and hot drinks served all day for sit-downs or quick takeaway.",
+    href: "/coffee-shop-sidcup",
+    cta: "Visit our coffee page",
   },
   {
-    name: "Builder's Tea",
-    description:
-      "A strong, proper brew — the kind you get at a real British caff. Goes with everything on the menu.",
-    alt: "Strong builder's tea in a mug at the Sidcup cafe",
-    image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/drinks/tea.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkcmlua3MvdGVhLnBuZyIsImlhdCI6MTc3Mzg4NDAzNSwiZXhwIjoyMDU3NzA4MDM1fQ.8YrIRBpVvsoeVd2vKlQQ2sOx7llnjm1RQN_2WmgrVuc",
+    icon: "🥡",
+    title: "Takeaway",
+    body:
+      "Everything from breakfast to drinks is available to take away when you're on the go.",
+    href: "/takeaway-sidcup",
+    cta: "View takeaway options",
   },
 ];
 
 const faqs = [
   {
-    question: "What type of food does Halfway Cafe serve?",
-    answer:
-      "We serve a full menu of British cafe food — full English breakfasts, bacon sandwiches, made-to-order burgers, hot paninis, jacket potatoes, and hot drinks. Everything is cooked fresh to order, available to eat in or take away.",
-  },
-  {
     question: "Where is Halfway Cafe in Sidcup?",
     answer:
-      "We're at 176 Halfway Street, Sidcup, DA15 8DJ — just off the A211. Street parking is available nearby.",
+      "We're at 176 Halfway Street, Sidcup, DA15 8DJ - just off the A211 with free street parking nearby.",
   },
   {
     question: "What are your opening hours?",
     answer:
-      "We're open Monday to Saturday from 7am to 3pm. Sunday: 9:00am – 2:00pm.",
+      "We're open Monday to Saturday from 7:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
   },
   {
     question: "Do I need to book a table?",
+    answer: "No booking needed. Halfway Cafe is walk-in friendly every day.",
+  },
+  {
+    question: "Do you serve breakfast and brunch in Sidcup?",
     answer:
-      "No booking needed. We welcome walk-ins every day. Just come in and we'll seat you.",
+      "Yes. We serve breakfast daily and also offer brunch-style dishes including pancakes and eggs benedict.",
   },
   {
     question: "Do you offer takeaway?",
     answer:
-      "Yes, we offer takeaway on all our menu items. Perfect if you're on the go.",
+      "Yes, we offer takeaway across the menu, including coffee, breakfast items, and hot meals.",
   },
   {
-    question: "What areas do you serve?",
+    question: "Are you close to Sidcup Station?",
     answer:
-      "We're based in Sidcup DA15 and welcome customers from Bexley, Eltham, Blackfen, Welling and surrounding areas.",
+      "Yes, we're a short drive or quick bus route away. See our cafe near station page for details.",
+  },
+  {
+    question: "Which nearby areas do you serve?",
+    answer:
+      "We welcome customers from Sidcup, DA15, Blackfen, Welling, Bexley, Eltham, and surrounding areas.",
+  },
+  {
+    question: "Can I get coffee with breakfast?",
+    answer:
+      "Yes - fresh coffee and tea are available all day and pair with any breakfast or brunch order.",
   },
 ];
 
@@ -90,9 +101,9 @@ const jsonLd = {
     {
       "@type": "WebPage",
       "@id": "https://halfwaycafe.co.uk/cafe-sidcup#webpage",
-      name: "Cafe in Sidcup | Breakfast, Sandwiches & Coffee – Halfway Cafe",
+      name: "Cafe in Sidcup | Breakfast, Brunch, Coffee & Takeaway in DA15 | Halfway Cafe",
       url: "https://halfwaycafe.co.uk/cafe-sidcup",
-      about: "Cafe in Sidcup",
+      about: "Cafe in Sidcup and DA15",
       isPartOf: {
         "@type": "WebSite",
         name: "Halfway Cafe",
@@ -150,11 +161,12 @@ export default function CafeSidcupPage() {
               Cafe in Sidcup
             </h1>
             <p className="mt-4 font-inter text-base leading-7 text-text-mid md:text-lg">
-              A proper local cafe on Halfway Street — coffee, food and a warm welcome,
-              every day of the week.
+              Halfway Cafe is a family-run local cafe in Sidcup DA15 for breakfast,
+              brunch, coffee, and takeaway. We serve proper portions, quick service, and
+              straightforward food people come back for.
             </p>
             <p className="mt-3 font-inter text-sm font-semibold text-ink">
-              Quick stop or proper sit-down, both work.
+              Walk in any time - before work, midday, or for a slower weekend stop.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -162,7 +174,7 @@ export default function CafeSidcupPage() {
                 href="/menu"
                 className="rounded-full bg-accent px-6 py-3 text-center font-inter text-sm font-bold uppercase tracking-[0.12em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark"
               >
-                View Our Menu
+                View Full Menu
               </Link>
               <a
                 href={HALFWAY_CAFE_DIRECTIONS_URL}
@@ -171,6 +183,12 @@ export default function CafeSidcupPage() {
                 className="rounded-full border border-accent px-6 py-3 text-center font-inter text-sm font-bold uppercase tracking-[0.12em] text-accent no-underline transition-colors duration-200 hover:bg-accent hover:text-white"
               >
                 Get Directions
+              </a>
+              <a
+                href={`tel:${HALFWAY_CAFE_PHONE_TEL}`}
+                className="rounded-full border border-accent px-6 py-3 text-center font-inter text-sm font-bold uppercase tracking-[0.12em] text-accent no-underline transition-colors duration-200 hover:bg-accent hover:text-white"
+              >
+                Call Us
               </a>
             </div>
           </div>
@@ -189,58 +207,38 @@ export default function CafeSidcupPage() {
       </section>
 
       <section className="mx-auto mt-12 max-w-7xl px-4 md:mt-16 md:px-8">
-        <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
-          What We Serve
-        </h2>
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
-          <article className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-2xl">☕</p>
-            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Coffee &amp; Hot Drinks</p>
-            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-              Proper coffee, builder&apos;s tea and hot drinks made fresh all day.
-              Whether it&apos;s a quick takeaway cup or something to have with your meal,
-              we&apos;ve got you covered.
+        <div className="rounded-xl bg-white p-6 shadow-sm md:p-8">
+          <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
+            Quick Local Info
+          </h2>
+          <div className="mt-5 space-y-2 font-inter text-base leading-7 text-text-mid">
+            <p>
+              <strong>Address:</strong> 176 Halfway Street, Sidcup, DA15 8DJ
             </p>
-          </article>
-          <article className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-2xl">🥡</p>
-            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Takeaway &amp; Quick Bites</p>
-            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-              Everything on our menu is available to take away. Grab a hot sandwich,
-              a burger or a full plate on the go — no wait, no fuss.
+            <p>
+              <strong>Phone:</strong> {HALFWAY_CAFE_PHONE_DISPLAY}
             </p>
-          </article>
-          <article className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-2xl">🪑</p>
-            <p className="mt-3 font-playfair text-2xl font-bold text-ink">Sit Down &amp; Stay a While</p>
-            <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-              A relaxed, no-fuss environment where you can eat in at your own pace.
-              Families, locals, workers — everyone&apos;s welcome at Halfway Cafe.
+            <p>
+              <strong>Opening Hours:</strong> Mon-Sat 7:00am-3:00pm, Sunday 9:00am-2:00pm
             </p>
-          </article>
+            <p className="font-semibold text-ink">No booking needed - walk-ins welcome.</p>
+          </div>
         </div>
       </section>
 
       <section className="mx-auto mt-12 max-w-7xl px-4 md:mt-16 md:px-8">
         <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
-          Menu Highlights
+          What We Serve in Sidcup
         </h2>
-        <div className="mt-6 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-          {menuHighlights.map((item) => (
-            <article key={item.name} className="overflow-hidden rounded-xl bg-white shadow-sm">
-              <div className="relative h-40">
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 25vw"
-                />
-              </div>
-              <div className="p-4">
-                <p className="font-playfair text-xl font-bold text-ink">{item.name}</p>
-                <p className="mt-2 font-inter text-sm leading-6 text-text-mid">{item.description}</p>
-              </div>
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
+          {serviceCards.map((card) => (
+            <article key={card.title} className="rounded-xl bg-white p-6 shadow-sm">
+              <p className="text-2xl">{card.icon}</p>
+              <p className="mt-3 font-playfair text-2xl font-bold text-ink">{card.title}</p>
+              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">{card.body}</p>
+              <Link href={card.href} className="mt-3 inline-block font-inter text-sm font-semibold text-accent">
+                {card.cta}
+              </Link>
             </article>
           ))}
         </div>
@@ -249,32 +247,63 @@ export default function CafeSidcupPage() {
       <section className="mx-auto mt-12 max-w-7xl px-4 md:mt-16 md:px-8">
         <div className="rounded-xl bg-white p-6 shadow-sm md:p-8">
           <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
-            A Local Cafe on Halfway Street, Sidcup
+            Local Pages Hub
           </h2>
           <p className="mt-4 font-inter text-base leading-8 text-text-mid">
-            Halfway Cafe is a family-run cafe in Sidcup DA15 that has been part of the
-            local community for over 20 years. We&apos;re on Halfway Street, just off the
-            A211, and we serve the kind of food and drinks that working locals, families,
-            and regulars come back for every week.
+            Use these local pages to find the right option quickly:
           </p>
-          <p className="mt-4 font-inter text-base leading-8 text-text-mid">
-            The menu covers everything from a full sit-down breakfast to a quick takeaway
-            coffee or sandwich. We&apos;re open Monday to Sunday, walk-ins always welcome,
-            and there&apos;s free street parking nearby. If you&apos;re looking for a reliable
-            local cafe in Sidcup, this is the spot.
-          </p>
+          <ul className="mt-4 list-disc space-y-2 pl-5 font-inter text-base leading-7 text-text-mid">
+            <li>
+              <Link href="/breakfast-sidcup" className="text-accent">
+                Breakfast in Sidcup
+              </Link>{" "}
+              for early starts and full English plates.
+            </li>
+            <li>
+              <Link href="/breakfast-da15" className="text-accent">
+                Breakfast in DA15
+              </Link>{" "}
+              if you&apos;re searching by postcode.
+            </li>
+            <li>
+              <Link href="/brunch-sidcup" className="text-accent">
+                Brunch in Sidcup
+              </Link>{" "}
+              for pancakes and eggs dishes.
+            </li>
+            <li>
+              <Link href="/coffee-shop-sidcup" className="text-accent">
+                Coffee Shop in Sidcup
+              </Link>{" "}
+              for fresh drinks and morning coffee stops.
+            </li>
+            <li>
+              <Link href="/cafe-near-sidcup-station" className="text-accent">
+                Cafe Near Sidcup Station
+              </Link>{" "}
+              for commuter-friendly visits.
+            </li>
+            <li>
+              <Link href="/takeaway-sidcup" className="text-accent">
+                Takeaway in Sidcup
+              </Link>{" "}
+              for fast collection on busy days.
+            </li>
+          </ul>
         </div>
       </section>
 
       <section className="mx-auto mt-12 max-w-7xl px-4 md:mt-16 md:px-8">
         <div className="rounded-xl bg-white p-6 shadow-sm md:p-8">
           <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
-            Opening Hours
+            Local Cafe in Sidcup, DA15
           </h2>
-          <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Mon – Sat: 7:00am – 3:00pm</p>
-            <p>Sunday: 9:00am – 2:00pm</p>
-          </div>
+          <p className="mt-4 font-inter text-base leading-8 text-text-mid">
+            Halfway Cafe sits on Halfway Street in Sidcup DA15, close to routes serving
+            Blackfen, Welling, Bexley, and Eltham. Whether you need breakfast before
+            work, brunch with family, a coffee stop, or takeaway, we are a dependable
+            local option with walk-in service every day.
+          </p>
         </div>
       </section>
 
@@ -295,91 +324,12 @@ export default function CafeSidcupPage() {
       </section>
 
       <section className="mx-auto mt-12 max-w-7xl px-4 md:mt-16 md:px-8">
-        <div className="rounded-xl bg-white p-6 shadow-sm md:p-8">
-          <h2 className="font-playfair text-3xl font-bold text-ink md:text-4xl">
-            More from Halfway Cafe
-          </h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <Link
-                href="/breakfast-sidcup"
-                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
-              >
-                Breakfast in Sidcup
-              </Link>
-              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-                Full English, bacon sandwiches and morning favourites.
-              </p>
-            </article>
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <Link
-                href="/full-english-breakfast-sidcup"
-                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
-              >
-                Full English Breakfast in Sidcup
-              </Link>
-              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-                The full works cooked fresh to order every morning.
-              </p>
-            </article>
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <Link
-                href="/"
-                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
-              >
-                Halfway Cafe
-              </Link>
-              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-                Family-run British caff in Sidcup DA15 for over 20 years.
-              </p>
-            </article>
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <Link
-                href="/takeaway-sidcup"
-                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
-              >
-                Takeaway in Sidcup
-              </Link>
-              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-                Everything on the menu available to take away.
-              </p>
-            </article>
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <Link
-                href="/pancakes-sidcup"
-                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
-              >
-                Pancakes in Sidcup
-              </Link>
-              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-                Pancake breakfasts and egg dishes on the menu every day.
-              </p>
-            </article>
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <Link
-                href="/eggs-benedict-sidcup"
-                className="font-playfair text-2xl font-bold text-accent no-underline transition-colors duration-200 hover:text-accent-dark"
-              >
-                Eggs Benedict in Sidcup
-              </Link>
-              <p className="mt-3 font-inter text-sm leading-7 text-text-mid">
-                Poached eggs and hollandaise on the menu every day.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto mt-12 max-w-7xl px-4 md:mt-16 md:px-8">
         <div className="rounded-xl bg-accent p-6 text-center shadow-sm md:p-10">
           <h2 className="font-playfair text-3xl font-bold text-white md:text-4xl">
-            Come In Today
+            Visit Halfway Cafe in Sidcup Today
           </h2>
           <p className="mx-auto mt-3 max-w-2xl font-inter text-base text-white/90">
-            A proper local cafe in Sidcup — good food, great coffee, no fuss.
-          </p>
-          <p className="mx-auto mt-2 max-w-xl font-inter text-sm text-white/80">
-            Most people just walk in, no booking needed.
+            Breakfast, brunch, coffee, and takeaway - all in one local DA15 spot.
           </p>
 
           <div className="mt-6 flex flex-col gap-3 md:flex-row md:justify-center">
@@ -398,7 +348,7 @@ export default function CafeSidcupPage() {
               Get Directions
             </a>
             <a
-              href="tel:02033435303"
+              href={`tel:${HALFWAY_CAFE_PHONE_TEL}`}
               className="rounded-full border border-white px-6 py-3 text-center font-inter text-sm font-bold uppercase tracking-[0.12em] text-white no-underline transition-colors duration-200 hover:bg-white/10"
             >
               Call Us

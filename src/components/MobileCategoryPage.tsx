@@ -290,6 +290,37 @@ export default function MobileCategoryPage({
           </p>
         ) : null}
 
+        {categorySlug === "panini" ? (
+          <div className="mx-4 mb-4 mt-3 rounded-xl border border-[#ECE8E2] bg-white px-4 py-4">
+            <p className="font-inter text-[14px] font-semibold text-[#1A1A1A]">
+              Quick Lunch in Sidcup
+            </p>
+            <p className="mt-1 font-inter text-[13px] leading-5 text-[#6B6B6B]">
+              Hot, simple, and ready fast — a panini is one of the easiest choices on the menu.
+            </p>
+            <div className="mt-3 flex flex-col gap-[6px]">
+              <Link
+                href="/menu"
+                className="font-inter text-[13px] font-medium text-[#C77B42] no-underline"
+              >
+                👉 View full menu
+              </Link>
+              <Link
+                href="/menu/drinks"
+                className="font-inter text-[13px] font-medium text-[#C77B42] no-underline"
+              >
+                👉 Grab a drink with your panini
+              </Link>
+              <Link
+                href="/menu/lunch"
+                className="font-inter text-[13px] font-medium text-[#C77B42] no-underline"
+              >
+                👉 See more lunch options
+              </Link>
+            </div>
+          </div>
+        ) : null}
+
         {loading ? (
           <LoadingSkeleton />
         ) : filteredItems.length > 0 ? (

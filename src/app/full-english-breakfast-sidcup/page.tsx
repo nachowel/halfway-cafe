@@ -193,8 +193,8 @@ export default function FullEnglishBreakfastSidcupPage() {
               Proper Portions
             </h3>
             <p className="mt-4 font-inter text-[15px] leading-7 text-text-mid">
-              A full plate that actually fills you up, whether it&apos;s breakfast before work
-              or a late morning sit-down.
+              A full plate that actually fills you up, whether it&apos;s breakfast before work,
+              a late morning sit-down, or a <Link href="/takeaway-sidcup" className="text-accent underline-offset-2 hover:underline">takeaway breakfast in Sidcup</Link>.
             </p>
           </article>
           <article className="h-full rounded-xl border border-border bg-white p-7 shadow-[0_12px_30px_rgba(26,26,26,0.08)] md:p-8">
@@ -252,7 +252,8 @@ export default function FullEnglishBreakfastSidcupPage() {
           </p>
           <p className="mt-9 font-inter text-[17px] leading-9 text-text-mid md:text-[18px]">
             Just off the A211, it&apos;s easy to reach from Bexley, Eltham and Welling, whether
-            you&apos;re passing through or heading into Sidcup town. If you want breakfast Sidcup
+            you&apos;re passing through or heading into Sidcup{" "}
+            <Link href="/cafe-near-sidcup-station" className="text-accent underline-offset-2 hover:underline">near Sidcup Station</Link>. If you want breakfast Sidcup
             locals trust, this is the straightforward caff option: hot food, quick service,
             no fuss.
           </p>

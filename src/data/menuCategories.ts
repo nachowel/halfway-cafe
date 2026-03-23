@@ -68,6 +68,12 @@ export const menuCategoryDefinitions: MenuCategoryDefinition[] = [
     slug: "drinks",
     description: "Coffee, tea, soft drinks, and the everyday pours that keep the room moving.",
   },
+  {
+    id: "kids-menu",
+    name: "Kids Menu",
+    slug: "kids-menu",
+    description: "Simple, familiar plates for smaller appetites — quick to arrive and easy to enjoy.",
+  },
 ];
 
 export function getMenuCategoryDefinitionBySlug(slug: string) {

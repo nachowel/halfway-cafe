@@ -204,7 +204,14 @@ export default function PancakesSidcupPage() {
             Something a Bit Different at Halfway Cafe
           </h2>
           <p className="mt-6 font-inter text-[17px] leading-9 text-text-mid md:text-[18px]">
-            Most people know Halfway Cafe for the full English, but our
+            Most people know Halfway Cafe for the{" "}
+            <Link
+              href="/breakfast-sidcup"
+              className="text-accent underline hover:text-accent-dark"
+            >
+              full breakfast in Sidcup
+            </Link>
+            , but our
             pancakes and egg dishes have their own loyal following. Whether
             it&apos;s a pancake breakfast before work, a relaxed eggs benedict on
             a Sunday morning, or eggs florentine for something lighter —

@@ -193,7 +193,8 @@ export default function EggsBenedictSidcupPage() {
           </h2>
           <p className="mt-6 font-inter text-[17px] leading-9 text-text-mid md:text-[18px]">
             Halfway Cafe on Halfway Street has been a Sidcup institution for
-            over 20 years — and while most people know us for the full English,
+            over 20 years — and while most people know us for our{" "}
+            <Link href="/breakfast-sidcup" className="text-accent underline hover:text-accent-dark">breakfast menu in Sidcup</Link>,
             our eggs benedict, royale and florentine have their own quiet
             following. Freshly poached eggs, proper hollandaise, toasted muffin
             — cooked to order every morning. Whether it&apos;s a weekday treat

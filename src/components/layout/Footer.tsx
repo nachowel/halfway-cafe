@@ -37,11 +37,15 @@ const pageLinks = [
 const exploreSidcupLinks = [
   { href: "/breakfast-sidcup", label: "Breakfast in Sidcup" },
   { href: "/cafe-sidcup", label: "Cafe in Sidcup" },
+  { href: "/coffee-shop-sidcup", label: "Coffee Shop in Sidcup" },
+  { href: "/cafe-near-sidcup-station", label: "Cafe Near Sidcup Station" },
+  { href: "/brunch-sidcup", label: "Brunch in Sidcup" },
   { href: "/full-english-breakfast-sidcup", label: "Full English Breakfast in Sidcup" },
   { href: "/takeaway-sidcup", label: "Takeaway in Sidcup" },
   { href: "/bacon-sandwich-sidcup", label: "Bacon Sandwich in Sidcup" },
   { href: "/pancakes-sidcup", label: "Pancakes in Sidcup" },
   { href: "/eggs-benedict-sidcup", label: "Eggs Benedict in Sidcup" },
+  { href: "/breakfast-da15", label: "Breakfast in DA15" },
 ];
 
 const fallbackHours: FooterHoursEntry[] = [

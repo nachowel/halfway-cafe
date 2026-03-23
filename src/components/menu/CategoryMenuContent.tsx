@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import DietaryFilter from "@/components/menu/DietaryFilter";
 import DishCard from "@/components/ui/DishCard";
 import type { DietaryTag, MenuItem } from "@/types";
@@ -48,6 +49,81 @@ export default function CategoryMenuContent({
             })()}
             <p className="mt-2 font-lora text-base italic text-ink-light">
               {items.length} item{items.length === 1 ? "" : "s"} on this menu.
+              {categoryName === "Breakfast" ? (
+                <>
+                  {" "}Looking for{" "}
+                  <Link href="/breakfast-sidcup" className="text-accent underline hover:text-accent/80">
+                    breakfast in Sidcup
+                  </Link>
+                  ? Need{" "}
+                  <Link href="/takeaway-sidcup" className="text-accent underline hover:text-accent/80">
+                    takeaway breakfast in Sidcup
+                  </Link>
+                  ? For a proper cooked plate, see{" "}
+                  <Link
+                    href="/full-english-breakfast-sidcup"
+                    className="text-accent underline hover:text-accent/80"
+                  >
+                    full English breakfast in Sidcup
+                  </Link>
+                  .
+                </>
+              ) : null}
+              {categoryName === "Sandwiches" ? (
+                <>
+                  {" "}Try our{" "}
+                  <Link href="/bacon-sandwich-sidcup" className="text-accent underline hover:text-accent/80">
+                    bacon sandwich in Sidcup
+                  </Link>
+                  , or order{" "}
+                  <Link href="/takeaway-sidcup" className="text-accent underline hover:text-accent/80">
+                    takeaway in Sidcup
+                  </Link>
+                  {" "}if you&apos;re on the go.
+                </>
+              ) : null}
+              {categoryName === "Drinks" ? (
+                <>
+                  {" "}Looking for a{" "}
+                  <Link href="/coffee-shop-sidcup" className="text-accent underline hover:text-accent/80">
+                    coffee shop in Sidcup
+                  </Link>
+                  ? If you&apos;re stopping{" "}
+                  <Link
+                    href="/cafe-near-sidcup-station"
+                    className="text-accent underline hover:text-accent/80"
+                  >
+                    near Sidcup Station
+                  </Link>
+                  , this is an easy local stop for quick drinks.
+                </>
+              ) : null}
+              {categoryName === "Sides & Extras" ? (
+                <>
+                  {" "}You can{" "}
+                  <Link href="/takeaway-sidcup" className="text-accent underline hover:text-accent/80">
+                    add extras to your takeaway order
+                  </Link>
+                  {" "}or pair your add-ons with{" "}
+                  <Link href="/breakfast-sidcup" className="text-accent underline hover:text-accent/80">
+                    breakfast in Sidcup
+                  </Link>
+                  .
+                </>
+              ) : null}
+              {categoryName === "Kids Menu" ? (
+                <>
+                  {" "}All served at{" "}
+                  <Link href="/cafe-sidcup" className="text-accent underline hover:text-accent/80">
+                    our cafe in Sidcup
+                  </Link>
+                  , with{" "}
+                  <Link href="/takeaway-sidcup" className="text-accent underline hover:text-accent/80">
+                    takeaway
+                  </Link>
+                  {" "}available too.
+                </>
+              ) : null}
             </p>
           </div>
 

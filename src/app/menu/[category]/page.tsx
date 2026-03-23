@@ -82,6 +82,31 @@ export async function generateMetadata({
     };
   }
 
+  if (activeCategory.slug === "kids-menu") {
+    return {
+      title: "Kids Menu in Sidcup | Family-Friendly Cafe | Halfway Cafe",
+      description:
+        "Looking for a family-friendly cafe in Sidcup? Halfway Cafe's kids menu offers simple, familiar plates for children — quick service, no booking needed, walk-ins welcome.",
+      alternates: {
+        canonical: "/menu/kids-menu",
+      },
+      openGraph: {
+        title: "Kids Menu in Sidcup | Family-Friendly Cafe | Halfway Cafe",
+        description:
+          "Simple meals for children at Halfway Cafe in Sidcup DA15. Walk in, no booking needed — quick, relaxed dining for families.",
+        url: "/menu/kids-menu",
+        images: [
+          {
+            url: "https://halfwaycafe.co.uk/og-image.jpg",
+            width: 1200,
+            height: 630,
+            alt: "Kids Menu at Halfway Cafe — Family-Friendly Cafe in Sidcup DA15",
+          },
+        ],
+      },
+    };
+  }
+
   return {
     title: `${activeCategory.name} Menu`,
     description: `Browse Halfway Cafe's ${activeCategory.name.toLowerCase()} menu — freshly made dishes served daily in Sidcup DA15. Full prices and dietary info included.`,

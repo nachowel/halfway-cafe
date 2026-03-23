@@ -43,6 +43,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://halfwaycafe.co.uk/coffee-shop-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "monthly",
+    },
+    {
+      url: "https://halfwaycafe.co.uk/cafe-near-sidcup-station",
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "monthly",
+    },
+    {
+      url: "https://halfwaycafe.co.uk/brunch-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "monthly",
+    },
+    {
       url: "https://halfwaycafe.co.uk/english-breakfast-sidcup",
       lastModified: new Date(),
       priority: 0.8,
@@ -67,6 +85,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://halfwaycafe.co.uk/eggs-benedict-sidcup",
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "monthly",
+    },
+    {
+      url: "https://halfwaycafe.co.uk/breakfast-da15",
       lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
