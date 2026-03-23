@@ -87,10 +87,13 @@ export default function ReviewPage() {
         {stage === "positive" && (
           <div className="text-center">
             <p className="font-playfair text-2xl font-bold text-ink">
-              Thanks! 🙌
+              We hope you enjoyed your visit 😊
             </p>
-            <p className="mt-2 font-inter text-base text-text-mid">
-              Would you like to leave a quick review?
+            <p className="mt-3 font-inter text-base text-text-mid">
+              It would mean a lot to us if you could leave a quick review.
+            </p>
+            <p className="mt-2 font-inter text-xs text-text-mid">
+              We really appreciate your support.
             </p>
 
             <div className="mt-8 flex flex-col gap-3">
