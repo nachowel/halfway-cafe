@@ -15,11 +15,12 @@ export default function ContactForm() {
     setStatus("loading");
     setErrorMessage("");
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
+      name: (formData.get("name") as string)?.trim(),
+      email: (formData.get("email") as string)?.trim(),
+      message: (formData.get("message") as string)?.trim(),
       // honeypot — should always be empty
       company: formData.get("company"),
     };
@@ -35,6 +36,7 @@ export default function ContactForm() {
 
       if (data.success) {
         setStatus("success");
+        form.reset();
       } else {
         setStatus("error");
         setErrorMessage(data.message ?? "Something went wrong. Please try again.");
@@ -50,10 +52,13 @@ export default function ContactForm() {
       <div className="mt-8 text-center">
         <span className="block text-4xl">✉️</span>
         <h3 className="mt-3 font-playfair text-xl font-bold text-ink">
-          Message Sent!
+          Message Received
         </h3>
         <p className="mt-2 font-lora text-sm italic text-ink-light">
-          Thanks for getting in touch. We&apos;ll reply as soon as possible.
+          Thanks for contacting Halfway Cafe. Your message has been sent successfully and we&apos;ll get back to you as soon as possible.
+        </p>
+        <p className="mt-2 font-lora text-xs text-ink-light">
+          We usually respond during opening hours.
         </p>
         <button
           type="button"
@@ -147,6 +152,10 @@ export default function ContactForm() {
       >
         {isLoading ? "Sending…" : "Send Message"}
       </button>
+
+      <p className="text-center font-lora text-xs italic text-ink-light">
+        We aim to respond within a few hours during opening times.
+      </p>
     </form>
   );
 }

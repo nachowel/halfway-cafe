@@ -120,17 +120,14 @@ export async function POST(req: NextRequest) {
     timeStyle: "short",
   });
 
-  const emailBody = `
-New contact form submission — Halfway Cafe
-==========================================
+  const emailBody = `New website contact form submission
 
-Name:       ${name}
-Email:      ${email}
-Submitted:  ${timestamp}
-IP:         ${ip}
+Name: ${name}
+Email: ${email}
+Submitted: ${timestamp}
+IP: ${ip}
 
 Message:
---------
 ${message}
 `.trim();
 
