@@ -1,8 +1,7 @@
 "use client";
 
-// TODO: Replace these placeholder URLs with real review links before going live
-const GOOGLE_REVIEW_URL = "https://g.page/r/REPLACE_WITH_GOOGLE_REVIEW_LINK/review";
-const TRIPADVISOR_REVIEW_URL = "https://www.tripadvisor.co.uk/REPLACE_WITH_TRIPADVISOR_LINK";
+const GOOGLE_REVIEW_URL = "https://g.page/r/CYyuBTDQ9qyAEAE/review";
+const TRIPADVISOR_REVIEW_URL = "https://www.tripadvisor.co.uk/UserReviewEdit-g1639613-d18854100-Half_Way_Cafe-Sidcup_Greater_London_England.html";
 
 import { useState } from "react";
 
@@ -100,7 +99,7 @@ export default function ReviewPage() {
                 href={GOOGLE_REVIEW_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 font-inter text-sm font-bold uppercase tracking-[0.1em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                className="flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 font-inter text-sm font-bold uppercase tracking-[0.1em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark hover:!text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 <GoogleIcon />
                 Leave a Google Review
@@ -111,7 +110,7 @@ export default function ReviewPage() {
                 href={TRIPADVISOR_REVIEW_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-full border border-accent px-6 py-3.5 font-inter text-sm font-bold uppercase tracking-[0.1em] text-accent no-underline transition-colors duration-200 hover:bg-accent hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                className="flex items-center justify-center gap-2 rounded-full border border-accent px-6 py-3.5 font-inter text-sm font-bold uppercase tracking-[0.1em] text-accent no-underline transition-colors duration-200 hover:bg-accent hover:!text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 <TripAdvisorIcon />
                 Leave a TripAdvisor Review
