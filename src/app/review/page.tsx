@@ -35,10 +35,13 @@ export default function ReviewPage() {
         {stage === "rating" && (
           <>
             <h1 className="font-playfair text-2xl font-bold leading-snug text-ink md:text-3xl">
-              How was your experience at Halfway Cafe?
+              We loved having you today! ☀️
             </h1>
             <p className="mt-2 font-inter text-sm text-text-mid">
               We&apos;d love your feedback.
+            </p>
+            <p className="mt-1 font-inter text-xs text-text-mid/70">
+              ⭐ 4.9 stars · 126 Google reviews
             </p>
 
             {/* Star rating */}
@@ -47,7 +50,7 @@ export default function ReviewPage() {
               role="group"
               aria-label="Rate your experience from 1 to 5 stars"
             >
-              {STARS.map((star) => (
+              {STARS.map((star, i) => (
                 <button
                   key={star}
                   type="button"
@@ -57,13 +60,14 @@ export default function ReviewPage() {
                   onMouseLeave={() => setHovered(0)}
                   onFocus={() => setHovered(star)}
                   onBlur={() => setHovered(0)}
-                  className="text-4xl leading-none transition-transform duration-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-90 md:text-5xl"
+                  className="text-4xl leading-none transition-transform duration-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-90 md:text-5xl animate-[fadeIn_0.4s_ease-out_forwards]"
+                  style={{ opacity: 0, animationDelay: `${i * 100}ms` }}
                 >
                   <span
                     className={
                       star <= activeRating
                         ? "text-amber-400 drop-shadow-sm"
-                        : "text-gray-300"
+                        : "text-amber-300"
                     }
                   >
                     ★
@@ -73,7 +77,7 @@ export default function ReviewPage() {
             </div>
 
             <p className="mt-4 text-center font-inter text-xs text-text-mid">
-              {activeRating === 0 && "Tap a star to rate"}
+              {activeRating === 0 && "Join our 126 happy customers — it only takes 10 seconds"}
               {activeRating === 1 && "Very poor"}
               {activeRating === 2 && "Poor"}
               {activeRating === 3 && "Average"}
