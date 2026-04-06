@@ -178,7 +178,7 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Script id="google-consent-default" strategy="afterInteractive">
+        <Script id="google-consent-default" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -197,9 +197,9 @@ export default async function RootLayout({
         </Script>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-3PK8FCF09E"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
