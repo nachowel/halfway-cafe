@@ -35,7 +35,7 @@ export default function ReviewPage() {
         {stage === "rating" && (
           <>
             <h1 className="font-playfair text-2xl font-bold leading-snug text-ink md:text-3xl">
-              We loved having you today! ☀️
+              We loved having you today!{" "}<span className="inline-block">☀️</span>
             </h1>
             <p className="mt-2 font-inter text-sm text-text-mid">
               We&apos;d love your feedback.
@@ -67,10 +67,10 @@ export default function ReviewPage() {
                     className={
                       star <= activeRating
                         ? "text-amber-400 drop-shadow-sm"
-                        : "text-amber-300"
+                        : "text-gray-300"
                     }
                   >
-                    ★
+                    {star <= activeRating ? "★" : "☆"}
                   </span>
                 </button>
               ))}
