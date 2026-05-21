@@ -1,7 +1,6 @@
-/* HeroSection — Full-screen editorial cafe hero */
-
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
@@ -33,11 +32,31 @@ function getTodayHours(hours: OpeningHours[]): string {
 
 export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionProps) {
   const todayHours = getTodayHours(openingHours);
+  const [translateY, setTranslateY] = useState(0);
+
+  useEffect(() => {
+    // Respect user prefers-reduced-motion
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      return;
+    }
+
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      // Soft, very subtle scroll parallax capped at 20px
+      setTranslateY(Math.min(20, scrolled * 0.05));
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
       <section className="relative min-h-screen overflow-hidden bg-bg text-text">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(216,95,47,0.08)_0_1px,transparent_1px_100%),linear-gradient(180deg,rgba(27,23,19,0.06)_0_1px,transparent_1px_100%)] bg-[size:72px_72px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(216,95,47,0.04)_0_1px,transparent_1px_100%),linear-gradient(180deg,rgba(27,23,19,0.03)_0_1px,transparent_1px_100%)] bg-[size:72px_72px]" />
 
         <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1500px] lg:grid-cols-[0.95fr_1.05fr]">
           <div className="flex items-start px-6 pb-10 pt-28 sm:px-8 lg:px-14 lg:pb-6 lg:pt-24 xl:px-20 xl:pb-10 xl:pt-28">
@@ -70,7 +89,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Link
                   href="/menu"
-                  className="rounded-full border border-accent bg-accent px-7 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-white no-underline transition-colors duration-200 hover:border-accent-dark hover:bg-accent-dark hover:text-white focus:text-white active:text-white"
+                  className="btn-editorial btn-editorial-accent rounded-full border border-accent bg-accent px-7 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-white no-underline hover:border-accent-dark hover:bg-accent-dark hover:text-white focus:text-white active:text-white"
                 >
                   View Menu
                 </Link>
@@ -79,7 +98,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
                   href={HALFWAY_CAFE_DIRECTIONS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-rule-strong bg-bg-soft px-7 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-text no-underline transition-colors duration-200 hover:border-accent hover:bg-white hover:text-accent-dark"
+                  className="btn-editorial btn-editorial-secondary rounded-full border border-rule-strong bg-bg-soft px-7 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-text no-underline hover:border-accent hover:bg-white hover:text-accent-dark"
                 >
                   Get Directions
                 </a>
@@ -111,14 +130,15 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
             </div>
           </div>
 
-          <div className="relative min-h-[38vh] border-t border-rule bg-bg-dark lg:min-h-screen lg:border-l lg:border-t-0">
+          <div className="relative min-h-[38vh] overflow-hidden border-t border-rule bg-bg-dark lg:min-h-screen lg:border-l lg:border-t-0">
             {heroImageUrl ? (
               <Image
                 src={heroImageUrl}
                 alt="Inside Halfway Cafe in Sidcup during a busy breakfast service"
                 fill
                 priority
-                className="object-cover object-center"
+                className="object-cover object-center transition-transform duration-75 ease-out"
+                style={{ transform: `translate3d(0, ${translateY}px, 0)` }}
                 sizes="(max-width: 1024px) 100vw, 55vw"
               />
             ) : null}
@@ -142,3 +162,4 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
     </>
   );
 }
+

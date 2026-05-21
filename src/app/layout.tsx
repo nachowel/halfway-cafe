@@ -181,6 +181,15 @@ export default async function RootLayout({
       className={`${playfair.variable} ${inter.variable} ${dmMono.variable}`}
     >
       <head>
+        <noscript>
+          <style>{`
+            .scroll-reveal {
+              opacity: 1 !important;
+              transform: none !important;
+              transition: none !important;
+            }
+          `}</style>
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

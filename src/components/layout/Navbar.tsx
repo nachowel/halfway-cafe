@@ -83,12 +83,12 @@ export default function Navbar() {
           <Image
             src="https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/icon-logo.png"
             alt="Halfway Cafe logo"
-            width={36}
-            height={36}
+            width={40}
+            height={40}
             className="rounded-full"
           />
           <span
-            className="font-playfair text-2xl font-bold"
+            className="font-playfair text-2xl font-black tracking-tight"
             style={{
               color: isHomePage && !scrolled ? "#FF6B35" : isHomePage && scrolled ? "#ffffff" : "#1A1A1A",
             }}

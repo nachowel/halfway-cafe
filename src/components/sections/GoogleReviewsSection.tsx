@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 type GoogleReview = {
   text: string;
@@ -72,19 +73,24 @@ export default function GoogleReviewsSection() {
   return (
     <section className="bg-parchment py-12">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-8">
-        <div className="text-center">
-          <h2 className="font-playfair text-3xl font-bold text-ink">Customer Reviews</h2>
-          <p className="mt-2 font-lora text-sm italic text-ink-light">
-            ⭐ {trustRating.toFixed(1)} Google Rating
-            {trustReviewCount ? ` • Based on ${trustReviewCount} reviews` : ""}
-          </p>
-        </div>
+        <ScrollReveal duration={700}>
+          <div className="text-center">
+            <h2 className="font-playfair text-3xl font-bold text-ink">Customer Reviews</h2>
+            <p className="mt-2 font-lora text-sm italic text-ink-light">
+              ⭐ {trustRating.toFixed(1)} Google Rating
+              {trustReviewCount ? ` • Based on ${trustReviewCount} reviews` : ""}
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {googleReviews.reviews.map((review) => (
-            <article
+          {googleReviews.reviews.map((review, index) => (
+            <ScrollReveal
               key={`${review.author}-${review.text}`}
-              className="rounded-2xl border border-[#E8E0D8] bg-[#F9F6F2] px-5 py-4"
+              as="article"
+              duration={750}
+              delay={index * 100}
+              className="w-full rounded-2xl border border-[#E8E0D8] bg-[#F9F6F2] px-5 py-4"
             >
               <p className="mb-2 font-inter text-[14px] leading-none tracking-[0.12em] text-[#F5B301]">
                 ★★★★★
@@ -101,21 +107,24 @@ export default function GoogleReviewsSection() {
                 &ldquo;{review.text}&rdquo;
               </p>
               <p className="mt-4 text-xs font-medium text-[#6B6B6B]">{review.author}</p>
-            </article>
+            </ScrollReveal>
           ))}
         </div>
 
-        <div className="mt-4 text-center">
-          <a
-            href={HALFWAY_CAFE_PLACE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-inter text-sm font-medium text-[#8A7C6D] no-underline"
-          >
-            See all reviews on Google
-          </a>
-        </div>
+        <ScrollReveal duration={700} delay={150}>
+          <div className="mt-4 text-center">
+            <a
+              href={HALFWAY_CAFE_PLACE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-inter text-sm font-medium text-[#8A7C6D] no-underline"
+            >
+              See all reviews on Google
+            </a>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
 }
+

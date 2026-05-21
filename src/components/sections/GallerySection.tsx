@@ -1,7 +1,6 @@
-/* GallerySection — Asymmetric photo grid with hover effects */
-
 import Image from "next/image";
 import SectionHeader from "@/components/ui/SectionHeader";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const defaultImages = [
   {
@@ -35,41 +34,47 @@ export default function GallerySection({ images }: GallerySectionProps) {
   return (
     <section className="bg-parchment py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <SectionHeader
-          kicker="The Atmosphere"
-          title="A Glimpse"
-          titleItalic="Inside"
-          centered
-        />
+        <ScrollReveal duration={750}>
+          <SectionHeader
+            kicker="The Atmosphere"
+            title="A Glimpse"
+            titleItalic="Inside"
+            centered
+          />
+        </ScrollReveal>
 
-        {/* Asymmetric grid */}
         <div className="mt-14 grid grid-cols-2 gap-3 md:grid-cols-3 md:grid-rows-2 md:gap-4">
           {galleryImages.map((img, i) => (
-            <div
+            <ScrollReveal
               key={img.src}
-              className={`group relative overflow-hidden rounded-xl ${
+              duration={800}
+              delay={i * 100}
+              className={
                 i === 0
                   ? "col-span-2 h-[200px] md:col-span-2 md:row-span-2 md:h-[500px]"
                   : "h-[200px] md:h-[240px]"
-              }`}
+              }
             >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                sizes={
-                  i === 0
-                    ? "(max-width: 768px) 100vw, 66vw"
-                    : "(max-width: 768px) 50vw, 33vw"
-                }
-              />
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/20" />
-            </div>
+              <div className="group relative h-full w-full overflow-hidden rounded-xl">
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  sizes={
+                    i === 0
+                      ? "(max-width: 768px) 100vw, 66vw"
+                      : "(max-width: 768px) 50vw, 33vw"
+                  }
+                />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/20" />
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
     </section>
   );
 }
+
