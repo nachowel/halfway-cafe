@@ -1,4 +1,4 @@
-/* HeroSection — Full-screen cafe hero with centered copy and floating status card */
+/* HeroSection — Full-screen editorial cafe hero */
 
 "use client";
 
@@ -6,9 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import OpenStatus from "@/components/ui/OpenStatus";
+import HomeMarquee from "@/components/sections/HomeMarquee";
 import type { OpeningHours } from "@/types";
 
-const CAFE_ADDRESS = "176 Halfway St, Sidcup DA15 8DJ";
+const CAFE_ADDRESS = "176 Halfway Street, Sidcup DA15 8DJ";
 
 interface HeroSectionProps {
   openingHours: OpeningHours[];
@@ -34,94 +35,110 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
   const todayHours = getTodayHours(openingHours);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#2C1A0E]">
-      {heroImageUrl ? (
-        <Image
-          src={heroImageUrl}
-          alt="Inside Halfway Cafe in Sidcup during a busy breakfast service"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-      ) : null}
+    <>
+      <section className="relative min-h-screen overflow-hidden bg-bg text-text">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(216,95,47,0.08)_0_1px,transparent_1px_100%),linear-gradient(180deg,rgba(27,23,19,0.06)_0_1px,transparent_1px_100%)] bg-[size:72px_72px]" />
 
-      <div className="absolute inset-0 bg-black/40" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,200,87,0.14),transparent_50%)]" />
+        <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1500px] lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="flex items-start px-6 pb-10 pt-28 sm:px-8 lg:px-14 lg:pb-6 lg:pt-24 xl:px-20 xl:pb-10 xl:pt-28">
+            <div className="w-full max-w-2xl">
+              <p className="font-mono text-[12px] font-medium uppercase tracking-[0.26em] text-accent">
+                Family-run British caff · Sidcup DA15
+              </p>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-5xl justify-center px-6 py-28 text-center sm:px-8">
-        <div className="max-w-3xl">
-          <span className="mx-auto block h-px w-16 bg-yellow" />
+              <div className="mt-5 h-px w-20 bg-rule-strong" />
 
-          <h1
-            className="mt-8 font-playfair text-[clamp(44px,7vw,80px)] font-black leading-[0.95] text-white"
-            style={{ fontVariationSettings: '"wght" 900' }}
-          >
-            Best Breakfast in Sidcup
-          </h1>
+              <h1
+                className="mt-5 max-w-[10ch] font-playfair text-[clamp(42px,5.8vw,90px)] font-black leading-[0.86] text-text"
+                style={{ fontVariationSettings: '"wght" 900' }}
+              >
+                Best Breakfast in Sidcup
+              </h1>
 
-          <p className="mt-5 font-inter text-xl italic text-yellow sm:text-2xl">
-            Full English Breakfast, Sandwiches &amp; Coffee in Sidcup
-          </p>
-          <p className="mt-3 font-inter text-sm text-white">
-            Family-run · Big portions · No booking needed
-          </p>
-          <p
-            className="mt-2 font-inter text-base font-medium tracking-wide text-white"
-            style={{ textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
-          >
-            176 Halfway Street, Sidcup DA15
-          </p>
-          <p className="mt-1 font-inter text-sm text-white">Walk in for breakfast and coffee</p>
+              <p className="mt-5 font-playfair text-[clamp(23px,2.2vw,31px)] italic leading-tight text-accent-dark">
+                Full English, sandwiches &amp; proper coffee
+              </p>
 
-          <span className="mx-auto mt-6 block h-px w-16 bg-yellow" />
+              <p className="mt-3 font-inter text-base font-semibold text-text-mid sm:text-lg">
+                Big portions · Quick service · No booking needed
+              </p>
 
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/menu"
-              className="rounded-full bg-accent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-accent-dark hover:text-white focus:text-white active:text-white [&>*]:text-inherit"
-            >
-              View Menu
-            </Link>
+              <p className="mt-1 font-inter text-sm font-medium uppercase tracking-[0.18em] text-text-light">
+                176 Halfway Street, Sidcup DA15
+              </p>
 
-            <a
-              href={HALFWAY_CAFE_DIRECTIONS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-white/80 bg-transparent px-8 py-3 font-inter text-sm font-bold uppercase tracking-[0.16em] text-white no-underline transition-colors duration-200 hover:bg-white/10"
-            >
-              Get Directions
-            </a>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/menu"
+                  className="rounded-full border border-accent bg-accent px-7 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-white no-underline transition-colors duration-200 hover:border-accent-dark hover:bg-accent-dark hover:text-white focus:text-white active:text-white"
+                >
+                  View Menu
+                </Link>
+
+                <a
+                  href={HALFWAY_CAFE_DIRECTIONS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-rule-strong bg-bg-soft px-7 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-text no-underline transition-colors duration-200 hover:border-accent hover:bg-white hover:text-accent-dark"
+                >
+                  Get Directions
+                </a>
+              </div>
+
+              <div className="mt-5 max-w-[540px] border border-rule bg-bg-soft p-4 shadow-[0_18px_50px_rgba(27,23,19,0.08)] sm:p-5">
+                <OpenStatus variant="hero" />
+
+                <div className="mt-4 grid gap-4 border-t border-rule pt-4 sm:grid-cols-[0.85fr_1.45fr]">
+                  <div>
+                    <p className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-text-light">
+                      Today&apos;s hours
+                    </p>
+                    <p className="mt-1 font-inter text-base font-semibold text-text">
+                      {todayHours}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-text-light">
+                      Address
+                    </p>
+                    <p className="mt-1 font-inter text-sm leading-6 text-text-mid">
+                      {CAFE_ADDRESS}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative min-h-[38vh] border-t border-rule bg-bg-dark lg:min-h-screen lg:border-l lg:border-t-0">
+            {heroImageUrl ? (
+              <Image
+                src={heroImageUrl}
+                alt="Inside Halfway Cafe in Sidcup during a busy breakfast service"
+                fill
+                priority
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+              />
+            ) : null}
+
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(19,15,11,0.38),rgba(19,15,11,0.04)_38%,rgba(19,15,11,0.12))]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(0deg,rgba(19,15,11,0.48),transparent)]" />
+
+            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4 border-t border-rule-light pt-4 text-white/90 sm:bottom-8 sm:left-8 sm:right-8">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em]">
+                Breakfast served daily
+              </p>
+              <p className="hidden font-playfair text-3xl italic text-yellow sm:block">
+                Since 2003
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2">
-        <div className="flex flex-col items-center gap-1 animate-bounce">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="rgba(255,255,255,0.7)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
-        </div>
-      </div>
-
-      <div className="absolute bottom-6 left-4 right-4 z-10 min-w-[260px] rounded-xl border border-accent/15 bg-white p-5 shadow-xl sm:left-auto sm:right-8 sm:min-w-[280px] sm:max-w-sm sm:p-6 md:bottom-8">
-        <OpenStatus variant="hero" />
-
-        <p className="mt-4 font-inter text-sm font-medium text-text-mid">
-          Today&apos;s hours: {todayHours}
-        </p>
-
-        <p className="mt-2 text-sm leading-6 text-text-light">{CAFE_ADDRESS}</p>
-      </div>
-    </section>
+      <HomeMarquee />
+    </>
   );
 }

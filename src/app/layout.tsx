@@ -1,7 +1,7 @@
 /* Halfway Cafe — Root layout with fonts, metadata & JSON-LD */
 
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { DM_Mono, Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import CookieBanner from "@/components/CookieBanner";
 import "@/styles/globals.css";
@@ -23,6 +23,13 @@ const playfair = Playfair_Display({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -171,7 +178,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${inter.variable}`}
+      className={`${playfair.variable} ${inter.variable} ${dmMono.variable}`}
     >
       <head>
         <script

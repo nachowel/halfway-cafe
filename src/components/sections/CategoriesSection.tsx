@@ -44,10 +44,10 @@ function getCategorySeoLine(category: Category): string {
 
 export default function CategoriesSection({ categories }: CategoriesSectionProps) {
   return (
-    <section className="bg-[linear-gradient(180deg,#f6efe6_0%,#faf7f2_100%)] pb-24 pt-0">
+    <section className="bg-[linear-gradient(180deg,var(--color-bg)_0%,var(--color-bg-soft)_100%)] pb-24 pt-0">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="pb-10 pt-10 md:pb-12">
-          <p className="mx-auto max-w-5xl font-inter text-base leading-8 text-[#4A3B2D] md:text-lg">
+          <p className="mx-auto max-w-5xl font-inter text-base leading-8 text-text-mid md:text-lg">
             Looking for the best breakfast in Sidcup? Halfway Cafe is a local favourite
             serving full English breakfast, freshly made sandwiches, and quality coffee
             every day. Located on Halfway Street (DA15), we&apos;re a family-run cafe known
@@ -64,7 +64,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
               <Link
                 key={category.id}
                 href={`/menu/${category.slug}`}
-                className="group relative block h-[180px] overflow-hidden rounded-[20px] no-underline shadow-[0_16px_38px_rgba(29,21,14,0.16)] ring-1 ring-black/5 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(29,21,14,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#faf7f2] md:h-[220px]"
+                className="group relative block h-[180px] overflow-hidden rounded-[20px] no-underline shadow-[0_16px_38px_rgba(29,21,14,0.16)] ring-1 ring-black/5 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(29,21,14,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-soft md:h-[220px]"
               >
                 {imageSrc ? (
                   <Image

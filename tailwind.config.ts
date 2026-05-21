@@ -46,11 +46,17 @@ const config: Config = {
             light: "var(--color-gold-light)",
           },
           border: "var(--color-border)",
+          rule: {
+            DEFAULT: "var(--color-rule)",
+            strong: "var(--color-rule-strong)",
+            light: "var(--color-rule-light)",
+          },
           white: "var(--color-white)",
         },
         fontFamily: {
           playfair: ["var(--font-playfair)", "serif"],
           inter: ["var(--font-inter)", "sans-serif"],
+          mono: ["var(--font-mono)", "monospace"],
           lora: ["var(--font-inter)", "sans-serif"],
           baskerville: ["var(--font-inter)", "sans-serif"],
         },
@@ -62,6 +68,7 @@ const config: Config = {
       animation: {
         "fade-in": "fadeIn 0.5s ease-out",
         "slide-up": "slideUp 0.5s ease-out",
+        marquee: "marquee 44s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -71,6 +78,10 @@ const config: Config = {
         slideUp: {
           "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
     },

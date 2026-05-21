@@ -6,16 +6,19 @@
 
 /* ─── Design Tokens ─── */
 :root {
-  --color-bg: #ffffff;
-  --color-bg-soft: #f8f8f6;
-  --color-bg-dark: #1a1a1a;
-  --color-text: #1a1a1a;
-  --color-text-mid: #4a4a4a;
-  --color-text-light: #888888;
-  --color-accent: #ff6b35;
-  --color-accent-dark: #e55520;
-  --color-yellow: #ffc857;
-  --color-border: #e8e8e8;
+  --color-bg: #ece9e1;
+  --color-bg-soft: #f7f2e8;
+  --color-bg-dark: #130f0b;
+  --color-text: #1b1713;
+  --color-text-mid: #625b52;
+  --color-text-light: #8b8378;
+  --color-accent: #d85f2f;
+  --color-accent-dark: #b94a24;
+  --color-yellow: #d8a94f;
+  --color-border: rgba(27, 23, 19, 0.14);
+  --color-rule: rgba(27, 23, 19, 0.14);
+  --color-rule-strong: rgba(27, 23, 19, 0.34);
+  --color-rule-light: rgba(255, 255, 255, 0.16);
   --color-white: #ffffff;
 
   /* Legacy aliases while components migrate */
@@ -32,6 +35,7 @@
   /* Font families (set by next/font in layout.tsx) */
   --font-playfair: "Playfair Display", serif;
   --font-inter: "Inter", sans-serif;
+  --font-mono: "DM Mono", monospace;
   --font-lora: var(--font-inter);
   --font-baskerville: var(--font-inter);
 }
