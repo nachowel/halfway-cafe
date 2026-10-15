@@ -227,7 +227,7 @@ export default function MobileMenuPage() {
             <CategorySkeletonList />
           ) : filteredCategories.length > 0 ? (
             <div className="mx-4 flex flex-col gap-2.5">
-              {filteredCategories.map((category) => {
+              {filteredCategories.map((category, index) => {
                 const itemCount = data.itemCounts[category.slug ?? ""] ?? 0;
 
                 return (
@@ -243,7 +243,7 @@ export default function MobileMenuPage() {
                           src={category.image_url}
                           alt={category.name ? `${category.name} — Halfway Cafe Sidcup menu` : "Menu category at Halfway Cafe Sidcup"}
                           fill
-                          priority
+                          loading={index === 0 ? "eager" : "lazy"}
                           sizes="96px"
                           className="object-cover"
                         />

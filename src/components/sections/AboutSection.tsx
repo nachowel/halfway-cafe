@@ -34,6 +34,7 @@ export default function AboutSection() {
                   alt="Cafe team serving breakfast at Halfway Cafe in Sidcup"
                   width={720}
                   height={840}
+                  sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 64px), (max-width: 1279px) calc(48.78vw - 62px), 562px"
                   className="h-full w-full object-cover"
                 />
               </div>

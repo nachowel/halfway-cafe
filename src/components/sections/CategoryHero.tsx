@@ -26,7 +26,7 @@ export default function CategoryHero({
         alt={title}
         fill
         className="object-cover object-center"
-        sizes="100vw"
+        sizes="(max-width: 1279px) calc(100vw - 64px), 1216px"
         priority
       />
 

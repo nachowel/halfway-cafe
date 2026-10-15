@@ -30,7 +30,7 @@ export default async function DesktopMenuPage() {
               fill
               priority
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 1200px"
+              sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc(100vw - 64px), 1216px"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,10,7,0.08)_0%,rgba(14,10,7,0.2)_45%,rgba(14,10,7,0.38)_100%)]" />
           </div>

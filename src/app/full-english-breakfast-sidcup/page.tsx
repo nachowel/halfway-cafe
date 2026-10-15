@@ -140,7 +140,7 @@ export default function FullEnglishBreakfastSidcupPage() {
               fill
               priority
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 767px) calc(100vw - 88px), (max-width: 1023px) calc(100vw - 160px), (max-width: 1343px) calc(50vw - 96px), 576px"
             />
           </div>
         </div>
@@ -218,7 +218,7 @@ export default function FullEnglishBreakfastSidcupPage() {
                 alt="Traditional full English breakfast plate at our Sidcup cafe"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 60vw"
+                sizes="(max-width: 767px) calc(100vw - 64px), (max-width: 1343px) calc(56.52vw - 75px), 685px"
               />
             </div>
             <div className="flex flex-col justify-center rounded-xl bg-parchment-dark p-6 md:p-7">

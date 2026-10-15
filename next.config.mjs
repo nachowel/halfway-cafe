@@ -2,6 +2,12 @@ const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
   : null;
 
+const supabaseHostnames = [
+  ...new Set(
+    ["jbatmtnlegydsjerkuml.supabase.co", supabaseHostname].filter(Boolean),
+  ),
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: false,
@@ -15,23 +21,25 @@ const nextConfig = {
     ];
   },
   images: {
+    qualities: [75],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        pathname: "/photo-*",
       },
-      {
-        protocol: "https",
-        hostname: "jbatmtnlegydsjerkuml.supabase.co",
-      },
-      ...(supabaseHostname
-        ? [
-            {
-              protocol: "https",
-              hostname: supabaseHostname,
-            },
-          ]
-        : []),
+      ...supabaseHostnames.flatMap((hostname) => [
+        {
+          protocol: "https",
+          hostname,
+          pathname: "/storage/v1/object/sign/**",
+        },
+        {
+          protocol: "https",
+          hostname,
+          pathname: "/storage/v1/object/public/**",
+        },
+      ]),
     ],
   },
 };

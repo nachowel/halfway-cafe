@@ -200,7 +200,7 @@ export default function CafeSidcupPage() {
               fill
               priority
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 767px) calc(100vw - 88px), (max-width: 1023px) calc(100vw - 160px), (max-width: 1343px) calc(50vw - 96px), 576px"
             />
           </div>
         </div>

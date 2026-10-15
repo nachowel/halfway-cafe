@@ -170,6 +170,7 @@ export default function MobileGalleryPage({
                   alt={previewImage.alt}
                   width={1200}
                   height={1200}
+                  sizes="(max-width: 600px) calc(100vw - 48px), 92vw"
                   className="block h-auto max-h-[80vh] w-full object-contain"
                 />
               </div>

@@ -139,7 +139,7 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
                 priority
                 className="object-cover object-center transition-transform duration-75 ease-out"
                 style={{ transform: `translate3d(0, ${translateY}px, 0)` }}
-                sizes="(max-width: 1024px) 100vw, 55vw"
+                sizes="(max-width: 1023px) 100vw, (max-width: 1500px) 52.5vw, 788px"
               />
             ) : null}
 
