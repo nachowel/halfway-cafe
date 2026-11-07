@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MobileMenuPage from "@/components/MobileMenuPage";
-
 export default function MenuPageSwitcher({
   desktopMenu,
+  mobileMenu,
 }: {
   desktopMenu: React.ReactNode;
+  mobileMenu: React.ReactNode;
 }) {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
@@ -23,5 +23,5 @@ export default function MenuPageSwitcher({
     return null;
   }
 
-  return isMobile ? <MobileMenuPage /> : <>{desktopMenu}</>;
+  return isMobile ? <>{mobileMenu}</> : <>{desktopMenu}</>;
 }

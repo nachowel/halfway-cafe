@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import DesktopMenuPage from "@/components/DesktopMenuPage";
 import MenuPageSwitcher from "@/components/MenuPageSwitcher";
+import MobileMenuPageServer from "@/components/MobileMenuPageServer";
 
 export const metadata: Metadata = {
   title: "Our Menu",
@@ -12,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function MenuPage() {
-  return <MenuPageSwitcher desktopMenu={<DesktopMenuPage />} />;
+  return <MenuPageSwitcher desktopMenu={<DesktopMenuPage />} mobileMenu={<MobileMenuPageServer />} />;
 }

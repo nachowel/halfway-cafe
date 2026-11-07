@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 
 const ABOUT_IMAGE =
   "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80";
@@ -29,8 +29,9 @@ export default function AboutSection() {
             <div className="relative">
               <div className="absolute -left-4 -top-4 bottom-4 right-4 rounded-2xl border border-orange-400/50" />
               <div className="relative overflow-hidden rounded-2xl">
-                <Image
-                  src={ABOUT_IMAGE}
+                <ServerPublicImage
+                  source={ABOUT_IMAGE}
+                  role="content"
                   alt="Cafe team serving breakfast at Halfway Cafe in Sidcup"
                   width={720}
                   height={840}

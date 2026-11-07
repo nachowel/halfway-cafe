@@ -1,4 +1,5 @@
 /* Halfway Cafe — Shared TypeScript types */
+import type { ResolvedPublicImage } from "./public-image";
 
 // ─── Menu ───
 
@@ -33,6 +34,7 @@ export interface MenuItem {
   price_baguette?: number | null;
   category: MenuCategory;
   image?: string;
+  resolvedImage?: ResolvedPublicImage | null;
   allergens: Allergen[];
   dietary: DietaryTag[];
   available: boolean;

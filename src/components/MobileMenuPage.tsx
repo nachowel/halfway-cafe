@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
 import {
   ChevronRight,
@@ -11,22 +10,20 @@ import {
 } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import MobileFooter from "@/components/MobileFooter";
-import { createOptionalClientComponentClient } from "@/lib/supabase";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
-type CategoryRow = {
+export type CategoryRow = {
   id: string;
   name?: string | null;
   slug?: string | null;
   image_url?: string | null;
   sort_order?: number | null;
   active?: boolean | null;
+  image?: ResolvedPublicImage | null;
 };
 
-type MenuItemCountRow = {
-  category?: string | null;
-};
-
-type OpeningHoursRow = {
+export type OpeningHoursRow = {
   id: string;
   day_name?: string | null;
   day_order?: number | null;
@@ -35,7 +32,7 @@ type OpeningHoursRow = {
   is_closed?: boolean | null;
 };
 
-type MobileMenuData = {
+export type MobileMenuData = {
   categories: CategoryRow[];
   openingHours: OpeningHoursRow[];
   itemCounts: Record<string, number>;
@@ -90,84 +87,9 @@ function CategorySkeletonList() {
   );
 }
 
-export default function MobileMenuPage() {
+export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<MobileMenuData>({
-    categories: [],
-    openingHours: [],
-    itemCounts: {},
-  });
-
-  useEffect(() => {
-    let isMounted = true;
-    const supabase = createOptionalClientComponentClient("Mobile menu page");
-
-    if (!supabase) {
-      setLoading(false);
-      return () => {
-        isMounted = false;
-      };
-    }
-
-    const client = supabase;
-
-    async function loadMenuData() {
-      setLoading(true);
-
-      const { data: categoriesData } = await client
-        .from("categories")
-        .select("id, name, slug, image_url")
-        .order("sort_order", { ascending: true });
-
-      const [countsRes, hoursRes] = await Promise.all([
-        client
-          .from("menu_items")
-          .select("category")
-          .eq("active", true),
-        client
-          .from("opening_hours")
-          .select("id, day_name, day_order, open_time, close_time, is_closed")
-          .order("day_order", { ascending: true }),
-      ]);
-
-      if (!isMounted) {
-        return;
-      }
-
-      const categories = (categoriesData ?? []) as CategoryRow[];
-      const countRows = countsRes.error ? [] : ((countsRes.data ?? []) as MenuItemCountRow[]);
-      const openingHours = hoursRes.error ? [] : ((hoursRes.data ?? []) as OpeningHoursRow[]);
-
-      const itemCounts = countRows.reduce<Record<string, number>>((accumulator, row) => {
-        const categorySlug = row.category?.trim();
-
-        if (!categorySlug) {
-          return accumulator;
-        }
-
-        accumulator[categorySlug] = (accumulator[categorySlug] ?? 0) + 1;
-        return accumulator;
-      }, {});
-
-      setData({
-        categories,
-        openingHours,
-        itemCounts,
-      });
-      setLoading(false);
-    }
-
-    loadMenuData().catch(() => {
-      if (isMounted) {
-        setLoading(false);
-      }
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const loading = false;
 
   const normalizedSearch = searchTerm.trim().toLowerCase();
   const filteredCategories = data.categories.filter((category) =>
@@ -238,9 +160,9 @@ export default function MobileMenuPage() {
                     style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04)" }}
                   >
                     <div className="relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#E8E2D9]">
-                      {category.image_url ? (
-                        <Image
-                          src={category.image_url}
+                      {category.image ? (
+                        <ResponsivePublicImage
+                          image={category.image}
                           alt={category.name ? `${category.name} — Halfway Cafe Sidcup menu` : "Menu category at Halfway Cafe Sidcup"}
                           fill
                           loading={index === 0 ? "eager" : "lazy"}

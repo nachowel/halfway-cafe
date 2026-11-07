@@ -1,8 +1,8 @@
 /* Halfway Cafe — Desktop menu landing page */
 
-import Image from "next/image";
 import Link from "next/link";
 import CategoriesSection from "@/components/sections/CategoriesSection";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 import { getCategories } from "@/lib/queries";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -24,8 +24,9 @@ export default async function DesktopMenuPage() {
       <section className="bg-[linear-gradient(180deg,#f6efe6_0%,#faf7f2_100%)] pb-5 pt-20 md:pt-32">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="relative mb-4 h-[148px] overflow-hidden rounded-[20px] shadow-[0_12px_30px_rgba(29,21,14,0.14)] md:h-[220px]">
-            <Image
-              src={menuHeroImage}
+            <ServerPublicImage
+              source={menuHeroImage}
+              role="hero"
               alt="Halfway Cafe breakfast and coffee on a table"
               fill
               priority

@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import OpenStatus from "@/components/ui/OpenStatus";
 import HomeMarquee from "@/components/sections/HomeMarquee";
 import type { OpeningHours } from "@/types";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
 const CAFE_ADDRESS = "176 Halfway Street, Sidcup DA15 8DJ";
 
 interface HeroSectionProps {
   openingHours: OpeningHours[];
-  heroImageUrl?: string | null;
+  heroImage?: ResolvedPublicImage | null;
 }
 
 function getTodayHours(hours: OpeningHours[]): string {
@@ -30,7 +31,7 @@ function getTodayHours(hours: OpeningHours[]): string {
   return `${today.open} - ${today.close}`;
 }
 
-export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionProps) {
+export default function HeroSection({ openingHours, heroImage }: HeroSectionProps) {
   const todayHours = getTodayHours(openingHours);
   const [translateY, setTranslateY] = useState(0);
 
@@ -131,9 +132,9 @@ export default function HeroSection({ openingHours, heroImageUrl }: HeroSectionP
           </div>
 
           <div className="relative min-h-[38vh] overflow-hidden border-t border-rule bg-bg-dark lg:min-h-screen lg:border-l lg:border-t-0">
-            {heroImageUrl ? (
-              <Image
-                src={heroImageUrl}
+              {heroImage ? (
+                <ResponsivePublicImage
+                  image={heroImage}
                 alt="Inside Halfway Cafe in Sidcup during a busy breakfast service"
                 fill
                 priority

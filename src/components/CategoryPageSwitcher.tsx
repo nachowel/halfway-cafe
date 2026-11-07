@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MobileCategoryPage from "@/components/MobileCategoryPage";
-
 export default function CategoryPageSwitcher({
-  categorySlug,
   desktopCategory,
+  mobileCategory,
 }: {
-  categorySlug: string;
   desktopCategory: React.ReactNode;
+  mobileCategory: React.ReactNode;
 }) {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
@@ -25,5 +23,5 @@ export default function CategoryPageSwitcher({
     return null;
   }
 
-  return isMobile ? <MobileCategoryPage categorySlug={categorySlug} /> : <>{desktopCategory}</>;
+  return isMobile ? <>{mobileCategory}</> : <>{desktopCategory}</>;
 }

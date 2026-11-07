@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -19,13 +18,13 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { HALFWAY_CAFE_DIRECTIONS_URL, HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
 import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
-import { createOptionalClientComponentClient } from "@/lib/supabase";
-import { getMobileHeroImage, toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
 import HomeMarquee from "@/components/sections/HomeMarquee";
 import MobileFooter from "@/components/MobileFooter";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
-type OpeningHoursRow = {
+export type OpeningHoursRow = {
   id: string;
   day_name?: string | null;
   day_order?: number | null;
@@ -34,16 +33,17 @@ type OpeningHoursRow = {
   is_closed?: boolean | null;
 };
 
-type CategoryRow = {
+export type CategoryRow = {
   id: string;
   name?: string | null;
   image_url?: string | null;
   slug?: string | null;
   sort_order?: number | null;
   active?: boolean | null;
+  image?: ResolvedPublicImage | null;
 };
 
-type MenuItemRow = {
+export type MenuItemRow = {
   id: string;
   name?: string | null;
   image_url?: string | null;
@@ -54,10 +54,11 @@ type MenuItemRow = {
   featured?: boolean | null;
   is_featured?: boolean | null;
   active?: boolean | null;
+  image?: ResolvedPublicImage | null;
 };
 
-type HomeData = {
-  heroImageUrl: string | null;
+export type HomeData = {
+  heroImage: ResolvedPublicImage | null;
   openingHours: OpeningHoursRow[];
   dishes: MenuItemRow[];
   categories: CategoryRow[];
@@ -80,13 +81,13 @@ type GoogleReviewsData = {
   reviews: GoogleReview[];
 };
 
-type PlatformCard = {
+export type PlatformCard = {
   name: string;
   url: string;
-  logo: string;
+  logo: ResolvedPublicImage;
 };
 
-type SocialLink = {
+export type SocialLink = {
   name: string;
   url: string;
 };
@@ -250,195 +251,42 @@ function formatReviewCount(value: number | null) {
   return value.toLocaleString("en-GB");
 }
 
-function getSiteUrl(settings: Record<string, string>, key: string) {
-  const value = settings[key]?.trim();
-
-  if (!value) {
-    return null;
-  }
-
-  return /^https?:\/\//i.test(value) ? value : null;
-}
-
-function getSortOrderValue(item: MenuItemRow) {
-  return typeof item.sort_order === "number" ? item.sort_order : Number.MAX_SAFE_INTEGER;
-}
-
-function getCreatedAtValue(item: MenuItemRow) {
-  if (!item.created_at) {
-    return 0;
-  }
-
-  const timestamp = new Date(item.created_at).getTime();
-  return Number.isNaN(timestamp) ? 0 : timestamp;
-}
-
-function comparePopularDishPriority(a: MenuItemRow, b: MenuItemRow) {
-  const sortOrderDifference = getSortOrderValue(a) - getSortOrderValue(b);
-
-  if (sortOrderDifference !== 0) {
-    return sortOrderDifference;
-  }
-
-  const createdAtDifference = getCreatedAtValue(b) - getCreatedAtValue(a);
-
-  if (createdAtDifference !== 0) {
-    return createdAtDifference;
-  }
-
-  return (a.name ?? "").localeCompare(b.name ?? "");
-}
-
-function getPopularDishes(items: MenuItemRow[]) {
-  const featuredItems = items.filter((item) => item.featured === true || item.is_featured === true);
-
-  if (featuredItems.length > 0) {
-    return [...featuredItems].sort(comparePopularDishPriority);
-  }
-
-  return [...items]
-    .sort((a, b) => getCreatedAtValue(b) - getCreatedAtValue(a))
-    .slice(0, 4);
-}
-
-export default function MobileHome() {
+export default function MobileHome({
+  data,
+  deliveryPlatforms,
+  socialLinks,
+  logoImage,
+}: {
+  data: HomeData;
+  deliveryPlatforms: PlatformCard[];
+  socialLinks: SocialLink[];
+  logoImage: ResolvedPublicImage;
+}) {
   const pathname = usePathname();
-  const [data, setData] = useState<HomeData>({
-    heroImageUrl: null,
-    openingHours: [],
-    dishes: [],
-    categories: [],
-  });
-  const [loading, setLoading] = useState(true);
+  const loading = false;
   const [googleReviews, setGoogleReviews] = useState<GoogleReviewsData>({
     rating: null,
     reviewCount: null,
     reviews: [],
   });
-  const [deliveryPlatforms, setDeliveryPlatforms] = useState<PlatformCard[]>([]);
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
-
   useEffect(() => {
     let isMounted = true;
-    const supabase = createOptionalClientComponentClient("Mobile home");
-
-    if (!supabase) {
-      setLoading(false);
-      return () => {
-        isMounted = false;
-      };
-    }
-
-    const client = supabase;
-
-    async function loadHomeData() {
-      setLoading(true);
-
-      const [settingsRes, hoursRes, categoriesRes, menuItemsRes, googleReviewsRes] = await Promise.all([
-        client
-          .from("site_settings")
-          .select("key, value")
-          .in("key", [
-            "hero_image_web",
-            "hero_image_mobile",
-            "delivery_ubereats",
-            "delivery_ubereats_logo",
-            "delivery_justeat",
-            "delivery_justeat_logo",
-            "delivery_deliveroo",
-            "delivery_deliveroo_logo",
-            "social_instagram",
-            "social_facebook",
-            "social_tiktok",
-          ]),
-        client.from("opening_hours").select("*").order("day_order", { ascending: true }),
-        client
-          .from("categories")
-          .select("*")
-          .eq("active", true)
-          .order("sort_order", { ascending: true }),
-        client
-          .from("menu_items")
-          .select("*")
-          .eq("active", true)
-          .order("created_at", { ascending: false }),
-        fetch("/api/google-reviews", { cache: "no-store" }).catch(() => null),
-      ]);
-
-      if (!isMounted) {
-        return;
-      }
-
-      const openingHours = hoursRes.error ? [] : ((hoursRes.data ?? []) as OpeningHoursRow[]);
-      const categories = categoriesRes.error ? [] : ((categoriesRes.data ?? []) as CategoryRow[]);
-      const menuItems = menuItemsRes.error ? [] : ((menuItemsRes.data ?? []) as MenuItemRow[]);
-      const siteSettings = settingsRes.error
-        ? {}
-        : toSiteSettingsMap((settingsRes.data ?? []) as SiteSettingRow[]);
-
-      const dishes = getPopularDishes(menuItems);
-      const nextDeliveryPlatforms: PlatformCard[] = [
-        {
-          name: "Uber Eats",
-          logo: getSiteUrl(siteSettings, "delivery_ubereats_logo") ?? "",
-          url: getSiteUrl(siteSettings, "delivery_ubereats") ?? "",
-        },
-        {
-          name: "Just Eat",
-          logo: getSiteUrl(siteSettings, "delivery_justeat_logo") ?? "",
-          url: getSiteUrl(siteSettings, "delivery_justeat") ?? "",
-        },
-        {
-          name: "Deliveroo",
-          logo: getSiteUrl(siteSettings, "delivery_deliveroo_logo") ?? "",
-          url: getSiteUrl(siteSettings, "delivery_deliveroo") ?? "",
-        },
-      ].filter((platform) => platform.url.length > 0 && platform.logo.length > 0);
-      const nextSocialLinks: SocialLink[] = [
-        { name: "Instagram", url: getSiteUrl(siteSettings, "social_instagram") ?? "" },
-        { name: "Facebook", url: getSiteUrl(siteSettings, "social_facebook") ?? "" },
-        { name: "TikTok", url: getSiteUrl(siteSettings, "social_tiktok") ?? "" },
-      ].filter((social) => social.url.length > 0);
-      let normalizedGoogleReviews: GoogleReviewsData = {
-        rating: null,
-        reviewCount: null,
-        reviews: [],
-      };
-
-      if (googleReviewsRes?.ok) {
-        const payload = (await googleReviewsRes.json()) as Partial<GoogleReviewsData>;
-
-        normalizedGoogleReviews = {
-          rating: typeof payload.rating === "number" ? payload.rating : null,
-          reviewCount: typeof payload.reviewCount === "number" ? payload.reviewCount : null,
-          reviews: Array.isArray(payload.reviews)
-            ? payload.reviews
-                .filter(
-                  (review): review is GoogleReview =>
-                    typeof review?.text === "string" && typeof review?.author === "string"
-                )
-                .slice(0, 3)
-            : [],
-        };
-      }
-
-      setData({
-        heroImageUrl: getMobileHeroImage(siteSettings),
-        openingHours,
-        dishes,
-        categories,
+    async function loadReviews() {
+      const response = await fetch("/api/google-reviews", { cache: "no-store" }).catch(() => null);
+      if (!isMounted || !response?.ok) return;
+      const payload = (await response.json()) as Partial<GoogleReviewsData>;
+      setGoogleReviews({
+        rating: typeof payload.rating === "number" ? payload.rating : null,
+        reviewCount: typeof payload.reviewCount === "number" ? payload.reviewCount : null,
+        reviews: Array.isArray(payload.reviews)
+          ? payload.reviews.filter(
+              (review): review is GoogleReview =>
+                typeof review?.text === "string" && typeof review?.author === "string",
+            ).slice(0, 3)
+          : [],
       });
-      setGoogleReviews(normalizedGoogleReviews);
-      setDeliveryPlatforms(nextDeliveryPlatforms);
-      setSocialLinks(nextSocialLinks);
-      setLoading(false);
     }
-
-    loadHomeData().catch(() => {
-      if (isMounted) {
-        setLoading(false);
-      }
-    });
+    void loadReviews();
 
     return () => {
       isMounted = false;
@@ -454,8 +302,8 @@ export default function MobileHome() {
       <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-rule bg-bg/95 px-4 backdrop-blur">
         <Link href="/" className="flex items-center no-underline">
           <span className="mr-1">
-            <Image
-              src="https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/icon-logo.png"
+            <ResponsivePublicImage
+              image={logoImage}
               alt="Halfway Cafe logo"
               width={36}
               height={36}
@@ -571,9 +419,9 @@ export default function MobileHome() {
                   className="relative h-[245px] overflow-hidden border border-rule-strong bg-bg-dark"
                   style={{ backgroundColor: defaultHeroBackground }}
                 >
-                  {data.heroImageUrl ? (
-                    <Image
-                      src={data.heroImageUrl}
+                  {data.heroImage ? (
+                    <ResponsivePublicImage
+                      image={data.heroImage}
                       alt="Inside Halfway Cafe in Sidcup during a busy breakfast service"
                       fill
                       priority
@@ -733,9 +581,9 @@ export default function MobileHome() {
                           className="w-[172px] shrink-0 snap-start overflow-hidden border border-rule bg-bg-soft no-underline shadow-[0_12px_28px_rgba(27,23,19,0.04)]"
                         >
                           <div className="relative h-[112px] w-full bg-bg-dark/15">
-                            {item.image_url ? (
-                              <Image
-                                src={item.image_url}
+                            {item.image ? (
+                              <ResponsivePublicImage
+                                image={item.image}
                                 alt={
                                   item.name
                                     ? `${item.name} from the menu at Halfway Cafe in Sidcup`
@@ -803,9 +651,9 @@ export default function MobileHome() {
                       className="relative cursor-pointer overflow-hidden border border-rule bg-bg-dark no-underline shadow-[0_12px_28px_rgba(27,23,19,0.05)]"
                     >
                       <div className="relative h-[102px] w-full bg-bg-dark/40">
-                        {category.image_url ? (
-                          <Image
-                            src={category.image_url}
+                        {category.image ? (
+                          <ResponsivePublicImage
+                            image={category.image}
                             alt={
                               category.name
                                 ? `${category.name} menu options at Halfway Cafe in Sidcup`
@@ -863,9 +711,8 @@ export default function MobileHome() {
                       rel="noopener noreferrer"
                       className="flex flex-1 items-center justify-center border border-rule bg-bg-soft px-4 py-2.5 no-underline transition-colors duration-150 hover:bg-white active:bg-bg motion-reduce:transition-none"
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={platform.logo}
+                      <ResponsivePublicImage
+                        image={platform.logo}
                         alt={platform.name}
                         className="w-auto object-contain"
                         style={{

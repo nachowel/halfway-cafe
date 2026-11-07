@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
@@ -26,7 +26,7 @@ const featuredBreakfastItems = [
     href: "/full-english-breakfast-sidcup",
     cta: "View full English details",
     image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA",
+      "set breakfast/Buildersbreakfast.png",
     alt: "Cooked breakfast platter at Halfway Cafe in Sidcup",
   },
   {
@@ -36,7 +36,7 @@ const featuredBreakfastItems = [
     href: "/bacon-sandwich-sidcup",
     cta: "See bacon sandwich page",
     image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/sandwiches/bacon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzYW5kd2ljaGVzL2JhY29uLnBuZyIsImlhdCI6MTc3Mzg4Mzk4MiwiZXhwIjoyMDU3NzA3OTgyfQ.yZdX9HfPuL8_QbbE3FmS-n-nkTBs8BzxK4mn-uJ8BhY",
+      "sandwiches/bacon.png",
     alt: "Thick-cut bacon sandwich on fresh white or brown bread",
   },
   {
@@ -46,7 +46,7 @@ const featuredBreakfastItems = [
     href: "/brunch-sidcup",
     cta: "Explore brunch in Sidcup",
     image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/pancakes/eggfroentine.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwYW5jYWtlcy9lZ2dmcm9lbnRpbmUucG5nIiwiaWF0IjoxNzczODg0MTI1LCJleHAiOjIwNTc3MDgxMjV9.vufN2W1wPROEP8EEKpB-8xlzEQR4j1Q0F2yMhHH_oc8",
+      "pancakes/eggfroentine.png",
     alt: "Poached eggs and brunch dish at Halfway Cafe",
   },
   {
@@ -56,7 +56,7 @@ const featuredBreakfastItems = [
     href: "/takeaway-sidcup",
     cta: "View takeaway options",
     image:
-      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/drinks/tea.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkcmlua3MvdGVhLnBuZyIsImlhdCI6MTc3Mzg4NDAzNSwiZXhwIjoyMDU3NzA4MDM1fQ.8YrIRBpVvsoeVd2vKlQQ2sOx7llnjm1RQN_2WmgrVuc",
+      "drinks/tea.png",
     alt: "Morning tea and takeaway breakfast at Halfway Cafe",
   },
 ];
@@ -205,8 +205,9 @@ export default function BreakfastSidcupPage() {
           </div>
 
           <div className="relative min-h-[300px] overflow-hidden rounded-xl">
-            <Image
-              src={BREAKFAST_HERO_IMAGE_URL}
+            <ServerPublicImage
+              source={BREAKFAST_HERO_IMAGE_URL}
+              role="hero"
               alt="Breakfast plate and tea at Halfway Cafe in Sidcup DA15"
               fill
               priority
@@ -325,8 +326,9 @@ export default function BreakfastSidcupPage() {
               className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-parchment-dark">
-                <Image
-                  src={item.image}
+                <ServerPublicImage
+                  source={item.image}
+                  role="card"
                   alt={item.alt}
                   fill
                   className="object-cover"

@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MobileHome from "@/components/MobileHome";
-
 export default function HomeSwitcher({
   desktopHome,
+  mobileHome,
 }: {
   desktopHome: React.ReactNode;
+  mobileHome: React.ReactNode;
 }) {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
@@ -23,5 +23,5 @@ export default function HomeSwitcher({
     return null;
   }
 
-  return isMobile ? <MobileHome /> : <>{desktopHome}</>;
+  return isMobile ? <>{mobileHome}</> : <>{desktopHome}</>;
 }

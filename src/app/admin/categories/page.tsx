@@ -1,19 +1,26 @@
 /* Admin — Categories management */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
-import { createClientComponentClient } from "@/lib/supabase";
+import AdminImageField from "@/components/admin/AdminImageField";
+import { deleteAdminCategory, listAdminCategories, saveAdminCategory } from "@/app/admin/actions";
+import type { AdminCategoryRow } from "@/types/admin-data";
+import type { AdminImageIntent, SafeAdminImage } from "@/types/admin-image";
 
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  sort_order: number;
-  active: boolean;
-  image_url?: string | null;
+const emptyImage: SafeAdminImage = { hasImage: false, label: "No image", provider: null, preview: null };
+
+function errorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
+
+function CategoryThumbnail({ image, alt, size = 64 }: { image: SafeAdminImage; alt: string; size?: number }) {
+  if (!image.preview) {
+    return <div className="flex h-full w-full items-center justify-center text-2xl">🍽️</div>;
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={image.preview.src} srcSet={image.preview.srcSet} alt={alt} sizes={`${size}px`} width={size} height={size} className="h-full w-full object-cover" />
+  );
 }
 
 function ToggleSwitch({
@@ -41,7 +48,7 @@ function ToggleSwitch({
 }
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<AdminCategoryRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -50,27 +57,20 @@ export default function CategoriesPage() {
   const [showForm, setShowForm] = useState(false);
   const [newName, setNewName] = useState("");
   const [newOrder, setNewOrder] = useState(0);
-  const [newImageUrl, setNewImageUrl] = useState("");
+  const [newImageIntent, setNewImageIntent] = useState<AdminImageIntent>({ kind: "unchanged" });
   const [saving, setSaving] = useState(false);
 
   // Edit state
   const [editId, setEditId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editOrder, setEditOrder] = useState(0);
-  const [editImageUrl, setEditImageUrl] = useState("");
+  const [editImageIntent, setEditImageIntent] = useState<AdminImageIntent>({ kind: "unchanged" });
 
   const fetchCategories = useCallback(async () => {
     try {
-      const supabase = createClientComponentClient();
-      const { data, error: err } = await supabase
-        .from("categories")
-        .select("*")
-        .order("sort_order", { ascending: true });
-
-      if (err) throw err;
-      setCategories((data as Category[]) ?? []);
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to load categories.");
+      setCategories(await listAdminCategories());
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to load categories."));
     } finally {
       setLoading(false);
     }
@@ -95,78 +95,58 @@ export default function CategoriesPage() {
 
     setSaving(true);
     try {
-      const supabase = createClientComponentClient();
-      const { error: err } = await supabase.from("categories").insert({
+      await saveAdminCategory({
+        id: null,
         name: newName.trim(),
         slug: toSlug(newName),
         sort_order: newOrder,
-        image_url: newImageUrl.trim() || null,
+        active: true,
+        imageIntent: newImageIntent,
       });
-      if (err) throw err;
 
       setNewName("");
       setNewOrder(0);
-      setNewImageUrl("");
+      setNewImageIntent({ kind: "unchanged" });
       setShowForm(false);
       setSuccess("Category added.");
       await fetchCategories();
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to add category.");
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to add category."));
     } finally {
       setSaving(false);
     }
   }
 
   async function handleToggleActive(id: string, current: boolean) {
+    const category = categories.find((row) => row.id === id);
+    if (!category) return;
+    setCategories((prev) => prev.map((row) => row.id === id ? { ...row, active: !current } : row));
     try {
-      const supabase = createClientComponentClient();
-      const { error: err } = await supabase
-        .from("categories")
-        .update({ active: !current })
-        .eq("id", id);
-      if (err) throw err;
-
-      setCategories((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, active: !current } : c))
-      );
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to update.");
+      await saveAdminCategory({
+        id,
+        name: category.name,
+        slug: category.slug,
+        sort_order: category.sort_order,
+        active: !current,
+        imageIntent: { kind: "unchanged" },
+      });
+    } catch (error: unknown) {
+      setCategories((prev) => prev.map((row) => row.id === id ? { ...row, active: current } : row));
+      setError(errorMessage(error, "Failed to update."));
     }
   }
 
-  async function handleDelete(id: string, slug: string) {
+  async function handleDelete(id: string) {
     setError("");
     setSuccess("");
 
-    // Check if category is in use
+    if (!window.confirm("Delete this category?")) return;
     try {
-      const supabase = createClientComponentClient();
-      const { count, error: countErr } = await supabase
-        .from("menu_items")
-        .select("id", { count: "exact", head: true })
-        .eq("category", slug);
-
-      if (countErr) throw countErr;
-
-      if (count && count > 0) {
-        setError(
-          `Cannot delete — ${count} menu item(s) use this category. Reassign them first.`
-        );
-        return;
-      }
-
-      if (!window.confirm("Delete this category?")) return;
-
-      const { error: delErr } = await supabase
-        .from("categories")
-        .delete()
-        .eq("id", id);
-      if (delErr) throw delErr;
-
+      await deleteAdminCategory(id);
       setSuccess("Category deleted.");
       await fetchCategories();
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to delete.");
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to delete."));
     }
   }
 
@@ -176,38 +156,37 @@ export default function CategoriesPage() {
     setSuccess("");
 
     try {
-      const supabase = createClientComponentClient();
-      const { error: err } = await supabase
-        .from("categories")
-        .update({
-          name: editName.trim(),
-          slug: toSlug(editName),
-          sort_order: editOrder,
-          image_url: editImageUrl.trim() || null,
-        })
-        .eq("id", editId);
-      if (err) throw err;
+      const category = categories.find((row) => row.id === editId);
+      if (!category) throw new Error("Category no longer exists");
+      await saveAdminCategory({
+        id: editId,
+        name: editName.trim(),
+        slug: toSlug(editName),
+        sort_order: editOrder,
+        active: category.active,
+        imageIntent: editImageIntent,
+      });
 
       setEditId(null);
       setSuccess("Category updated.");
       await fetchCategories();
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to update.");
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to update."));
     }
   }
 
-  function startEdit(cat: Category) {
+  function startEdit(cat: AdminCategoryRow) {
     setEditId(cat.id);
     setEditName(cat.name);
     setEditOrder(cat.sort_order);
-    setEditImageUrl(cat.image_url ?? "");
+    setEditImageIntent({ kind: "unchanged" });
   }
 
   function cancelEdit() {
     setEditId(null);
     setEditName("");
     setEditOrder(0);
-    setEditImageUrl("");
+    setEditImageIntent({ kind: "unchanged" });
   }
 
   const inputClass =
@@ -271,19 +250,7 @@ export default function CategoriesPage() {
                     <div className="space-y-4">
                       <div className="flex items-start gap-3">
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-neutral-200 bg-white">
-                          {editImageUrl ? (
-                            <Image
-                              src={editImageUrl}
-                              alt={`${editName || "Category"} preview`}
-                              fill
-                              className="object-cover"
-                              sizes="64px"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center text-2xl">
-                              🍽️
-                            </div>
-                          )}
+                          <CategoryThumbnail image={cat.image} alt={`${editName || "Category"} preview`} />
                         </div>
                         <div className="min-w-0 flex-1">
                           <label className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-600">
@@ -298,18 +265,13 @@ export default function CategoriesPage() {
                         </div>
                       </div>
 
-                      <div>
-                        <label className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-600">
-                          Image URL
-                        </label>
-                        <input
-                          type="text"
-                          value={editImageUrl}
-                          onChange={(e) => setEditImageUrl(e.target.value)}
-                          placeholder="https://..."
-                          className={`${inputClass} w-full`}
-                        />
-                      </div>
+                      <AdminImageField
+                        id={`category-image-mobile-${cat.id}`}
+                        label="Category image"
+                        current={cat.image}
+                        intent={editImageIntent}
+                        onChange={setEditImageIntent}
+                      />
 
                       <div className="grid grid-cols-[auto_1fr] items-start gap-x-3 gap-y-2 text-sm">
                         <span className="font-medium text-neutral-600">Slug:</span>
@@ -349,15 +311,9 @@ export default function CategoriesPage() {
                     className="rounded-2xl border border-neutral-200 bg-white p-4"
                   >
                     <div className="flex items-start gap-3">
-                      {cat.image_url ? (
+                      {cat.image.preview ? (
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-                          <Image
-                            src={cat.image_url}
-                            alt={cat.name}
-                            fill
-                            className="object-cover"
-                            sizes="64px"
-                          />
+                          <CategoryThumbnail image={cat.image} alt={cat.name} />
                         </div>
                       ) : (
                         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-dashed border-neutral-200 bg-neutral-50 text-2xl">
@@ -403,7 +359,7 @@ export default function CategoriesPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleDelete(cat.id, cat.slug)}
+                        onClick={() => handleDelete(cat.id)}
                         className="inline-flex min-h-11 items-center justify-center rounded-xl border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-red-300 hover:text-red-600"
                       >
                         Delete
@@ -449,25 +405,14 @@ export default function CategoriesPage() {
                             />
                           </td>
                           <td className="px-4 py-3">
-                            <div className="space-y-2">
-                              <input
-                                type="text"
-                                value={editImageUrl}
-                                onChange={(e) => setEditImageUrl(e.target.value)}
-                                placeholder="https://..."
-                                className={`${inputClass} w-full min-w-40`}
+                            <div className="min-w-64">
+                              <AdminImageField
+                                id={`category-image-desktop-${cat.id}`}
+                                label="Category image"
+                                current={cat.image}
+                                intent={editImageIntent}
+                                onChange={setEditImageIntent}
                               />
-                              {editImageUrl && (
-                                <div className="relative h-16 w-16 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-                                  <Image
-                                    src={editImageUrl}
-                                    alt={`${editName || "Category"} preview`}
-                                    fill
-                                    className="object-cover"
-                                    sizes="64px"
-                                  />
-                                </div>
-                              )}
                             </div>
                           </td>
                           <td className="px-4 py-3">
@@ -507,15 +452,9 @@ export default function CategoriesPage() {
                             {cat.sort_order}
                           </td>
                           <td className="px-4 py-3">
-                            {cat.image_url ? (
+                            {cat.image.preview ? (
                               <div className="relative mx-auto h-14 w-14 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-                                <Image
-                                  src={cat.image_url}
-                                  alt={cat.name}
-                                  fill
-                                  className="object-cover"
-                                  sizes="56px"
-                                />
+                                <CategoryThumbnail image={cat.image} alt={cat.name} size={56} />
                               </div>
                             ) : (
                               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl border border-dashed border-neutral-200 bg-neutral-50 text-lg">
@@ -544,7 +483,7 @@ export default function CategoriesPage() {
                               </button>
                               <button
                                 type="button"
-                                onClick={() => handleDelete(cat.id, cat.slug)}
+                                onClick={() => handleDelete(cat.id)}
                                 className="text-xs font-medium text-neutral-400 hover:text-accent hover:underline"
                               >
                                 Delete
@@ -594,27 +533,13 @@ export default function CategoriesPage() {
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <label className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-600">
-                  Image URL
-                </label>
-                <input
-                  type="text"
-                  value={newImageUrl}
-                  onChange={(e) => setNewImageUrl(e.target.value)}
-                  placeholder="https://images.unsplash.com/..."
-                  className={`${inputClass} w-full`}
+                <AdminImageField
+                  id="new-category-image"
+                  label="Category image"
+                  current={emptyImage}
+                  intent={newImageIntent}
+                  onChange={setNewImageIntent}
                 />
-                {newImageUrl && (
-                  <div className="mt-2 relative h-16 w-16 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-                    <Image
-                      src={newImageUrl}
-                      alt="New category preview"
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                    />
-                  </div>
-                )}
               </div>
               <button
                 type="button"

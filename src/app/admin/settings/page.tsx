@@ -3,7 +3,9 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createClientComponentClient } from "@/lib/supabase";
+import AdminImageField from "@/components/admin/AdminImageField";
+import { getAdminSettings, saveAdminSettings } from "@/app/admin/actions";
+import type { AdminImageIntent, SafeAdminImage } from "@/types/admin-image";
 
 type GroupKey = "hero" | "social" | "delivery";
 
@@ -60,6 +62,7 @@ const allSettingKeys = [
 const defaultValues: SettingValues = Object.fromEntries(
   allSettingKeys.map((key) => [key, ""])
 );
+const emptyImage: SafeAdminImage = { hasImage: false, label: "No image", provider: null, preview: null };
 
 const inputClass =
   "w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400";
@@ -68,6 +71,8 @@ const cardClass = "mb-6 rounded-xl bg-white p-6 shadow-sm";
 
 export default function SettingsPage() {
   const [values, setValues] = useState<SettingValues>(defaultValues);
+  const [images, setImages] = useState<Record<string, SafeAdminImage>>({});
+  const [imageIntents, setImageIntents] = useState<Record<string, AdminImageIntent>>({});
   const [loading, setLoading] = useState(true);
   const [savingGroup, setSavingGroup] = useState<GroupKey | null>(null);
   const [messages, setMessages] = useState<Record<GroupKey, GroupMessage>>({
@@ -99,22 +104,10 @@ export default function SettingsPage() {
 
   const fetchSettings = useCallback(async () => {
     try {
-      const supabase = createClientComponentClient();
-      const { data, error } = await supabase
-        .from("site_settings")
-        .select("key, value");
-
-      if (error) throw error;
-
-      const nextValues = { ...defaultValues };
-
-      for (const row of data ?? []) {
-        if (typeof row.key === "string" && row.key in nextValues) {
-          nextValues[row.key] = typeof row.value === "string" ? row.value : "";
-        }
-      }
-
-      setValues(nextValues);
+      const data = await getAdminSettings();
+      setValues({ ...defaultValues, ...data.values });
+      setImages(data.images);
+      setImageIntents({});
     } finally {
       setLoading(false);
     }
@@ -153,24 +146,20 @@ export default function SettingsPage() {
     setValues((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function saveGroup(group: GroupKey, keys: string[], successText: string) {
+  function updateImageIntent(key: string, intent: AdminImageIntent) {
+    setImageIntents((prev) => ({ ...prev, [key]: intent }));
+  }
+
+  async function saveGroup(group: GroupKey, valueKeys: string[], imageKeys: string[], successText: string) {
     setSavingGroup(group);
     setGroupMessage(group, null);
 
     try {
-      const supabase = createClientComponentClient();
-      const timestamp = new Date().toISOString();
-      const payload = keys.map((key) => ({
-        key,
-        value: values[key]?.trim() ?? "",
-        updated_at: timestamp,
-      }));
-
-      const { error } = await supabase
-        .from("site_settings")
-        .upsert(payload, { onConflict: "key" });
-
-      if (error) throw error;
+      await saveAdminSettings(
+        Object.fromEntries(valueKeys.map((key) => [key, values[key]?.trim() ?? ""])),
+        Object.fromEntries(imageKeys.map((key) => [key, imageIntents[key] ?? { kind: "unchanged" }])),
+      );
+      await fetchSettings();
 
       setGroupMessage(group, {
         type: "success",
@@ -229,18 +218,15 @@ export default function SettingsPage() {
 
             <div className="mt-5 space-y-5">
               {heroFields.map((field) => (
-                <div key={field.key}>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {field.label}
-                  </label>
-                  <input
-                    type="text"
-                    value={values[field.key]}
-                    onChange={(e) => updateValue(field.key, e.target.value)}
-                    className={inputClass}
-                  />
-                  <p className="mt-1 text-xs text-gray-400">{field.helper}</p>
-                </div>
+                <AdminImageField
+                  key={field.key}
+                  id={field.key}
+                  label={field.label}
+                  helper={field.helper}
+                  current={images[field.key] ?? emptyImage}
+                  intent={imageIntents[field.key] ?? { kind: "unchanged" }}
+                  onChange={(intent) => updateImageIntent(field.key, intent)}
+                />
               ))}
             </div>
 
@@ -250,6 +236,7 @@ export default function SettingsPage() {
                 onClick={() =>
                   saveGroup(
                     "hero",
+                    [],
                     heroFields.map((field) => field.key),
                     "Saved successfully"
                   )
@@ -291,6 +278,7 @@ export default function SettingsPage() {
                   saveGroup(
                     "social",
                     socialFields.map((field) => field.key),
+                    [],
                     "Saved successfully"
                   )
                 }
@@ -308,7 +296,7 @@ export default function SettingsPage() {
               Delivery Platforms
             </h2>
             <p className="mt-1 text-xs text-gray-400">
-              Upload logos to Supabase Storage and paste the public URL here.
+              Choose an existing verified asset or upload a new logo.
             </p>
 
             <div className="mt-5 space-y-5">
@@ -318,14 +306,12 @@ export default function SettingsPage() {
 
                   <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700">
-                        Logo URL
-                      </label>
-                      <input
-                        type="text"
-                        value={values[platform.logoKey]}
-                        onChange={(e) => updateValue(platform.logoKey, e.target.value)}
-                        className={inputClass}
+                      <AdminImageField
+                        id={platform.logoKey}
+                        label="Logo"
+                        current={images[platform.logoKey] ?? emptyImage}
+                        intent={imageIntents[platform.logoKey] ?? { kind: "unchanged" }}
+                        onChange={(intent) => updateImageIntent(platform.logoKey, intent)}
                       />
                     </div>
 
@@ -351,7 +337,8 @@ export default function SettingsPage() {
                 onClick={() =>
                   saveGroup(
                     "delivery",
-                    deliveryPlatforms.flatMap((platform) => [platform.logoKey, platform.linkKey]),
+                    deliveryPlatforms.map((platform) => platform.linkKey),
+                    deliveryPlatforms.map((platform) => platform.logoKey),
                     "Saved successfully"
                   )
                 }

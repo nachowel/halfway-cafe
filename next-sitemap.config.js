@@ -5,7 +5,7 @@ module.exports = {
   changefreq: "weekly",
   priority: 0.7,
   sitemapSize: 5000,
-  exclude: ["/api/*", "/admin/*", "/admin/login"],
+  exclude: ["/api/*", "/admin/*", "/admin/login", "/favicon.ico"],
 
   transform: async (config, path) => {
     return {
@@ -16,7 +16,7 @@ module.exports = {
     };
   },
 
-  additionalPaths: async (config) => {
+  additionalPaths: async () => {
     const { createClient } = await import("@supabase/supabase-js");
 
     const supabase = createClient(

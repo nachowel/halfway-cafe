@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 
 const BUILDERS_BREAKFAST_IMAGE_URL =
-  "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/Buildersbreakfast.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83OGQzYzNmMC0zZmQ4LTRkNTAtYmE4My0xZjJlOTQzMDczMzciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzZXQgYnJlYWtmYXN0L0J1aWxkZXJzYnJlYWtmYXN0LnBuZyIsImlhdCI6MTc3Mzg4MzkzNywiZXhwIjoyMDU3NzA3OTM3fQ.EAVbSYQdzOVzuWe7Y4iLpjTL95EunDouCk6ESzKhwkA";
+  "set breakfast/Buildersbreakfast.png";
 
 export const metadata: Metadata = {
   title: "Full English Breakfast in Sidcup | Halfway Cafe",
@@ -134,8 +134,9 @@ export default function FullEnglishBreakfastSidcupPage() {
           </div>
 
           <div className="relative min-h-[320px] overflow-hidden rounded-xl md:min-h-[360px]">
-            <Image
-              src={BUILDERS_BREAKFAST_IMAGE_URL}
+            <ServerPublicImage
+              source={BUILDERS_BREAKFAST_IMAGE_URL}
+              role="hero"
               alt="Full English breakfast with eggs, bacon, sausage and beans"
               fill
               priority
@@ -213,8 +214,9 @@ export default function FullEnglishBreakfastSidcupPage() {
         <div className="rounded-xl border border-border bg-white p-4 shadow-[0_14px_32px_rgba(26,26,26,0.08)] md:p-6">
           <div className="grid gap-5 md:grid-cols-[1.3fr_1fr] md:items-stretch">
             <div className="relative h-[260px] overflow-hidden rounded-xl md:h-[340px]">
-              <Image
-                src={BUILDERS_BREAKFAST_IMAGE_URL}
+              <ServerPublicImage
+                source={BUILDERS_BREAKFAST_IMAGE_URL}
+                role="content"
                 alt="Traditional full English breakfast plate at our Sidcup cafe"
                 fill
                 className="object-cover"

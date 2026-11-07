@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -12,15 +11,17 @@ import {
 } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import MobileFooter from "@/components/MobileFooter";
-import { createOptionalClientComponentClient } from "@/lib/supabase";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
-type CategoryRow = {
+export type CategoryRow = {
   id: string;
   name?: string | null;
   slug?: string | null;
+  image_url?: string | null;
 };
 
-type MenuItemRow = {
+export type MenuItemRow = {
   id: string;
   name?: string | null;
   description?: string | null;
@@ -32,9 +33,10 @@ type MenuItemRow = {
   category?: string | null;
   active?: boolean | null;
   sort_order?: number | null;
+  image?: ResolvedPublicImage | null;
 };
 
-type CountRow = {
+export type CountRow = {
   id: string;
   category?: string | null;
 };
@@ -98,74 +100,20 @@ function LoadingSkeleton() {
 
 export default function MobileCategoryPage({
   categorySlug,
+  categories,
+  items,
+  countRows,
 }: {
   categorySlug: string;
+  categories: CategoryRow[];
+  items: MenuItemRow[];
+  countRows: CountRow[];
 }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
+  const loading = false;
   const [showAllergyNotice, setShowAllergyNotice] = useState(false);
   const [previewItem, setPreviewItem] = useState<MenuItemRow | null>(null);
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-  const [categories, setCategories] = useState<CategoryRow[]>([]);
-  const [items, setItems] = useState<MenuItemRow[]>([]);
-  const [countRows, setCountRows] = useState<CountRow[]>([]);
-
-  useEffect(() => {
-    let isMounted = true;
-    const supabase = createOptionalClientComponentClient("Mobile category page");
-
-    if (!supabase) {
-      setLoading(false);
-      return () => {
-        isMounted = false;
-      };
-    }
-
-    const client = supabase;
-
-    async function loadCategoryData() {
-      setLoading(true);
-
-      const [categoriesRes, menuItemsRes, countsRes] = await Promise.all([
-        client
-          .from("categories")
-          .select("id, name, slug")
-          .eq("active", true)
-          .order("sort_order", { ascending: true }),
-        client
-          .from("menu_items")
-          .select(
-            "id, name, description, price, price_roll, price_sandwich, price_baguette, image_url, category, active, sort_order"
-          )
-          .eq("active", true)
-          .eq("category", categorySlug)
-          .order("sort_order", { ascending: true }),
-        client
-          .from("menu_items")
-          .select("id, category")
-          .eq("active", true),
-      ]);
-
-      if (!isMounted) {
-        return;
-      }
-
-      setCategories(categoriesRes.error ? [] : ((categoriesRes.data ?? []) as CategoryRow[]));
-      setItems(menuItemsRes.error ? [] : ((menuItemsRes.data ?? []) as MenuItemRow[]));
-      setCountRows(countsRes.error ? [] : ((countsRes.data ?? []) as CountRow[]));
-      setLoading(false);
-    }
-
-    loadCategoryData().catch(() => {
-      if (isMounted) {
-        setLoading(false);
-      }
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [categorySlug]);
 
   useEffect(() => {
     if (!showAllergyNotice) {
@@ -214,7 +162,7 @@ export default function MobileCategoryPage({
   );
 
   function openPreview(item: MenuItemRow) {
-    if (!item.image_url) {
+    if (!item.image) {
       return;
     }
 
@@ -344,9 +292,9 @@ export default function MobileCategoryPage({
                     className="relative flex h-[100px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#F5F5F5]"
                     aria-label={`Preview ${item.name ?? "menu item"}`}
                   >
-                    {item.image_url ? (
-                      <Image
-                        src={item.image_url}
+                    {item.image ? (
+                      <ResponsivePublicImage
+                        image={item.image}
                         alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                         fill
                         sizes="112px"
@@ -478,9 +426,9 @@ export default function MobileCategoryPage({
                   <X size={16} strokeWidth={1.75} />
                 </button>
 
-                {previewItem.image_url ? (
-                  <Image
-                    src={previewItem.image_url}
+                {previewItem.image ? (
+                  <ResponsivePublicImage
+                    image={previewItem.image}
                     alt={previewItem.name ? `${previewItem.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                     width={1200}
                     height={1200}

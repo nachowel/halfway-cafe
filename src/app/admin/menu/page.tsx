@@ -3,23 +3,10 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { createClientComponentClient } from "@/lib/supabase";
-
-interface DbMenuItem {
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  category: string;
-  image_url: string | null;
-  dietary: string[];
-  available: string;
-  featured: boolean;
-  active: boolean;
-  sort_order: number;
-}
+import { listAdminMenuItems, setAdminMenuFlag } from "@/app/admin/actions";
+import { filterAdminMenuItems } from "@/lib/admin-menu-filter-core";
+import type { AdminMenuItemRow } from "@/types/admin-data";
 
 const categoryColors: Record<string, string> = {
   breakfast: "bg-amber-100 text-amber-800",
@@ -63,7 +50,7 @@ function ToggleSwitch({
 }
 
 export default function AdminMenuPage() {
-  const [items, setItems] = useState<DbMenuItem[]>([]);
+  const [items, setItems] = useState<AdminMenuItemRow[]>([]);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [minPrice, setMinPrice] = useState("");
@@ -71,20 +58,14 @@ export default function AdminMenuPage() {
   const [onlyActive, setOnlyActive] = useState(false);
   const [onlyFeatured, setOnlyFeatured] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const fetchItems = useCallback(async () => {
     try {
-      const supabase = createClientComponentClient();
-      const query = supabase
-        .from("menu_items")
-        .select("*")
-        .order("sort_order", { ascending: true });
-
-      const { data, error } = await query;
-      if (error) throw error;
-      setItems((data as DbMenuItem[]) ?? []);
+      setError("");
+      setItems(await listAdminMenuItems());
     } catch (e) {
-      console.error("Failed to fetch menu items:", e);
+      setError(e instanceof Error ? e.message : "Unable to load menu items");
     } finally {
       setLoading(false);
     }
@@ -95,22 +76,14 @@ export default function AdminMenuPage() {
   }, [fetchItems]);
 
   async function toggleField(id: string, field: "active" | "featured", current: boolean) {
+    const next = !current;
+    setItems((prev) => prev.map((item) => item.id === id ? { ...item, [field]: next } : item));
     try {
-      const supabase = createClientComponentClient();
-      const { error } = await supabase
-        .from("menu_items")
-        .update({ [field]: !current })
-        .eq("id", id);
-
-      if (error) throw error;
-
-      setItems((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, [field]: !current } : item
-        )
-      );
+      setError("");
+      await setAdminMenuFlag(id, field, next);
     } catch (e) {
-      console.error(`Failed to toggle ${field}:`, e);
+      setItems((prev) => prev.map((item) => item.id === id ? { ...item, [field]: current } : item));
+      setError(e instanceof Error ? e.message : `Unable to update ${field}`);
     }
   }
 
@@ -120,34 +93,13 @@ export default function AdminMenuPage() {
   );
 
   const filtered = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
-    const parsedMinPrice = minPrice === "" ? null : parseFloat(minPrice);
-    const parsedMaxPrice = maxPrice === "" ? null : parseFloat(maxPrice);
-
-    return items.filter((item) => {
-      const itemPrice = Number(item.price);
-      const matchSearch = item.name.toLowerCase().includes(normalizedSearch);
-      const matchCategory =
-        activeCategory === "All" || item.category === activeCategory;
-      const matchMin =
-        parsedMinPrice === null || Number.isNaN(parsedMinPrice)
-          ? true
-          : itemPrice >= parsedMinPrice;
-      const matchMax =
-        parsedMaxPrice === null || Number.isNaN(parsedMaxPrice)
-          ? true
-          : itemPrice <= parsedMaxPrice;
-      const matchActive = !onlyActive || item.active;
-      const matchFeatured = !onlyFeatured || item.featured;
-
-      return (
-        matchSearch &&
-        matchCategory &&
-        matchMin &&
-        matchMax &&
-        matchActive &&
-        matchFeatured
-      );
+    return filterAdminMenuItems(items, {
+      search,
+      category: activeCategory,
+      minPrice,
+      maxPrice,
+      onlyActive,
+      onlyFeatured,
     });
   }, [items, search, activeCategory, minPrice, maxPrice, onlyActive, onlyFeatured]);
 
@@ -191,6 +143,12 @@ export default function AdminMenuPage() {
           + Add New Item
         </Link>
       </div>
+
+      {error && (
+        <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </p>
+      )}
 
       {/* Filters */}
       <div className="mt-6 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
@@ -323,13 +281,16 @@ export default function AdminMenuPage() {
               >
                 <div className="flex items-start gap-3">
                   <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-neutral-100">
-                    {item.image_url ? (
-                      <Image
-                        src={item.image_url}
+                    {item.image.preview ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.image.preview.src}
+                        srcSet={item.image.preview.srcSet}
                         alt={item.name}
-                        fill
-                        className="object-cover"
                         sizes="64px"
+                        width={64}
+                        height={64}
+                        className="h-full w-full object-cover"
                       />
                     ) : (
                       <span className="flex h-full w-full items-center justify-center text-2xl">
@@ -418,13 +379,16 @@ export default function AdminMenuPage() {
                   >
                     <td className="px-4 py-3">
                       <div className="relative h-10 w-10 overflow-hidden rounded-sm bg-neutral-100">
-                        {item.image_url ? (
-                          <Image
-                            src={item.image_url}
+                        {item.image.preview ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={item.image.preview.src}
+                            srcSet={item.image.preview.srcSet}
                             alt={item.name}
-                            fill
-                            className="object-cover"
                             sizes="40px"
+                            width={40}
+                            height={40}
+                            className="h-full w-full object-cover"
                           />
                         ) : (
                           <span className="flex h-full w-full items-center justify-center text-lg">

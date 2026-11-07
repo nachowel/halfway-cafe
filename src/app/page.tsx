@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import DesktopHome from "@/components/DesktopHome";
 import HomeSwitcher from "@/components/HomeSwitcher";
+import MobileHomeServer from "@/components/MobileHomeServer";
 
 export const metadata: Metadata = {
   title: "Best Breakfast in Sidcup | Full English & Cafe – Halfway Cafe",
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <HomeSwitcher desktopHome={<DesktopHome />} />;
+  return <HomeSwitcher desktopHome={<DesktopHome />} mobileHome={<MobileHomeServer />} />;
 }

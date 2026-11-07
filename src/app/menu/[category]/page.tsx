@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CategoryPageSwitcher from "@/components/CategoryPageSwitcher";
 import DesktopCategoryPage from "@/components/DesktopCategoryPage";
+import MobileCategoryPageServer from "@/components/MobileCategoryPageServer";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
 import { createServerComponentClient } from "@/lib/supabase-server";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface CategoryRecord {
   id: string;
@@ -14,9 +13,9 @@ interface CategoryRecord {
 }
 
 interface PageProps {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 }
 
 async function getMenuCategoryData() {
@@ -65,7 +64,8 @@ async function getActiveCategory(categorySlug: string) {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const activeCategory = await getActiveCategory(params.category);
+  const { category } = await params;
+  const activeCategory = await getActiveCategory(category);
 
   if (!activeCategory) {
     return {
@@ -130,8 +130,9 @@ export async function generateMetadata({
 }
 
 export default async function MenuCategoryPage({ params }: PageProps) {
+  const { category: categorySlug } = await params;
   const { categories } = await getMenuCategoryData();
-  const activeCategory = categories.find((category) => category.slug === params.category);
+  const activeCategory = categories.find((category) => category.slug === categorySlug);
 
   if (!activeCategory) {
     notFound();
@@ -169,8 +170,8 @@ export default async function MenuCategoryPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <CategoryPageSwitcher
-        categorySlug={params.category}
-        desktopCategory={<DesktopCategoryPage categorySlug={params.category} />}
+        desktopCategory={<DesktopCategoryPage categorySlug={categorySlug} />}
+        mobileCategory={<MobileCategoryPageServer categorySlug={categorySlug} />}
       />
     </>
   );

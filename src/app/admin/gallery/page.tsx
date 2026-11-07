@@ -1,44 +1,37 @@
 /* Admin — Gallery management (CRUD for gallery_images table) */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import Image from "next/image";
-import { createClientComponentClient } from "@/lib/supabase";
+import AdminImageField from "@/components/admin/AdminImageField";
+import { listAdminGallery, saveAdminGallery } from "@/app/admin/actions";
+import type { AdminGalleryRow } from "@/types/admin-data";
+import type { AdminImageIntent, SafeAdminImage } from "@/types/admin-image";
 
-interface GalleryRow {
-  id: string;
-  url: string;
-  alt_text: string;
-  active: boolean;
-  sort_order: number;
+const emptyImage: SafeAdminImage = { hasImage: false, label: "No image", provider: null, preview: null };
+
+function errorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
 }
 
 export default function GalleryPage() {
-  const [images, setImages] = useState<GalleryRow[]>([]);
+  const [images, setImages] = useState<AdminGalleryRow[]>([]);
+  const [deletedIds, setDeletedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   // New image form
-  const [newUrl, setNewUrl] = useState("");
+  const [newImageIntent, setNewImageIntent] = useState<AdminImageIntent>({ kind: "unchanged" });
   const [newAlt, setNewAlt] = useState("");
   const [adding, setAdding] = useState(false);
 
   const fetchImages = useCallback(async () => {
     try {
-      const supabase = createClientComponentClient();
-      const { data, error: err } = await supabase
-        .from("gallery_images")
-        .select("*")
-        .order("sort_order", { ascending: true });
-
-      if (err) throw err;
-      setImages((data as GalleryRow[]) ?? []);
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to load gallery images.");
+      setImages(await listAdminGallery());
+      setDeletedIds([]);
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to load gallery images."));
     } finally {
       setLoading(false);
     }
@@ -48,9 +41,9 @@ export default function GalleryPage() {
     fetchImages();
   }, [fetchImages]);
 
-  function updateRow(index: number, field: keyof GalleryRow, value: string | boolean | number) {
+  function updateRow(index: number, patch: Partial<AdminGalleryRow>) {
     setImages((prev) =>
-      prev.map((row, i) => (i === index ? { ...row, [field]: value } : row))
+      prev.map((row, i) => (i === index ? { ...row, ...patch } : row))
     );
     setError("");
     setSuccess("");
@@ -62,81 +55,55 @@ export default function GalleryPage() {
     setSuccess("");
 
     try {
-      const supabase = createClientComponentClient();
-
-      for (const row of images) {
-        const { error: err } = await supabase
-          .from("gallery_images")
-          .update({
-            url: row.url,
-            alt_text: row.alt_text,
-            active: row.active,
-            sort_order: row.sort_order,
-          })
-          .eq("id", row.id);
-
-        if (err) throw err;
-      }
-
+      await saveAdminGallery(images, deletedIds);
+      await fetchImages();
       setSuccess("Gallery saved successfully.");
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to save. Please try again.");
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to save. Please try again."));
     } finally {
       setSaving(false);
     }
   }
 
   async function handleAdd() {
-    if (!newUrl.trim()) return setError("Image URL is required.");
+    if (newImageIntent.kind !== "replace") return setError("Choose or upload an image first.");
 
     setAdding(true);
     setError("");
     setSuccess("");
 
     try {
-      const supabase = createClientComponentClient();
       const nextOrder = images.length > 0
         ? Math.max(...images.map((img) => img.sort_order)) + 1
         : 0;
-
-      const { error: err } = await supabase
-        .from("gallery_images")
-        .insert({
-          url: newUrl.trim(),
-          alt_text: newAlt.trim(),
-          active: true,
-          sort_order: nextOrder,
-        });
-
-      if (err) throw err;
-
-      setNewUrl("");
+      const row: AdminGalleryRow = {
+        id: crypto.randomUUID(),
+        persisted: false,
+        alt_text: newAlt.trim(),
+        active: true,
+        sort_order: nextOrder,
+        image: emptyImage,
+        imageIntent: newImageIntent,
+      };
+      const next = [...images, row];
+      await saveAdminGallery(next, deletedIds);
+      await fetchImages();
+      setNewImageIntent({ kind: "unchanged" });
       setNewAlt("");
       setSuccess("Image added successfully.");
-      await fetchImages();
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to add image.");
+    } catch (error: unknown) {
+      setError(errorMessage(error, "Failed to add image."));
     } finally {
       setAdding(false);
     }
   }
 
   async function handleDelete(id: string) {
-    if (!window.confirm("Delete this image? This cannot be undone.")) return;
-
-    try {
-      const supabase = createClientComponentClient();
-      const { error: err } = await supabase
-        .from("gallery_images")
-        .delete()
-        .eq("id", id);
-
-      if (err) throw err;
-      setImages((prev) => prev.filter((img) => img.id !== id));
-      setSuccess("Image deleted.");
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to delete image.");
-    }
+    if (!window.confirm("Remove this image from the gallery when changes are saved?")) return;
+    const row = images.find((image) => image.id === id);
+    setImages((prev) => prev.filter((img) => img.id !== id));
+    if (row?.persisted) setDeletedIds((prev) => [...new Set([...prev, id])]);
+    setSuccess("Image removal staged. Save all changes to apply it.");
   }
 
   const inputClass =
@@ -170,18 +137,14 @@ export default function GalleryPage() {
           Add New Image
         </h2>
         <div className="mt-3 grid gap-4 sm:grid-cols-2">
-          <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600">
-              Image URL *
-            </label>
-            <input
-              type="text"
-              value={newUrl}
-              onChange={(e) => setNewUrl(e.target.value)}
-              className={inputClass}
-              placeholder="https://images.unsplash.com/..."
-            />
-          </div>
+          <AdminImageField
+            id="new-gallery-image"
+            label="Image"
+            current={emptyImage}
+            intent={newImageIntent}
+            onChange={setNewImageIntent}
+            required
+          />
           <div>
             <label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-600">
               Alt Text
@@ -195,17 +158,6 @@ export default function GalleryPage() {
             />
           </div>
         </div>
-        {newUrl && (
-          <div className="mt-3 relative h-32 w-48 overflow-hidden rounded-sm border border-neutral-200 bg-neutral-50">
-            <Image
-              src={newUrl}
-              alt={newAlt || "Preview"}
-              fill
-              className="object-cover"
-              sizes="200px"
-            />
-          </div>
-        )}
         <button
           type="button"
           onClick={handleAdd}
@@ -235,28 +187,26 @@ export default function GalleryPage() {
               <div key={img.id} className="flex items-start gap-4 px-5 py-4">
                 {/* Thumbnail */}
                 <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm border border-neutral-200 bg-neutral-50">
-                  <Image
-                    src={img.url}
-                    alt={img.alt_text || "Gallery image"}
-                    fill
-                    className="object-cover"
-                    sizes="120px"
-                  />
+                  {img.image.preview ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={img.image.preview.src} srcSet={img.image.preview.srcSet} alt={img.alt_text || "Gallery image"} sizes="120px" width={112} height={80} className="h-full w-full object-cover" />
+                  ) : null}
                 </div>
 
                 {/* Fields */}
                 <div className="flex-1 space-y-2">
-                  <input
-                    type="text"
-                    value={img.url}
-                    onChange={(e) => updateRow(i, "url", e.target.value)}
-                    className={inputClass}
-                    placeholder="Image URL"
+                  <AdminImageField
+                    id={`gallery-image-${img.id}`}
+                    label="Image"
+                    current={img.image}
+                    intent={img.imageIntent}
+                    onChange={(imageIntent) => updateRow(i, { imageIntent })}
+                    required
                   />
                   <input
                     type="text"
                     value={img.alt_text}
-                    onChange={(e) => updateRow(i, "alt_text", e.target.value)}
+                    onChange={(e) => updateRow(i, { alt_text: e.target.value })}
                     className={inputClass}
                     placeholder="Alt text"
                   />
@@ -265,7 +215,7 @@ export default function GalleryPage() {
                       <input
                         type="checkbox"
                         checked={img.active}
-                        onChange={(e) => updateRow(i, "active", e.target.checked)}
+                        onChange={(e) => updateRow(i, { active: e.target.checked })}
                         className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500"
                       />
                       Active
@@ -275,7 +225,7 @@ export default function GalleryPage() {
                       <input
                         type="number"
                         value={img.sort_order}
-                        onChange={(e) => updateRow(i, "sort_order", parseInt(e.target.value) || 0)}
+                        onChange={(e) => updateRow(i, { sort_order: parseInt(e.target.value) || 0 })}
                         className="w-16 rounded-sm border border-neutral-300 px-2 py-1 text-sm outline-none focus:border-red-500"
                       />
                     </label>

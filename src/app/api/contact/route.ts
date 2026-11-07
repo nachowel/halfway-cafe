@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { sendContactEmail } from "@/lib/contact-mail";
 
 // ---------------------------------------------------------------------------
 // In-memory rate limiter — max 5 submissions per IP per 10 minutes
@@ -106,38 +106,17 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Build transporter
-  const transporter = nodemailer.createTransport({
-    host: "smtp.zoho.eu",
-    port: 465,
-    secure: true,
-    auth: { user, pass },
-  });
-
   const timestamp = new Date().toLocaleString("en-GB", {
     timeZone: "Europe/London",
     dateStyle: "full",
     timeStyle: "short",
   });
 
-  const emailBody = `New website contact form submission
-
-Name: ${name}
-Email: ${email}
-Submitted: ${timestamp}
-IP: ${ip}
-
-Message:
-${message}
-`.trim();
-
   try {
-    await transporter.sendMail({
-      from: `"Halfway Cafe Website" <${user}>`,
-      to: "info@halfwaycafe.co.uk",
-      replyTo: email,
-      subject: "New Contact Form Message - Halfway Cafe",
-      text: emailBody,
+    await sendContactEmail({
+      user,
+      pass,
+      submission: { name, email, message, ip, timestamp },
     });
 
     return NextResponse.json({

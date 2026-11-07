@@ -4,9 +4,14 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@/lib/supabase";
+import AdminImageField from "@/components/admin/AdminImageField";
+import {
+  deleteAdminMenuItem,
+  listAdminCategoryOptions,
+  saveAdminMenuItem,
+} from "@/app/admin/actions";
+import type { AdminImageIntent, SafeAdminImage } from "@/types/admin-image";
 
 interface FormData {
   name: string;
@@ -16,7 +21,6 @@ interface FormData {
   price_sandwich: string;
   price_baguette: string;
   category: string;
-  image_url: string;
   available: string;
   active: boolean;
   featured: boolean;
@@ -27,6 +31,7 @@ interface MenuItemFormProps {
   /** null → create mode, string → edit mode */
   itemId: string | null;
   initial?: Partial<FormData>;
+  currentImage?: SafeAdminImage;
 }
 
 interface CategoryOption {
@@ -68,14 +73,15 @@ const defaultForm: FormData = {
   price_sandwich: "",
   price_baguette: "",
   category: "breakfast",
-  image_url: "",
   available: "all-day",
   active: true,
   featured: false,
   dietary: [],
 };
 
-export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
+const emptyImage: SafeAdminImage = { hasImage: false, label: "No image", provider: null, preview: null };
+
+export default function MenuItemForm({ itemId, initial, currentImage = emptyImage }: MenuItemFormProps) {
   const router = useRouter();
   const isEdit = itemId !== null;
 
@@ -86,24 +92,14 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
   const [success, setSuccess] = useState("");
   const [categoryOptions, setCategoryOptions] = useState<CategoryOption[]>(fallbackCategories);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [imageIntent, setImageIntent] = useState<AdminImageIntent>({ kind: "unchanged" });
 
   // Fetch categories from Supabase
   useEffect(() => {
     async function loadCategories() {
       try {
-        const supabase = createClientComponentClient();
-        const { data, error: err } = await supabase
-          .from("categories")
-          .select("name, slug")
-          .eq("active", true)
-          .order("sort_order", { ascending: true });
-
-        if (err) throw err;
-        if (data && data.length > 0) {
-          setCategoryOptions(
-            data.map((c) => ({ value: c.slug, label: c.name }))
-          );
-        }
+        const data = await listAdminCategoryOptions();
+        if (data.length > 0) setCategoryOptions(data);
       } catch {
         // Keep fallback categories
       } finally {
@@ -152,8 +148,8 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
     setSaving(true);
 
     try {
-      const supabase = createClientComponentClient();
-      const payload = {
+      await saveAdminMenuItem({
+        id: itemId,
         name: form.name.trim(),
         description: form.description.trim(),
         price: parseFloat(parsedPrice.toFixed(2)),
@@ -161,41 +157,22 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
         price_sandwich: parseOptionalPrice(form.price_sandwich),
         price_baguette: parseOptionalPrice(form.price_baguette),
         category: form.category.trim(),
-        image_url: form.image_url.trim() || null,
         available: form.available.trim() || "all-day",
         active: Boolean(form.active),
         featured: Boolean(form.featured),
         dietary: Array.isArray(form.dietary) ? form.dietary : [],
-      };
-
-      // DEBUG: log payload to diagnose 400 errors — remove after fix confirmed
-      console.log("[MenuItemForm] payload:", JSON.stringify(payload, null, 2));
+        imageIntent,
+      });
 
       if (isEdit) {
-        const { error: err } = await supabase
-          .from("menu_items")
-          .update(payload)
-          .eq("id", itemId);
-        if (err) {
-          console.error("[MenuItemForm] update error:", err);
-          throw err;
-        }
         setSuccess("Changes saved successfully.");
         router.push("/admin/menu");
         router.refresh();
       } else {
-        const { error: err } = await supabase
-          .from("menu_items")
-          .insert(payload);
-        if (err) {
-          console.error("[MenuItemForm] insert error:", err);
-          throw err;
-        }
         router.push("/admin/menu");
         router.refresh();
       }
     } catch (e: any) {
-      console.error("[MenuItemForm] caught error:", e);
       setError(e?.message ?? "Failed to save. Please try again.");
     } finally {
       setSaving(false);
@@ -208,12 +185,7 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
 
     setDeleting(true);
     try {
-      const supabase = createClientComponentClient();
-      const { error: err } = await supabase
-        .from("menu_items")
-        .delete()
-        .eq("id", itemId);
-      if (err) throw err;
+      await deleteAdminMenuItem(itemId);
       router.push("/admin/menu");
     } catch (e: any) {
       setError(e?.message ?? "Failed to delete.");
@@ -344,29 +316,14 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
           </div>
         </div>
 
-        {/* Image URL + preview */}
-        <div>
-          <label htmlFor="image_url" className={labelClass}>Image URL</label>
-          <input
-            id="image_url"
-            type="text"
-            value={form.image_url}
-            onChange={(e) => set("image_url", e.target.value)}
-            className={inputClass}
-            placeholder="https://images.unsplash.com/..."
-          />
-          {form.image_url && (
-              <div className="mt-3 relative h-40 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-              <Image
-                src={form.image_url}
-                alt="Preview"
-                fill
-                className="object-cover"
-                sizes="600px"
-              />
-            </div>
-          )}
-        </div>
+        <AdminImageField
+          id="menu-item-image"
+          label="Image"
+          current={currentImage}
+          intent={imageIntent}
+          onChange={setImageIntent}
+          helper="Upload a new verified image or choose one of the 101 migrated assets."
+        />
 
         {/* Available */}
         <div>
