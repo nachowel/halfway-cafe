@@ -1,97 +1,97 @@
 import type { MetadataRoute } from "next";
+import { createClient } from "@supabase/supabase-js";
+import { getSupabasePublicEnv } from "@/lib/supabase-config";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const env = getSupabasePublicEnv();
+  let slugs = ["breakfast", "omelettes", "pancakes-eggs", "sandwiches", "burgers", "jacket-potatoes", "lunch", "panini", "sides-extras", "drinks", "kids-menu"];
+  if (env) {
+    try {
+      const supabase = createClient(env.supabaseUrl, env.supabaseAnonKey);
+      const { data, error } = await supabase.from("categories").select("slug").eq("active", true);
+      if (error) throw error;
+      if (data?.length) slugs = data.map((category) => category.slug);
+    } catch (error) {
+      console.error("Sitemap category fetch failed:", error);
+    }
+  }
   return [
+    ...slugs.map((slug) => ({ url: `https://halfwaycafe.co.uk/menu/${slug}`, priority: 0.8, changeFrequency: "weekly" as const })),
     {
       url: "https://halfwaycafe.co.uk",
-      lastModified: new Date(),
       priority: 1.0,
     },
     {
       url: "https://halfwaycafe.co.uk/menu",
-      lastModified: new Date(),
       priority: 0.9,
     },
     {
       url: "https://halfwaycafe.co.uk/gallery",
-      lastModified: new Date(),
       priority: 0.7,
     },
     {
       url: "https://halfwaycafe.co.uk/about",
-      lastModified: new Date(),
       priority: 0.6,
     },
     {
       url: "https://halfwaycafe.co.uk/faq",
-      lastModified: new Date(),
       priority: 0.7,
     },
     {
       url: "https://halfwaycafe.co.uk/contact",
-      lastModified: new Date(),
       priority: 0.8,
     },
     {
       url: "https://halfwaycafe.co.uk/breakfast-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
     },
     {
       url: "https://halfwaycafe.co.uk/cafe-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
     },
     {
       url: "https://halfwaycafe.co.uk/coffee-shop-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
       url: "https://halfwaycafe.co.uk/cafe-near-sidcup-station",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
       url: "https://halfwaycafe.co.uk/brunch-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
-      url: "https://halfwaycafe.co.uk/english-breakfast-sidcup",
-      lastModified: new Date(),
+      url: "https://halfwaycafe.co.uk/full-english-breakfast-sidcup",
       priority: 0.8,
     },
     {
       url: "https://halfwaycafe.co.uk/takeaway-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
       url: "https://halfwaycafe.co.uk/bacon-sandwich-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
       url: "https://halfwaycafe.co.uk/pancakes-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
       url: "https://halfwaycafe.co.uk/eggs-benedict-sidcup",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
       url: "https://halfwaycafe.co.uk/breakfast-da15",
-      lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
