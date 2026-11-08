@@ -183,9 +183,9 @@ export default function MobileCategoryPage({
           <ChevronLeft size={22} strokeWidth={1.5} />
         </Link>
 
-        <p className="truncate px-3 text-center font-playfair text-[18px] font-bold text-[#1A1A1A]">
+        <h1 className="truncate px-3 text-center font-playfair text-[18px] font-bold text-[#1A1A1A]">
           {categoryName}
-        </p>
+        </h1>
 
         <div className="w-10" />
       </header>

@@ -36,6 +36,7 @@ export type MobileMenuData = {
   categories: CategoryRow[];
   openingHours: OpeningHoursRow[];
   itemCounts: Record<string, number>;
+  todayIndex: number;
 };
 
 const dayNames = [
@@ -95,7 +96,7 @@ export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
   const filteredCategories = data.categories.filter((category) =>
     (category.name ?? "").toLowerCase().includes(normalizedSearch)
   );
-  const todayIndex = new Date().getDay();
+  const todayIndex = data.todayIndex;
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A1A] md:hidden">
@@ -105,7 +106,7 @@ export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
         </Link>
 
         <div className="text-center">
-          <p
+          <h1
             style={{
               fontFamily: "'Playfair Display', serif",
               fontWeight: 700,
@@ -115,7 +116,7 @@ export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
             }}
           >
             Our Menu
-          </p>
+          </h1>
           <p
             className="text-[#9CA3AF]"
             style={{ fontSize: "14px", fontWeight: 500, marginTop: "2px", opacity: 0.85 }}
