@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CategoryPageSwitcher from "@/components/CategoryPageSwitcher";
 import DesktopCategoryPage from "@/components/DesktopCategoryPage";
+import MobileCategoryPageServer from "@/components/MobileCategoryPageServer";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
 import { createServerComponentClient } from "@/lib/supabase-server";
 
@@ -169,8 +170,8 @@ export default async function MenuCategoryPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <CategoryPageSwitcher
-        categorySlug={params.category}
         desktopCategory={<DesktopCategoryPage categorySlug={params.category} />}
+        mobileCategory={<MobileCategoryPageServer categorySlug={params.category} />}
       />
     </>
   );
