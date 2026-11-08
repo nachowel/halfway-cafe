@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -18,7 +19,6 @@ export type CategoryRow = {
   id: string;
   name?: string | null;
   slug?: string | null;
-  image_url?: string | null;
 };
 
 export type MenuItemRow = {
@@ -33,7 +33,7 @@ export type MenuItemRow = {
   category?: string | null;
   active?: boolean | null;
   sort_order?: number | null;
-  image?: ResolvedPublicImage | null;
+  resolvedImage?: ResolvedPublicImage | null;
 };
 
 export type CountRow = {
@@ -162,7 +162,7 @@ export default function MobileCategoryPage({
   );
 
   function openPreview(item: MenuItemRow) {
-    if (!item.image) {
+    if (!item.resolvedImage && !item.image_url) {
       return;
     }
 
@@ -292,9 +292,17 @@ export default function MobileCategoryPage({
                     className="relative flex h-[100px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#F5F5F5]"
                     aria-label={`Preview ${item.name ?? "menu item"}`}
                   >
-                    {item.image ? (
+                    {item.resolvedImage ? (
                       <ResponsivePublicImage
-                        image={item.image}
+                        image={item.resolvedImage}
+                        alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
+                        fill
+                        sizes="112px"
+                        className="object-cover"
+                      />
+                    ) : item.image_url ? (
+                      <Image
+                        src={item.image_url}
                         alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                         fill
                         sizes="112px"
@@ -426,9 +434,18 @@ export default function MobileCategoryPage({
                   <X size={16} strokeWidth={1.75} />
                 </button>
 
-                {previewItem.image ? (
+                {previewItem.resolvedImage ? (
                   <ResponsivePublicImage
-                    image={previewItem.image}
+                    image={previewItem.resolvedImage}
+                    alt={previewItem.name ? `${previewItem.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
+                    width={1200}
+                    height={1200}
+                    sizes="(max-width: 600px) calc(100vw - 48px), 92vw"
+                    className="block h-auto max-h-[80vh] w-full object-contain"
+                  />
+                ) : previewItem.image_url ? (
+                  <Image
+                    src={previewItem.image_url}
                     alt={previewItem.name ? `${previewItem.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                     width={1200}
                     height={1200}

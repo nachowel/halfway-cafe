@@ -33,3 +33,27 @@ export interface ResolvedPublicImage {
   objectPath?: string;
 }
 
+export interface CloudinaryRegistryAsset {
+  public_id: string;
+  version: number;
+  format: "jpeg" | "jpg" | "png" | "webp";
+  width: number;
+  height: number;
+}
+
+export type PublicMenuImageDiagnosticStage =
+  | "invalid-reference"
+  | "configuration-missing"
+  | "registry-missing"
+  | "registry-invalid"
+  | "registry-error";
+
+export interface PublicMenuImageDiagnostic {
+  stage: PublicMenuImageDiagnosticStage;
+  publicId?: string;
+}
+
+export type PublicMenuImageResolution =
+  | { kind: "none" }
+  | { kind: "legacy"; source: string }
+  | { kind: "cloudinary"; image: ResolvedPublicImage | null };

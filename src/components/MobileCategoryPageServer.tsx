@@ -3,28 +3,57 @@ import MobileCategoryPage, {
   type CountRow,
   type MenuItemRow,
 } from "./MobileCategoryPage";
-import { getCategories, getMenuItems } from "@/lib/queries";
-import { resolvePublicImage } from "@/lib/public-images.server";
-import { withoutImageSource } from "@/lib/public-image-data";
+import { resolvePublicMenuItemImage } from "@/lib/public-menu-image-core";
+import { resolvePublicMenuImage } from "@/lib/public-menu-images.server";
+import { getCategories, getMenuItems, getMenuItemsByCategory } from "@/lib/queries";
 
-export default async function MobileCategoryPageServer({ categorySlug }: { categorySlug: string }) {
-  const [categories, allItems] = await Promise.all([getCategories(), getMenuItems()]);
-  const items = (allItems as MenuItemRow[])
-    .filter((item) => item.category === categorySlug)
-    .map((item) => {
-      return {
-        ...withoutImageSource(item),
-        image: resolvePublicImage(item.image_url, "content"),
+export default async function MobileCategoryPageServer({
+  categorySlug,
+}: {
+  categorySlug: string;
+}) {
+  const [categoryRows, itemRows, allItemRows] = await Promise.all([
+    getCategories(),
+    getMenuItemsByCategory(categorySlug),
+    getMenuItems(),
+  ]);
+  const categories: CategoryRow[] = categoryRows.map((row) => ({
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+  }));
+  const items = await Promise.all(
+    itemRows.map((row) => {
+      const item: MenuItemRow = {
+        id: row.id,
+        name: row.name,
+        description: row.description,
+        price: row.price,
+        price_roll: row.price_roll,
+        price_sandwich: row.price_sandwich,
+        price_baguette: row.price_baguette,
+        image_url: row.image_url,
+        category: row.category,
+        active: row.active,
+        sort_order: row.sort_order,
       };
-    });
-  const countRows = (allItems as MenuItemRow[]).map((item) => ({
-    id: item.id,
-    category: item.category,
-  })) satisfies CountRow[];
+      return resolvePublicMenuItemImage(
+        item,
+        "image_url",
+        "content",
+        resolvePublicMenuImage,
+      );
+    }),
+  );
+  const countRows: CountRow[] = allItemRows.map((row) => ({
+    id: row.id,
+    category: row.category,
+  }));
+
   return (
     <MobileCategoryPage
       categorySlug={categorySlug}
-      categories={(categories as CategoryRow[]).map(withoutImageSource)}
+      categories={categories}
       items={items}
       countRows={countRows}
     />

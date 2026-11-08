@@ -1,4 +1,5 @@
 /* Halfway Cafe — Shared TypeScript types */
+
 import type { ResolvedPublicImage } from "./public-image";
 
 // ─── Menu ───
