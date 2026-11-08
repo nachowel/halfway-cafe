@@ -103,19 +103,19 @@ git commit -m "fix: resolve Cloudinary menu image references"
 
 **Files:**
 - Create: `src/lib/public-menu-images.server.ts`
-- Test: `src/lib/public-menu-image-boundaries.test.mjs`
+- Test: `src/lib/public-menu-image-core.test.ts`
 
 **Interfaces:**
 - Consumes: `resolvePublicMenuImageCore` from Task 1.
 - Produces: `resolvePublicMenuImage(source, role): Promise<PublicMenuImageResolution>`.
 
-- [ ] **Step 1: Write a failing source-boundary test**
+- [ ] **Step 1: Write failing adapter-contract tests in the pure core**
 
-Read the server adapter source and assert it imports `server-only`, reads exactly `CLOUDINARY_CLOUD_NAME` and `CLOUDINARY_API_SECRET`, calls `resolve_public_image_asset`, and does not export either secret. Assert client image components do not import the server adapter.
+Exercise the real resolution contract with injected registry behavior: a ready row produces signed public URLs, a missing row and a thrown lookup produce a Cloudinary placeholder result, malformed references never become legacy sources, and serialized results/diagnostics never contain the supplied secret.
 
 - [ ] **Step 2: Run the boundary test and verify RED**
 
-Run: `node --test src/lib/public-menu-image-boundaries.test.mjs`
+Run: `node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts`
 
 - [ ] **Step 3: Implement the server adapter**
 
@@ -127,14 +127,14 @@ supabase.rpc("resolve_public_image_asset", { p_public_id: publicId })
 
 Return the first ready row or `null`. Pass only env values into the pure core. Log diagnostics as structured stage plus already-validated public ID; invalid references log only the stage.
 
-- [ ] **Step 4: Run boundary and core tests and verify GREEN**
+- [ ] **Step 4: Run core tests plus TypeScript and verify GREEN**
 
-Run both relevant Node test files.
+Run the core test file and `npx tsc --noEmit`; the compiler enforces that client components receive only serializable result types and do not import the server-only adapter.
 
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add src/lib/public-menu-images.server.ts src/lib/public-menu-image-boundaries.test.mjs
+git add src/lib/public-menu-images.server.ts src/lib/public-menu-image-core.test.ts
 git commit -m "fix: add server-only Cloudinary registry adapter"
 ```
 
@@ -145,15 +145,15 @@ git commit -m "fix: add server-only Cloudinary registry adapter"
 - Modify: `src/types/index.ts`
 - Modify: `src/components/DesktopCategoryPage.tsx`
 - Modify: `src/components/ui/DishCard.tsx`
-- Test: `src/lib/public-menu-image-boundaries.test.mjs`
+- Test: `src/lib/public-menu-image-core.test.ts`
 
 **Interfaces:**
 - Consumes: `resolvePublicMenuImage` and `ResolvedPublicImage`.
 - Produces: menu items whose `image` remains an unchanged legacy URL or whose `resolvedImage` contains signed Cloudinary delivery metadata.
 
-- [ ] **Step 1: Extend the boundary test and verify RED**
+- [ ] **Step 1: Extend transformation behavior tests and verify RED**
 
-Require desktop category data to call the server resolver. Require `DishCard` to render resolved images through `ResponsivePublicImage` while retaining `next/image` for legacy `item.image`.
+Test a shared item transformation helper with real objects: legacy input retains the exact URL, successful Cloudinary resolution removes the logical source and attaches `resolvedImage`, and failed/invalid Cloudinary resolution removes the logical source and attaches no client image URL.
 
 - [ ] **Step 2: Implement direct responsive Cloudinary rendering**
 
@@ -166,7 +166,7 @@ For `legacy`, retain `item.image` byte-for-byte. For `cloudinary`, remove `item.
 - [ ] **Step 4: Run tests, TypeScript, and lint**
 
 ```powershell
-node --test src/lib/public-menu-image-boundaries.test.mjs
+node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts
 npx tsc --noEmit
 npm run lint
 ```
@@ -174,7 +174,7 @@ npm run lint
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add src/components/ui/ResponsivePublicImage.tsx src/types/index.ts src/components/DesktopCategoryPage.tsx src/components/ui/DishCard.tsx src/lib/public-menu-image-boundaries.test.mjs
+git add src/components/ui/ResponsivePublicImage.tsx src/types/index.ts src/components/DesktopCategoryPage.tsx src/components/ui/DishCard.tsx src/lib/public-menu-image-core.test.ts
 git commit -m "fix: render resolved Cloudinary images on desktop menus"
 ```
 
@@ -185,15 +185,15 @@ git commit -m "fix: render resolved Cloudinary images on desktop menus"
 - Modify: `src/app/menu/[category]/page.tsx`
 - Modify: `src/components/CategoryPageSwitcher.tsx`
 - Modify: `src/components/MobileCategoryPage.tsx`
-- Test: `src/lib/public-menu-image-boundaries.test.mjs`
+- Test: `src/lib/public-menu-image-core.test.ts`
 
 **Interfaces:**
 - Consumes: existing `getCategories`, `getMenuItemsByCategory`, and `getMenuItems` query ordering/visibility behavior plus `resolvePublicMenuImage`.
 - Produces: preloaded mobile categories, category items, and count rows in the same order and active visibility as the existing client queries.
 
-- [ ] **Step 1: Extend parity boundary tests and verify RED**
+- [ ] **Step 1: Extend mobile parity behavior tests and verify RED**
 
-Assert mobile no longer imports the browser Supabase client, the server wrapper uses the existing active/ordered query helpers, and the category page passes both desktop and mobile server nodes through the switcher.
+Exercise the shared item transformation over an ordered fixture containing active category items, a legacy image, a valid Cloudinary reference, and a failed Cloudinary reference. Assert input order and visible fields are unchanged while only image representation changes. Browser verification will cover the real server/client composition.
 
 - [ ] **Step 2: Add the mobile server wrapper**
 
@@ -210,7 +210,7 @@ Run the same commands as Task 3 and verify no client/server import boundary erro
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add src/components/MobileCategoryPageServer.tsx src/app/menu/[category]/page.tsx src/components/CategoryPageSwitcher.tsx src/components/MobileCategoryPage.tsx src/lib/public-menu-image-boundaries.test.mjs
+git add src/components/MobileCategoryPageServer.tsx src/app/menu/[category]/page.tsx src/components/CategoryPageSwitcher.tsx src/components/MobileCategoryPage.tsx src/lib/public-menu-image-core.test.ts
 git commit -m "fix: resolve Cloudinary images on mobile menus"
 ```
 
@@ -231,7 +231,6 @@ Inspect `/menu`, homepage featured/category paths, gallery paths, admin list/for
 
 ```powershell
 node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts
-node --test src/lib/public-menu-image-boundaries.test.mjs
 npx tsc --noEmit
 npm run lint
 npm run build
