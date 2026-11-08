@@ -5,6 +5,8 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import { menuItems as fallbackMenu } from "@/data/menu";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
+import { resolvePublicMenuItemImage } from "@/lib/public-menu-image-core";
+import { resolvePublicMenuImage } from "@/lib/public-menu-images.server";
 import { createServerComponentClient } from "@/lib/supabase-server";
 import type { MenuItem } from "@/types";
 
@@ -179,6 +181,11 @@ export default async function DesktopCategoryPage({
   categorySlug: string;
 }) {
   const { categories, items, countRows } = await getMenuCategoryData(categorySlug);
+  const resolvedItems = await Promise.all(
+    items.map((item) =>
+      resolvePublicMenuItemImage(item, "image", "card", resolvePublicMenuImage),
+    ),
+  );
   const activeCategory = categories.find((category) => category.slug === categorySlug);
 
   if (!activeCategory) {
@@ -251,7 +258,7 @@ export default async function DesktopCategoryPage({
 
           <CategoryMenuContent
             categoryName={activeCategory.name ?? formatCategoryLabel(categorySlug)}
-            items={items}
+            items={resolvedItems}
             headingLevel={categorySlug === "breakfast" ? "h2" : "h1"}
           />
         </div>

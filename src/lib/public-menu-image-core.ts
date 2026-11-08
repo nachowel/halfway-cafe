@@ -154,3 +154,29 @@ export async function resolvePublicMenuImageCore({
     return { kind: "cloudinary", image: null };
   }
 }
+
+export async function resolvePublicMenuItemImage<
+  T extends object,
+  K extends keyof T,
+>(
+  item: T,
+  sourceField: K,
+  role: PublicImageRole,
+  resolver: (
+    source: string | null | undefined,
+    role: PublicImageRole,
+  ) => Promise<PublicMenuImageResolution>,
+): Promise<Omit<T, K> & Partial<Pick<T, K>> & { resolvedImage?: ResolvedPublicImage | null }> {
+  const sourceValue = item[sourceField];
+  const source = typeof sourceValue === "string" ? sourceValue : null;
+  const resolution = await resolver(source, role);
+
+  if (resolution.kind !== "cloudinary") return item;
+
+  const withoutLogicalReference = { ...item };
+  delete withoutLogicalReference[sourceField];
+  return {
+    ...withoutLogicalReference,
+    resolvedImage: resolution.image,
+  };
+}

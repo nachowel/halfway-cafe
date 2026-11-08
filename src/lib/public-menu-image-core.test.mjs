@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import {
   parseCloudinaryReference,
+  resolvePublicMenuItemImage,
   resolvePublicMenuImageCore,
   signCloudinaryDeliveryPath,
 } from "./public-menu-image-core.ts";
@@ -175,4 +176,42 @@ test("rejects registry metadata for a different public ID", async () => {
 
   assert.deepEqual(result, { kind: "cloudinary", image: null });
   assert.deepEqual(diagnostics, [{ stage: "registry-invalid", publicId: FISH_PUBLIC_ID }]);
+});
+
+test("item transformation preserves fields and order while removing logical references", async () => {
+  const cloudinaryImage = {
+    src: "https://res.cloudinary.com/demo/image/upload/s--signed--/fish.jpeg",
+    srcSet: "https://res.cloudinary.com/demo/image/upload/s--signed--/fish.jpeg 452w",
+    width: 452,
+    height: 678,
+    widths: [452],
+    provider: "cloudinary",
+  };
+  const items = [
+    { id: "legacy", name: "Chicken Nuggets", price: 5.9, image_url: "https://example.com/nuggets.png" },
+    { id: "cloud", name: "Fish Fingers", price: 5.9, image_url: `cloudinary/${FISH_PUBLIC_ID}` },
+    { id: "missing", name: "Missing", price: 1, image_url: "cloudinary/halfway-cafe/admin/missing--uuid" },
+  ];
+  const resolver = async (source) => {
+    if (source?.includes("fish-finger")) return { kind: "cloudinary", image: cloudinaryImage };
+    if (source?.startsWith("cloudinary/")) return { kind: "cloudinary", image: null };
+    return source ? { kind: "legacy", source } : { kind: "none" };
+  };
+
+  const transformed = await Promise.all(
+    items.map((item) => resolvePublicMenuItemImage(item, "image_url", "content", resolver)),
+  );
+
+  assert.deepEqual(transformed.map((item) => item.id), ["legacy", "cloud", "missing"]);
+  assert.deepEqual(transformed.map((item) => [item.name, item.price]), [
+    ["Chicken Nuggets", 5.9],
+    ["Fish Fingers", 5.9],
+    ["Missing", 1],
+  ]);
+  assert.equal(transformed[0].image_url, "https://example.com/nuggets.png");
+  assert.equal(transformed[0].resolvedImage, undefined);
+  assert.equal("image_url" in transformed[1], false);
+  assert.deepEqual(transformed[1].resolvedImage, cloudinaryImage);
+  assert.equal("image_url" in transformed[2], false);
+  assert.equal(transformed[2].resolvedImage, null);
 });
