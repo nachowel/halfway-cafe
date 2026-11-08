@@ -138,3 +138,41 @@ test("missing registry rows and lookup failures return a safe Cloudinary placeho
   assert.equal(JSON.stringify(diagnostics).includes("provider response"), false);
   assert.equal(JSON.stringify(diagnostics).includes("test-secret"), false);
 });
+
+test("missing server configuration fails closed before registry access", async () => {
+  const diagnostics = [];
+  const result = await resolvePublicMenuImageCore({
+    source: `cloudinary/${FISH_PUBLIC_ID}`,
+    role: "card",
+    cloudName: "",
+    apiSecret: "",
+    lookup: async () => assert.fail("missing configuration must not query the registry"),
+    diagnostic: (event) => diagnostics.push(event),
+  });
+
+  assert.deepEqual(result, { kind: "cloudinary", image: null });
+  assert.deepEqual(diagnostics, [
+    { stage: "configuration-missing", publicId: FISH_PUBLIC_ID },
+  ]);
+});
+
+test("rejects registry metadata for a different public ID", async () => {
+  const diagnostics = [];
+  const result = await resolvePublicMenuImageCore({
+    source: `cloudinary/${FISH_PUBLIC_ID}`,
+    role: "card",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async () => ({
+      public_id: "halfway-cafe/admin/different--uuid",
+      version: 1,
+      format: "jpeg",
+      width: 452,
+      height: 678,
+    }),
+    diagnostic: (event) => diagnostics.push(event),
+  });
+
+  assert.deepEqual(result, { kind: "cloudinary", image: null });
+  assert.deepEqual(diagnostics, [{ stage: "registry-invalid", publicId: FISH_PUBLIC_ID }]);
+});
