@@ -25,7 +25,7 @@
 **Files:**
 - Create: `src/types/public-image.ts`
 - Create: `src/lib/public-menu-image-core.ts`
-- Test: `src/lib/public-menu-image-core.test.ts`
+- Test: `src/lib/public-menu-image-core.test.mjs`
 
 **Interfaces:**
 - Produces: `parseCloudinaryReference(value): string | null`
@@ -39,7 +39,7 @@ Cover the valid Phase 8E form and reject empty/missing prefixes, other namespace
 
 - [ ] **Step 2: Run the parser tests and verify RED**
 
-Run: `node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts`
+Run: `node --no-warnings --experimental-strip-types --test src/lib/public-menu-image-core.test.mjs`
 
 Expected: module-not-found failure because the production core does not exist.
 
@@ -90,12 +90,12 @@ Inject `lookup(publicId)` and `diagnostic(event)` so tests do not import server 
 
 - [ ] **Step 7: Run tests and verify GREEN**
 
-Run: `node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts`
+Run: `node --no-warnings --experimental-strip-types --test src/lib/public-menu-image-core.test.mjs`
 
 - [ ] **Step 8: Commit**
 
 ```powershell
-git add src/types/public-image.ts src/lib/public-menu-image-core.ts src/lib/public-menu-image-core.test.ts
+git add src/types/public-image.ts src/lib/public-menu-image-core.ts src/lib/public-menu-image-core.test.mjs
 git commit -m "fix: resolve Cloudinary menu image references"
 ```
 
@@ -103,7 +103,7 @@ git commit -m "fix: resolve Cloudinary menu image references"
 
 **Files:**
 - Create: `src/lib/public-menu-images.server.ts`
-- Test: `src/lib/public-menu-image-core.test.ts`
+- Test: `src/lib/public-menu-image-core.test.mjs`
 
 **Interfaces:**
 - Consumes: `resolvePublicMenuImageCore` from Task 1.
@@ -115,7 +115,7 @@ Exercise the real resolution contract with injected registry behavior: a ready r
 
 - [ ] **Step 2: Run the adapter-contract test and verify RED**
 
-Run: `node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts`
+Run: `node --no-warnings --experimental-strip-types --test src/lib/public-menu-image-core.test.mjs`
 
 - [ ] **Step 3: Implement the server adapter**
 
@@ -134,7 +134,7 @@ Run the core test file and `npx tsc --noEmit`; the compiler enforces that client
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add src/lib/public-menu-images.server.ts src/lib/public-menu-image-core.test.ts
+git add src/lib/public-menu-images.server.ts src/lib/public-menu-image-core.test.mjs
 git commit -m "fix: add server-only Cloudinary registry adapter"
 ```
 
@@ -145,7 +145,7 @@ git commit -m "fix: add server-only Cloudinary registry adapter"
 - Modify: `src/types/index.ts`
 - Modify: `src/components/DesktopCategoryPage.tsx`
 - Modify: `src/components/ui/DishCard.tsx`
-- Test: `src/lib/public-menu-image-core.test.ts`
+- Test: `src/lib/public-menu-image-core.test.mjs`
 
 **Interfaces:**
 - Consumes: `resolvePublicMenuImage` and `ResolvedPublicImage`.
@@ -166,7 +166,7 @@ For `legacy`, retain `item.image` byte-for-byte. For `cloudinary`, remove `item.
 - [ ] **Step 4: Run tests, TypeScript, and lint**
 
 ```powershell
-node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts
+node --no-warnings --experimental-strip-types --test src/lib/public-menu-image-core.test.mjs
 npx tsc --noEmit
 npm run lint
 ```
@@ -174,7 +174,7 @@ npm run lint
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add src/components/ui/ResponsivePublicImage.tsx src/types/index.ts src/components/DesktopCategoryPage.tsx src/components/ui/DishCard.tsx src/lib/public-menu-image-core.test.ts
+git add src/components/ui/ResponsivePublicImage.tsx src/types/index.ts src/components/DesktopCategoryPage.tsx src/components/ui/DishCard.tsx src/lib/public-menu-image-core.test.mjs
 git commit -m "fix: render resolved Cloudinary images on desktop menus"
 ```
 
@@ -185,7 +185,7 @@ git commit -m "fix: render resolved Cloudinary images on desktop menus"
 - Modify: `src/app/menu/[category]/page.tsx`
 - Modify: `src/components/CategoryPageSwitcher.tsx`
 - Modify: `src/components/MobileCategoryPage.tsx`
-- Test: `src/lib/public-menu-image-core.test.ts`
+- Test: `src/lib/public-menu-image-core.test.mjs`
 
 **Interfaces:**
 - Consumes: existing `getCategories`, `getMenuItemsByCategory`, and `getMenuItems` query ordering/visibility behavior plus `resolvePublicMenuImage`.
@@ -210,7 +210,7 @@ Run the same commands as Task 3 and verify no client/server import boundary erro
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add src/components/MobileCategoryPageServer.tsx src/app/menu/[category]/page.tsx src/components/CategoryPageSwitcher.tsx src/components/MobileCategoryPage.tsx src/lib/public-menu-image-core.test.ts
+git add src/components/MobileCategoryPageServer.tsx src/app/menu/[category]/page.tsx src/components/CategoryPageSwitcher.tsx src/components/MobileCategoryPage.tsx src/lib/public-menu-image-core.test.mjs
 git commit -m "fix: resolve Cloudinary images on mobile menus"
 ```
 
@@ -230,7 +230,7 @@ Inspect `/menu`, homepage featured/category paths, gallery paths, admin list/for
 - [ ] **Step 2: Run the full static verification**
 
 ```powershell
-node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts
+node --no-warnings --experimental-strip-types --test src/lib/public-menu-image-core.test.mjs
 npx tsc --noEmit
 npm run lint
 npm run build

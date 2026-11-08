@@ -50,21 +50,28 @@ test("matches the approved Phase 8E SHA-256 signing vector", () => {
   );
 });
 
-test("passes legacy HTTPS input through byte-for-byte without a registry lookup", async () => {
-  const source = "https://images.unsplash.com/photo-123?w=600&q=80";
+test("passes Supabase and Unsplash HTTPS inputs through byte-for-byte", async () => {
+  const sources = [
+    "https://project.supabase.co/storage/v1/object/sign/kids/nuggets.png?token=signed-token",
+    "https://images.unsplash.com/photo-123?w=600&q=80",
+  ];
   let lookups = 0;
-  const result = await resolvePublicMenuImageCore({
-    source,
-    role: "card",
-    cloudName: "shared-cloud",
-    apiSecret: "test-secret",
-    lookup: async () => {
-      lookups += 1;
-      return null;
-    },
-  });
 
-  assert.deepEqual(result, { kind: "legacy", source });
+  for (const source of sources) {
+    const result = await resolvePublicMenuImageCore({
+      source,
+      role: "card",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => {
+        lookups += 1;
+        return null;
+      },
+    });
+
+    assert.deepEqual(result, { kind: "legacy", source });
+  }
+
   assert.equal(lookups, 0);
 });
 
