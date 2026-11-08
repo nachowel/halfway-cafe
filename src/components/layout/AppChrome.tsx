@@ -3,13 +3,16 @@
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import StickyContactBar from "@/components/layout/StickyContactBar";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
 export default function AppChrome({
   children,
   desktopFooter,
+  logoImage,
 }: {
   children: React.ReactNode;
   desktopFooter: React.ReactNode;
+  logoImage: ResolvedPublicImage;
 }) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
@@ -29,7 +32,7 @@ export default function AppChrome({
   return (
     <>
       <div className="hidden md:block">
-        <Navbar />
+        <Navbar logoImage={logoImage} />
       </div>
       <main className="overflow-x-hidden">{children}</main>
       <div className="hidden md:block">{desktopFooter}</div>

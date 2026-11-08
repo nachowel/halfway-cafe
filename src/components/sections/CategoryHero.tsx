@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 
 interface CategoryHeroProps {
   imageUrl?: string | null;
@@ -21,8 +21,9 @@ export default function CategoryHero({
 
   return (
     <section className="relative h-[380px] overflow-hidden rounded-2xl">
-      <Image
-        src={imageUrl}
+      <ServerPublicImage
+        source={imageUrl}
+        role="hero"
         alt={title}
         fill
         className="object-cover object-center"

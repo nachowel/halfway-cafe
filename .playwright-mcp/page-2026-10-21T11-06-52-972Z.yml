@@ -1,0 +1,46 @@
+- generic [active] [ref=f13e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - generic [ref=f13e3]:
+    - banner [ref=f13e4]:
+      - link "Vercel logo":
+        - /url: /home
+        - button [ref=f13e5] [cursor=pointer]:
+          - img "Vercel Logo" [ref=f13e6]
+      - navigation [ref=f13e8]:
+        - navigation [ref=f13e9]:
+          - link [ref=f13e10] [cursor=pointer]:
+            - /url: /signup?next=%2Fsso-api%3Furl%3Dhttps%253A%252F%252Fhalfway-cafe-ceq5ypbqq-nachowel.vercel.app%252F%26nonce%3D7c4897cbdc42b8678b86030b4c8f0c753cf767ce5c35f8df23c2f3e36130594b
+            - paragraph [ref=f13e12]: Sign Up
+    - main [ref=f13e13]:
+      - generic [ref=f13e15]:
+        - heading "Log in to Vercel" [level=1] [ref=f13e18]
+        - generic [ref=f13e19]:
+          - generic [ref=f13e20]:
+            - textbox "Email Address" [ref=f13e23]
+            - button "Continue with Email" [ref=f13e26] [cursor=pointer]
+          - generic [ref=f13e29]:
+            - button "Continue with Google" [ref=f13e30] [cursor=pointer]:
+              - generic [ref=f13e34]:
+                - generic [ref=f13e35]: Continue with
+                - text: Google
+            - button "Continue with GitHub" [ref=f13e36] [cursor=pointer]:
+              - generic [ref=f13e40]:
+                - generic [ref=f13e41]: Continue with
+                - text: GitHub
+            - button "Continue with ChatGPT" [ref=f13e42] [cursor=pointer]:
+              - generic [ref=f13e46]:
+                - generic [ref=f13e47]: Continue with
+                - text: ChatGPT
+            - button "Continue with SAML SSO" [ref=f13e49] [cursor=pointer]
+            - button "Continue with Passkey" [ref=f13e54] [cursor=pointer]
+            - button "Show other options" [ref=f13e59] [cursor=pointer]
+        - paragraph [ref=f13e62]:
+          - text: Don't have an account?
+          - link "Sign Up" [ref=f13e63] [cursor=pointer]:
+            - /url: /signup?next=%2Fsso-api%3Furl%3Dhttps%253A%252F%252Fhalfway-cafe-ceq5ypbqq-nachowel.vercel.app%252F%26nonce%3D7c4897cbdc42b8678b86030b4c8f0c753cf767ce5c35f8df23c2f3e36130594b
+      - generic [ref=f13e66]:
+        - link "Terms" [ref=f13e67] [cursor=pointer]:
+          - /url: /legal/terms
+        - link "Privacy Policy" [ref=f13e68] [cursor=pointer]:
+          - /url: /legal/privacy-policy

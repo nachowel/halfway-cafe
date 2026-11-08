@@ -1,0 +1,332 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Halfway Cafe logo Halfway Cafe" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Halfway Cafe logo" [ref=e5]
+        - generic [ref=e6]: Halfway Cafe
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Menu" [ref=e9] [cursor=pointer]:
+            - /url: /menu
+        - listitem [ref=e10]:
+          - link "About" [ref=e11] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e12]:
+          - link "Gallery" [ref=e13] [cursor=pointer]:
+            - /url: /gallery
+        - listitem [ref=e14]:
+          - link "FAQ" [ref=e15] [cursor=pointer]:
+            - /url: /faq
+        - listitem [ref=e16]:
+          - link "Contact" [ref=e17] [cursor=pointer]:
+            - /url: /contact
+      - link "Visit Today" [ref=e18] [cursor=pointer]:
+        - /url: /contact
+  - main [ref=e19]:
+    - generic [ref=e22]:
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Family-run British caff · Sidcup DA15
+        - heading "Best Breakfast in Sidcup" [level=1] [ref=e27]
+        - paragraph [ref=e28]: Full English, sandwiches & proper coffee
+        - paragraph [ref=e29]: Big portions · Quick service · No booking needed
+        - paragraph [ref=e30]: 176 Halfway Street, Sidcup DA15
+        - generic [ref=e31]:
+          - link "View Menu" [ref=e32] [cursor=pointer]:
+            - /url: /menu
+          - link "Get Directions" [ref=e33] [cursor=pointer]:
+            - /url: https://www.google.com/maps/dir/?api=1&destination=HalfWay+Cafe,+176+Halfway+St,+Sidcup+DA15+8DJ
+        - generic [ref=e34]:
+          - generic [ref=e35]: CLOSED
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - paragraph [ref=e39]: Today's hours
+              - paragraph [ref=e40]: 07:00 - 15:00
+            - generic [ref=e41]:
+              - paragraph [ref=e42]: Address
+              - paragraph [ref=e43]: 176 Halfway Street, Sidcup DA15 8DJ
+      - generic [ref=e44]:
+        - img "Inside Halfway Cafe in Sidcup during a busy breakfast service" [ref=e45]
+        - generic [ref=e48]:
+          - paragraph [ref=e49]: Breakfast served daily
+          - paragraph [ref=e50]: Since 2003
+    - generic [ref=e52]:
+      - paragraph [ref=e53]: HALFWAY CAFE · SIDCUP DA15 · FULL ENGLISH · FRESH COFFEE · FAMILY RUN · NO BOOKING NEEDED·
+      - paragraph [ref=e54]: HALFWAY CAFE · SIDCUP DA15 · FULL ENGLISH · FRESH COFFEE · FAMILY RUN · NO BOOKING NEEDED·
+    - generic [ref=e56]:
+      - paragraph [ref=e59]: Looking for the best breakfast in Sidcup? Halfway Cafe is a local favourite serving full English breakfast, freshly made sandwiches, and quality coffee every day. Located on Halfway Street (DA15), we're a family-run cafe known for generous portions, quick service, and a proper traditional London caff experience. Whether you're stopping by for a quick bite or a relaxed breakfast, we're ready to serve.
+      - generic [ref=e60]:
+        - link [ref=e62] [cursor=pointer]:
+          - /url: /menu/breakfast
+          - img "Breakfast dishes at Halfway Cafe in Sidcup" [ref=e63]
+          - generic [ref=e66]:
+            - heading "Breakfast" [level=3] [ref=e67]
+            - paragraph [ref=e68]: Explore full English breakfast and morning favourites in Sidcup.
+        - link [ref=e70] [cursor=pointer]:
+          - /url: /menu/omelettes
+          - img "Omelettes dishes at Halfway Cafe in Sidcup" [ref=e71]
+          - generic [ref=e74]:
+            - heading "Omelettes" [level=3] [ref=e75]
+            - paragraph [ref=e76]: Freshly prepared cafe favourites served daily in Sidcup.
+        - link [ref=e78] [cursor=pointer]:
+          - /url: /menu/pancakes-eggs
+          - img "Pancakes & Eggs dishes at Halfway Cafe in Sidcup" [ref=e79]
+          - generic [ref=e82]:
+            - heading "Pancakes & Eggs" [level=3] [ref=e83]
+            - paragraph [ref=e84]: Freshly prepared cafe favourites served daily in Sidcup.
+        - link [ref=e86] [cursor=pointer]:
+          - /url: /menu/sandwiches
+          - img "Sandwiches dishes at Halfway Cafe in Sidcup" [ref=e87]
+          - generic [ref=e90]:
+            - heading "Sandwiches" [level=3] [ref=e91]
+            - paragraph [ref=e92]: Freshly made sandwiches and hot rolls prepared daily.
+        - link [ref=e94] [cursor=pointer]:
+          - /url: /menu/burgers
+          - img "Burgers dishes at Halfway Cafe in Sidcup" [ref=e95]
+          - generic [ref=e98]:
+            - heading "Burgers" [level=3] [ref=e99]
+            - paragraph [ref=e100]: Hot made-to-order burgers served fresh every day.
+        - link [ref=e102] [cursor=pointer]:
+          - /url: /menu/jacket-potatoes
+          - img "Jacket Potatoes dishes at Halfway Cafe in Sidcup" [ref=e103]
+          - generic [ref=e106]:
+            - heading "Jacket Potatoes" [level=3] [ref=e107]
+            - paragraph [ref=e108]: Freshly prepared cafe favourites served daily in Sidcup.
+        - link [ref=e110] [cursor=pointer]:
+          - /url: /menu/lunch
+          - img "Lunch dishes at Halfway Cafe in Sidcup" [ref=e111]
+          - generic [ref=e114]:
+            - heading "Lunch" [level=3] [ref=e115]
+            - paragraph [ref=e116]: Hearty lunch plates for a quick midday stop.
+        - link [ref=e118] [cursor=pointer]:
+          - /url: /menu/panini
+          - img "Panini dishes at Halfway Cafe in Sidcup" [ref=e119]
+          - generic [ref=e122]:
+            - heading "Panini" [level=3] [ref=e123]
+            - paragraph [ref=e124]: Crisp toasted paninis with generous fillings.
+        - link [ref=e126] [cursor=pointer]:
+          - /url: /menu/sides-extras
+          - img "Sides & Extras dishes at Halfway Cafe in Sidcup" [ref=e127]
+          - generic [ref=e130]:
+            - heading "Sides & Extras" [level=3] [ref=e131]
+            - paragraph [ref=e132]: Freshly prepared cafe favourites served daily in Sidcup.
+        - link [ref=e134] [cursor=pointer]:
+          - /url: /menu/drinks
+          - img "Drinks dishes at Halfway Cafe in Sidcup" [ref=e135]
+          - generic [ref=e138]:
+            - heading "Drinks" [level=3] [ref=e139]
+            - paragraph [ref=e140]: Builder's tea, coffee, and cold drinks all day.
+        - link [ref=e142] [cursor=pointer]:
+          - /url: /menu/kids-menu
+          - img "Kids Menu dishes at Halfway Cafe in Sidcup" [ref=e143]
+          - generic [ref=e146]:
+            - heading "Kids Menu" [level=3] [ref=e147]
+            - paragraph [ref=e148]: Freshly prepared cafe favourites served daily in Sidcup.
+    - generic [ref=e151]:
+      - generic [ref=e153]:
+        - img "Cafe team serving breakfast at Halfway Cafe in Sidcup" [ref=e156]
+        - generic [ref=e157]:
+          - generic [ref=e158]: Over 20
+          - generic [ref=e159]: Years Serving Sidcup
+      - generic [ref=e160]:
+        - generic [ref=e162]:
+          - paragraph [ref=e163]: Our Story
+          - heading "A Proper London Caff" [level=2] [ref=e164]
+        - generic [ref=e166]:
+          - paragraph [ref=e167]: Halfway Cafe has served Sidcup and the wider DA15 area for over 20 years, and we're still the spot many locals choose for breakfast in Sidcup before work or on slower mornings. From full English breakfast plates to fresh sandwiches and strong tea, this is a Sidcup cafe built around proper portions and quick service.
+          - paragraph [ref=e168]:
+            - text: We're a family-run
+            - link "cafe in Sidcup" [ref=e169] [cursor=pointer]:
+              - /url: /cafe-sidcup
+            - text: ", so we keep things straightforward: fresh ingredients, food cooked to order, and a warm local service style that regulars know well. If you're after a full English or a reliable"
+            - link "breakfast in Sidcup" [ref=e170] [cursor=pointer]:
+              - /url: /breakfast-sidcup
+            - text: ", you'll find it here on Halfway Street."
+        - list [ref=e172]:
+          - listitem [ref=e173]:
+            - generic [ref=e175]: Family-run for over 20 years — proudly serving Sidcup, DA15
+          - listitem [ref=e176]:
+            - generic [ref=e178]: Fresh, quality ingredients prepared every single day
+          - listitem [ref=e179]:
+            - generic [ref=e181]: Full English breakfast, lunch plates, burgers & more
+          - listitem [ref=e182]:
+            - generic [ref=e184]: Cooked to order, every time, no shortcuts
+          - listitem [ref=e185]:
+            - generic [ref=e187]: Customer satisfaction is always our first priority
+          - listitem [ref=e188]:
+            - generic [ref=e190]: A warm welcome for locals, families, and first-timers alike
+        - generic [ref=e192]:
+          - generic [ref=e193]:
+            - generic [ref=e194]: Over 20 years
+            - generic [ref=e195]: Established
+          - generic [ref=e196]:
+            - generic [ref=e197]: 176 Halfway St
+            - generic [ref=e198]: Sidcup DA15 8DJ
+          - generic [ref=e199]:
+            - generic [ref=e200]: Family Run
+            - generic [ref=e201]: Local Cafe
+    - generic [ref=e203]:
+      - generic [ref=e205]:
+        - text: The Atmosphere
+        - generic [ref=e206]: ◆
+        - heading "A Glimpse Inside" [level=2] [ref=e210]
+      - generic [ref=e211]:
+        - img "Morning seating area inside Halfway Cafe on Halfway Street" [ref=e214]
+        - img "Freshly brewed coffee ready at the counter in Sidcup" [ref=e218]
+        - img "Full English breakfast with eggs, bacon and baked beans" [ref=e222]
+        - img "Latte in a ceramic cup on a cafe table" [ref=e226]
+        - img "Cosy corner seating inside the local Sidcup cafe" [ref=e230]
+    - generic [ref=e234]:
+      - generic [ref=e235]:
+        - generic [ref=e238]:
+          - text: Find Us
+          - generic [ref=e239]: ◆
+          - heading "Come In, Sit Down" [level=2] [ref=e243]
+          - paragraph [ref=e244]: We're easy to find and even easier to love. Pop in for a cuppa or stay for the full works.
+        - generic [ref=e245]:
+          - link "Address 176 Halfway St Sidcup DA15 8DJ" [ref=e246] [cursor=pointer]:
+            - /url: https://www.google.com/maps/place/HalfWay+Cafe/@51.4407551,0.0826972,17z/data=!3m1!4b1!4m6!3m5!1s0x47d8a951f76511e5:0x80acf6d03005ae8c!8m2!3d51.4407552!4d0.0875681!16s%2Fg%2F11c45rk8rw?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D
+            - generic [ref=e247]: Address
+            - generic [ref=e252]:
+              - generic [ref=e253]: 176 Halfway St
+              - generic [ref=e254]: Sidcup DA15 8DJ
+          - link "Phone 020 3343 5303" [ref=e255] [cursor=pointer]:
+            - /url: tel:02033435303
+            - generic [ref=e256]: Phone
+            - generic [ref=e260]: 020 3343 5303
+          - generic [ref=e261]:
+            - generic [ref=e262]:
+              - generic [ref=e263]: 🕒
+              - generic [ref=e264]: Opening Hours
+            - generic [ref=e265]:
+              - generic [ref=e266]:
+                - generic [ref=e267]: "Mon – Sat:"
+                - generic [ref=e268]: 7:00am – 3:00pm
+              - generic [ref=e269]:
+                - generic [ref=e270]: "Sunday:"
+                - generic [ref=e271]: 9:00am – 2:00pm
+            - paragraph [ref=e272]: We serve breakfast in Sidcup Monday to Sunday with no booking needed.
+            - generic [ref=e273]:
+              - paragraph [ref=e274]: Good to Know
+              - list [ref=e275]:
+                - listitem [ref=e276]: ♿ Wheelchair accessible (entrance, seating & toilet)
+                - listitem [ref=e277]: 🚗 Free street parking nearby
+                - listitem [ref=e278]: 💳 Cards accepted (Visa, Mastercard, Amex & contactless)
+                - listitem [ref=e279]: 👨‍👩‍👧 Kids welcome · High chairs available
+                - listitem [ref=e280]: 🥡 Takeaway available
+        - paragraph [ref=e282]: 📍 Located in Sidcup town centre
+      - iframe [ref=e285]
+  - contentinfo [ref=e287]:
+    - paragraph [ref=e289]: We handle allergens in our kitchen. Please speak to a member of staff if you have any dietary requirements or allergies before ordering.
+    - generic [ref=e290]:
+      - generic [ref=e291]:
+        - generic [ref=e292]:
+          - link "HALFWAY CAFE · SIDCUP" [ref=e293] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e294]: A family-run cafe in Sidcup, DA15, serving the local community for over 20 years. Visit us at 176 Halfway St for a full English breakfast, fresh lunch, and proper coffee.
+          - paragraph [ref=e295]: Serving Sidcup, DA15 and the wider London area.
+          - paragraph [ref=e296]: Halfway Cafe is a breakfast and brunch cafe in Sidcup, serving full English breakfast, sandwiches, and coffee daily. Located at 176 Halfway Street, we are a popular local spot for a proper London caff experience.
+          - generic [ref=e297]:
+            - paragraph [ref=e298]: 📍 176 Halfway St, Sidcup DA15 8DJ
+            - paragraph [ref=e299]: 📞 020 3343 5303
+          - generic [ref=e300]:
+            - link "Instagram" [ref=e301] [cursor=pointer]:
+              - /url: https://instagram.com/halfwaycafesidcup
+            - link "Facebook" [ref=e305] [cursor=pointer]:
+              - /url: https://facebook.com/profile.php?id=61580807168670
+            - link "TikTok" [ref=e308] [cursor=pointer]:
+              - /url: https://tiktok.com/@halfwaycafesidcup
+        - generic [ref=e311]:
+          - heading "Menu" [level=3] [ref=e312]
+          - list [ref=e314]:
+            - listitem [ref=e315]:
+              - link "Breakfast" [ref=e316] [cursor=pointer]:
+                - /url: /menu/breakfast
+            - listitem [ref=e317]:
+              - link "Sandwiches" [ref=e318] [cursor=pointer]:
+                - /url: /menu/sandwiches
+            - listitem [ref=e319]:
+              - link "Burgers" [ref=e320] [cursor=pointer]:
+                - /url: /menu/burgers
+            - listitem [ref=e321]:
+              - link "Lunch" [ref=e322] [cursor=pointer]:
+                - /url: /menu/lunch
+            - listitem [ref=e323]:
+              - link "Panini" [ref=e324] [cursor=pointer]:
+                - /url: /menu/panini
+            - listitem [ref=e325]:
+              - link "Drinks" [ref=e326] [cursor=pointer]:
+                - /url: /menu/drinks
+        - generic [ref=e327]:
+          - heading "Pages" [level=3] [ref=e328]
+          - list [ref=e330]:
+            - listitem [ref=e331]:
+              - link "Home" [ref=e332] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e333]:
+              - link "About" [ref=e334] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e335]:
+              - link "Gallery" [ref=e336] [cursor=pointer]:
+                - /url: /gallery
+            - listitem [ref=e337]:
+              - link "FAQ" [ref=e338] [cursor=pointer]:
+                - /url: /faq
+            - listitem [ref=e339]:
+              - link "Contact" [ref=e340] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e341]:
+          - heading "Explore Sidcup" [level=3] [ref=e342]
+          - list [ref=e344]:
+            - listitem [ref=e345]:
+              - link "Breakfast in Sidcup" [ref=e346] [cursor=pointer]:
+                - /url: /breakfast-sidcup
+            - listitem [ref=e347]:
+              - link "Cafe in Sidcup" [ref=e348] [cursor=pointer]:
+                - /url: /cafe-sidcup
+            - listitem [ref=e349]:
+              - link "Coffee Shop in Sidcup" [ref=e350] [cursor=pointer]:
+                - /url: /coffee-shop-sidcup
+            - listitem [ref=e351]:
+              - link "Cafe Near Sidcup Station" [ref=e352] [cursor=pointer]:
+                - /url: /cafe-near-sidcup-station
+            - listitem [ref=e353]:
+              - link "Brunch in Sidcup" [ref=e354] [cursor=pointer]:
+                - /url: /brunch-sidcup
+            - listitem [ref=e355]:
+              - link "Full English Breakfast in Sidcup" [ref=e356] [cursor=pointer]:
+                - /url: /full-english-breakfast-sidcup
+            - listitem [ref=e357]:
+              - link "Takeaway in Sidcup" [ref=e358] [cursor=pointer]:
+                - /url: /takeaway-sidcup
+            - listitem [ref=e359]:
+              - link "Bacon Sandwich in Sidcup" [ref=e360] [cursor=pointer]:
+                - /url: /bacon-sandwich-sidcup
+            - listitem [ref=e361]:
+              - link "Pancakes in Sidcup" [ref=e362] [cursor=pointer]:
+                - /url: /pancakes-sidcup
+            - listitem [ref=e363]:
+              - link "Eggs Benedict in Sidcup" [ref=e364] [cursor=pointer]:
+                - /url: /eggs-benedict-sidcup
+            - listitem [ref=e365]:
+              - link "Breakfast in DA15" [ref=e366] [cursor=pointer]:
+                - /url: /breakfast-da15
+        - generic [ref=e367]:
+          - heading "Opening Hours" [level=3] [ref=e368]
+          - list [ref=e370]:
+            - listitem [ref=e371]:
+              - generic [ref=e372]: "Mon – Sat:"
+              - generic [ref=e373]: 7:00am – 3:00pm
+            - listitem [ref=e374]:
+              - generic [ref=e375]: "Sunday:"
+              - generic [ref=e376]: 9:00am – 2:00pm
+      - generic [ref=e378]:
+        - paragraph [ref=e379]: © 2026 Halfway Cafe. All rights reserved.
+        - paragraph [ref=e380]: Proudly serving Sidcup, DA15 · 176 Halfway St
+  - alert [ref=e381]
+  - generic [ref=e383]:
+    - paragraph [ref=e384]: We use cookies to understand how visitors use our site. This helps us improve your experience.
+    - generic [ref=e385]:
+      - button "Accept" [ref=e386] [cursor=pointer]
+      - button "Decline" [ref=e387] [cursor=pointer]
+    - paragraph [ref=e388]: You can change your preference at any time.

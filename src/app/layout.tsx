@@ -10,6 +10,7 @@ import Footer from "@/components/layout/Footer";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
 import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
 import { getOpeningHours } from "@/lib/queries";
+import { resolveRequiredPublicImage } from "@/lib/public-images.server";
 import type { OpeningHours } from "@/types";
 
 // ─── Fonts ───
@@ -116,6 +117,7 @@ export default async function RootLayout({
   const dbHours = await getOpeningHours();
   const openingHours =
     dbHours.length > 0 ? dbHours.map(toOpeningHours) : fallbackHours;
+  const logoImage = resolveRequiredPublicImage("Hero/icon-logo.png", "logo");
 
   // Fetch live rating for JSON-LD aggregateRating
   let aggregateRating: Record<string, string> | null = null;
@@ -225,7 +227,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body className="overflow-x-hidden">
-        <AppChrome desktopFooter={<Footer openingHours={openingHours} />}>
+        <AppChrome desktopFooter={<Footer openingHours={openingHours} />} logoImage={logoImage}>
           {children}
         </AppChrome>
         <CookieBanner />

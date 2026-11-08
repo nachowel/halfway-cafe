@@ -1,7 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { BUILDERS_BREAKFAST_IMAGE_URL } from "@/lib/storage";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import { resolvePublicImage } from "@/lib/public-images.server";
 
 interface Category {
   id: string;
@@ -22,10 +23,6 @@ const fallbackImages: Record<string, string> = {
   drinks: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
   sandwiches: "https://images.unsplash.com/photo-1485962398705-ef6a13c41e8f?w=600&q=80",
 };
-
-function getCategoryImage(category: Category): string | null {
-  return category.image_url || fallbackImages[category.slug] || null;
-}
 
 function getCategorySeoLine(category: Category): string {
   const copyBySlug: Record<string, string> = {
@@ -60,7 +57,10 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
         
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {categories.map((category, index) => {
-            const imageSrc = getCategoryImage(category);
+            const image = resolvePublicImage(
+              category.image_url || fallbackImages[category.slug] || null,
+              "card",
+            );
 
             return (
               <ScrollReveal
@@ -72,9 +72,9 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                   href={`/menu/${category.slug}`}
                   className="group relative block h-[180px] w-full overflow-hidden rounded-[12px] no-underline shadow-[0_4px_16px_rgba(29,21,14,0.06)] ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(29,21,14,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-soft md:h-[220px]"
                 >
-                  {imageSrc ? (
-                    <Image
-                      src={imageSrc}
+                  {image ? (
+                    <ResponsivePublicImage
+                      image={image}
                       alt={`${category.name} dishes at Halfway Cafe in Sidcup`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"

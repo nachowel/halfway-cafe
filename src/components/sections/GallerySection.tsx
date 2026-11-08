@@ -1,6 +1,7 @@
-import Image from "next/image";
 import SectionHeader from "@/components/ui/SectionHeader";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import { resolveRequiredPublicImage } from "@/lib/public-images.server";
 
 const defaultImages = [
   {
@@ -30,7 +31,10 @@ interface GallerySectionProps {
 }
 
 export default function GallerySection({ images }: GallerySectionProps) {
-  const galleryImages = images ?? defaultImages;
+  const galleryImages = (images ?? defaultImages).map((image) => ({
+    ...image,
+    resolved: resolveRequiredPublicImage(image.src, "content"),
+  }));
   return (
     <section className="bg-parchment py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
@@ -56,8 +60,8 @@ export default function GallerySection({ images }: GallerySectionProps) {
               }
             >
               <div className="group relative h-full w-full overflow-hidden rounded-xl">
-                <Image
-                  src={img.src}
+                <ResponsivePublicImage
+                  image={img.resolved}
                   alt={img.alt}
                   fill
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-105"

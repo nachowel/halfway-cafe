@@ -1,0 +1,815 @@
+{
+  "schemaVersion": 1,
+  "manifestSha256": "ea214f628cdf683990015e595a4946af0333c6a7acc7a8ba8512e79bb94a8cb7",
+  "sourceHost": "jbatmtnlegydsjerkuml.supabase.co",
+  "assets": [
+    {
+      "objectPath": "burgers/cheeseburger.png",
+      "publicId": "halfway-cafe/burgers/cheeseburger--0c6de1aafcd2",
+      "version": 1792101244,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/chicken.png",
+      "publicId": "halfway-cafe/burgers/chicken--e7af440ff94a",
+      "version": 1792167926,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/doublebrunch.png",
+      "publicId": "halfway-cafe/burgers/doublebrunch--fa67fde8b127",
+      "version": 1792167927,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/halfpounder.png",
+      "publicId": "halfway-cafe/burgers/halfpounder--ea8d31b77829",
+      "version": 1792167929,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/hamburger.png",
+      "publicId": "halfway-cafe/burgers/hamburger--e4ec4b7b2cbf",
+      "version": 1792167930,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/quarter.png",
+      "publicId": "halfway-cafe/burgers/quarter--9630388dae6b",
+      "version": 1792167931,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/singlebrunch.png",
+      "publicId": "halfway-cafe/burgers/singlebrunch--d7e026e1b214",
+      "version": 1792167932,
+      "format": "png",
+      "width": 1200,
+      "height": 896
+    },
+    {
+      "objectPath": "burgers/veggie.png",
+      "publicId": "halfway-cafe/burgers/veggie--83acf8c8e2ae",
+      "version": 1792167934,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "drinks/apple juice.jpeg",
+      "publicId": "halfway-cafe/drinks/apple-juice--e499beb72a80",
+      "version": 1792167935,
+      "format": "jpg",
+      "width": 318,
+      "height": 159
+    },
+    {
+      "objectPath": "drinks/cansdrink.jpeg",
+      "publicId": "halfway-cafe/drinks/cansdrink--a629a5ee3e49",
+      "version": 1792167935,
+      "format": "jpg",
+      "width": 274,
+      "height": 184
+    },
+    {
+      "objectPath": "drinks/cappucino.png",
+      "publicId": "halfway-cafe/drinks/cappucino--04ffd19db314",
+      "version": 1792167937,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "drinks/lucozade.jpeg",
+      "publicId": "halfway-cafe/drinks/lucozade--03799cf57fe0",
+      "version": 1792167938,
+      "format": "jpg",
+      "width": 308,
+      "height": 164
+    },
+    {
+      "objectPath": "drinks/oasis (1).jpeg",
+      "publicId": "halfway-cafe/drinks/oasis-1--dc23522338df",
+      "version": 1792167938,
+      "format": "jpg",
+      "width": 299,
+      "height": 168
+    },
+    {
+      "objectPath": "drinks/redbul.jpeg",
+      "publicId": "halfway-cafe/drinks/redbul--e5a8bb6d1072",
+      "version": 1792167939,
+      "format": "jpg",
+      "width": 225,
+      "height": 225
+    },
+    {
+      "objectPath": "drinks/ribena.jpeg",
+      "publicId": "halfway-cafe/drinks/ribena--b02e6e0fb857",
+      "version": 1792167939,
+      "format": "jpg",
+      "width": 225,
+      "height": 225
+    },
+    {
+      "objectPath": "drinks/tea.png",
+      "publicId": "halfway-cafe/drinks/tea--766bc7d37e44",
+      "version": 1792167940,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "extras/bacon.png",
+      "publicId": "halfway-cafe/extras/bacon--446b1d177dbc",
+      "version": 1792167941,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "extras/chips.png",
+      "publicId": "halfway-cafe/extras/chips--09c43420635b",
+      "version": 1792167943,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "extras/egg.png",
+      "publicId": "halfway-cafe/extras/egg--fa722949545b",
+      "version": 1792167944,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "extras/hashbrown.jpeg",
+      "publicId": "halfway-cafe/extras/hashbrown--c109b2e46265",
+      "version": 1792167944,
+      "format": "jpg",
+      "width": 276,
+      "height": 183
+    },
+    {
+      "objectPath": "extras/hellim.png",
+      "publicId": "halfway-cafe/extras/hellim--875b8a58e64f",
+      "version": 1792167946,
+      "format": "png",
+      "width": 841,
+      "height": 1264
+    },
+    {
+      "objectPath": "extras/mushrooms.png",
+      "publicId": "halfway-cafe/extras/mushrooms--496310808030",
+      "version": 1792167947,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "extras/sausage.png",
+      "publicId": "halfway-cafe/extras/sausage--c3b29865f26f",
+      "version": 1792167948,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "extras/tomatoes.png",
+      "publicId": "halfway-cafe/extras/tomatoes--50b6ce3fcf9b",
+      "version": 1792167949,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "Hero/breakfast-hero.webp",
+      "publicId": "halfway-cafe/hero/breakfast-hero--080c1311ad50",
+      "version": 1792167950,
+      "format": "webp",
+      "width": 1792,
+      "height": 1024
+    },
+    {
+      "objectPath": "Hero/deliveroo.png",
+      "publicId": "halfway-cafe/hero/deliveroo--457aeb1c4227",
+      "version": 1792167951,
+      "format": "png",
+      "width": 225,
+      "height": 225
+    },
+    {
+      "objectPath": "Hero/hero1.png",
+      "publicId": "halfway-cafe/hero/hero1--a770d412c9c0",
+      "version": 1792167952,
+      "format": "png",
+      "width": 1376,
+      "height": 768
+    },
+    {
+      "objectPath": "Hero/icon-logo.png",
+      "publicId": "halfway-cafe/hero/icon-logo--3202f094b60a",
+      "version": 1792167953,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "Hero/justeat (1).png",
+      "publicId": "halfway-cafe/hero/justeat-1--9d2d16bbfd59",
+      "version": 1792167953,
+      "format": "png",
+      "width": 221,
+      "height": 228
+    },
+    {
+      "objectPath": "Hero/mobilehero1.png",
+      "publicId": "halfway-cafe/hero/mobilehero1--e4337bb45724",
+      "version": 1792167955,
+      "format": "png",
+      "width": 928,
+      "height": 1152
+    },
+    {
+      "objectPath": "Hero/uber (1).png",
+      "publicId": "halfway-cafe/hero/uber-1--e9e6765cb76e",
+      "version": 1792167955,
+      "format": "png",
+      "width": 243,
+      "height": 207
+    },
+    {
+      "objectPath": "Jackets/baconcheese.png",
+      "publicId": "halfway-cafe/jackets/baconcheese--9494310c0103",
+      "version": 1792167957,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/beans.png",
+      "publicId": "halfway-cafe/jackets/beans--c84c7a3caf3e",
+      "version": 1792167958,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/bolognaise.png",
+      "publicId": "halfway-cafe/jackets/bolognaise--2736c4d051e3",
+      "version": 1792167959,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/cheese.png",
+      "publicId": "halfway-cafe/jackets/cheese--a3ebdced72db",
+      "version": 1792167960,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/cheesebeans.png",
+      "publicId": "halfway-cafe/jackets/cheesebeans--fe7829c84a35",
+      "version": 1792167962,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/cheesesausage.png",
+      "publicId": "halfway-cafe/jackets/cheesesausage--7058ee38dd03",
+      "version": 1792167963,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/chilliconcarne.png",
+      "publicId": "halfway-cafe/jackets/chilliconcarne--81d890ca9339",
+      "version": 1792167964,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/curry.png",
+      "publicId": "halfway-cafe/jackets/curry--dee0d53299cc",
+      "version": 1792167965,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/plain.png",
+      "publicId": "halfway-cafe/jackets/plain--4dbe6553cd3e",
+      "version": 1792167967,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/prawn.png",
+      "publicId": "halfway-cafe/jackets/prawn--a7cbfd2a3596",
+      "version": 1792167968,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/tunacheese.png",
+      "publicId": "halfway-cafe/jackets/tunacheese--a820a01113b2",
+      "version": 1792167969,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "Jackets/tunamayo.png",
+      "publicId": "halfway-cafe/jackets/tunamayo--8b358dd55622",
+      "version": 1792167970,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "kids/burger.png",
+      "publicId": "halfway-cafe/kids/burger--40d74f0eac8a",
+      "version": 1792167971,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "kids/fishfingers.png",
+      "publicId": "halfway-cafe/kids/fishfingers--4339352b73dd",
+      "version": 1792167972,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "kids/nuggets.png",
+      "publicId": "halfway-cafe/kids/nuggets--d923bdc27fac",
+      "version": 1792167973,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/bangers.png",
+      "publicId": "halfway-cafe/lunch/bangers--2b69f1cdabff",
+      "version": 1792167975,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/chickenkebab.png",
+      "publicId": "halfway-cafe/lunch/chickenkebab--295f70daa975",
+      "version": 1792167976,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/curry.png",
+      "publicId": "halfway-cafe/lunch/curry--e67b8e7d6a68",
+      "version": 1792167978,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/frankfurter.png",
+      "publicId": "halfway-cafe/lunch/frankfurter--ddc7a7388c63",
+      "version": 1792167979,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/gamon.png",
+      "publicId": "halfway-cafe/lunch/gamon--54b9151eca78",
+      "version": 1792167980,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/lambchops.png",
+      "publicId": "halfway-cafe/lunch/lambchops--1c66a3879c88",
+      "version": 1792167982,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/lasagne.png",
+      "publicId": "halfway-cafe/lunch/lasagne--8913bb498420",
+      "version": 1792167983,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/Liverbacon.png",
+      "publicId": "halfway-cafe/lunch/liverbacon--d784017d5430",
+      "version": 1792167985,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/nugget.png",
+      "publicId": "halfway-cafe/lunch/nugget--b470894f9a21",
+      "version": 1792167986,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/porkchops.png",
+      "publicId": "halfway-cafe/lunch/porkchops--3cb43efc81db",
+      "version": 1792167987,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/quarterchicken.png",
+      "publicId": "halfway-cafe/lunch/quarterchicken--250234dcc1f2",
+      "version": 1792167988,
+      "format": "png",
+      "width": 1200,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/roastlamb.png",
+      "publicId": "halfway-cafe/lunch/roastlamb--15f7ab30a5e8",
+      "version": 1792167990,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/scampi.png",
+      "publicId": "halfway-cafe/lunch/scampi--15788df8b347",
+      "version": 1792167992,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "lunch/shepperds.png",
+      "publicId": "halfway-cafe/lunch/shepperds--4adbc383436c",
+      "version": 1792167993,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "lunch/spaghetti.png",
+      "publicId": "halfway-cafe/lunch/spaghetti--aab58617acf9",
+      "version": 1792167995,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "omelettes/baconomelette.png",
+      "publicId": "halfway-cafe/omelettes/baconomelette--63d75367a566",
+      "version": 1792167996,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/cheesemushroom.png",
+      "publicId": "halfway-cafe/omelettes/cheesemushroom--b9c8b56620d2",
+      "version": 1792167998,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/cheesomelette.png",
+      "publicId": "halfway-cafe/omelettes/cheesomelette--811f0471a99d",
+      "version": 1792167999,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/hamcheeseomelette.png",
+      "publicId": "halfway-cafe/omelettes/hamcheeseomelette--335a9ccaa748",
+      "version": 1792168000,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/hamomlette.png",
+      "publicId": "halfway-cafe/omelettes/hamomlette--3a320432c3c4",
+      "version": 1792168001,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/mushroomomelette.png",
+      "publicId": "halfway-cafe/omelettes/mushroomomelette--ec564bcb79d8",
+      "version": 1792168003,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/plainomelette.png",
+      "publicId": "halfway-cafe/omelettes/plainomelette--94b722ddc07c",
+      "version": 1792168004,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "omelettes/spanishomelette.png",
+      "publicId": "halfway-cafe/omelettes/spanishomelette--21b430f8fb22",
+      "version": 1792168006,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "pancakes/eggfroentine.png",
+      "publicId": "halfway-cafe/pancakes/eggfroentine--ec862874e637",
+      "version": 1792168007,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "pancakes/EggsBenedict.png",
+      "publicId": "halfway-cafe/pancakes/eggsbenedict--4c2749587794",
+      "version": 1792168008,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "pancakes/eggsroyale.png",
+      "publicId": "halfway-cafe/pancakes/eggsroyale--e3f6d73b0ac4",
+      "version": 1792168010,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "pancakes/pancake1.png",
+      "publicId": "halfway-cafe/pancakes/pancake1--a23014bff061",
+      "version": 1792168011,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "pancakes/pancake2.png",
+      "publicId": "halfway-cafe/pancakes/pancake2--c096fea79e35",
+      "version": 1792168012,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "paninis/cheese.png",
+      "publicId": "halfway-cafe/paninis/cheese--b1413ddf7474",
+      "version": 1792168014,
+      "format": "png",
+      "width": 1264,
+      "height": 841
+    },
+    {
+      "objectPath": "paninis/hampanini.png",
+      "publicId": "halfway-cafe/paninis/hampanini--13bb07438d72",
+      "version": 1792168015,
+      "format": "png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "objectPath": "sandwiches/bacon.png",
+      "publicId": "halfway-cafe/sandwiches/bacon--cfa44bfb8725",
+      "version": 1792168016,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/baconsausage.png",
+      "publicId": "halfway-cafe/sandwiches/baconsausage--bfc4511fadc0",
+      "version": 1792168017,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/blt.png",
+      "publicId": "halfway-cafe/sandwiches/blt--12382ae7e312",
+      "version": 1792168018,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/breakfast.png",
+      "publicId": "halfway-cafe/sandwiches/breakfast--f539ef12d350",
+      "version": 1792168020,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/cheese.png",
+      "publicId": "halfway-cafe/sandwiches/cheese--7a973d6a4e6d",
+      "version": 1792168021,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/cornedbeef.png",
+      "publicId": "halfway-cafe/sandwiches/cornedbeef--e276291ec771",
+      "version": 1792168022,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/egg.png",
+      "publicId": "halfway-cafe/sandwiches/egg--68bf5a01c91f",
+      "version": 1792168023,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/eggbacon.png",
+      "publicId": "halfway-cafe/sandwiches/eggbacon--f9956696d6bf",
+      "version": 1792168024,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/hamcheese.png",
+      "publicId": "halfway-cafe/sandwiches/hamcheese--92297bdec0b4",
+      "version": 1792168026,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/hamsand.png",
+      "publicId": "halfway-cafe/sandwiches/hamsand--d7a37795dd24",
+      "version": 1792168026,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/sausageegg.png",
+      "publicId": "halfway-cafe/sandwiches/sausageegg--b4522fdaae06",
+      "version": 1792168028,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/sausageonion.png",
+      "publicId": "halfway-cafe/sandwiches/sausageonion--91eb562c7e0d",
+      "version": 1792168029,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "sandwiches/sausagesand.jpeg",
+      "publicId": "halfway-cafe/sandwiches/sausagesand--4720c9475331",
+      "version": 1792168029,
+      "format": "jpg",
+      "width": 259,
+      "height": 195
+    },
+    {
+      "objectPath": "sandwiches/tuna.png",
+      "publicId": "halfway-cafe/sandwiches/tuna--158e0341137e",
+      "version": 1792168030,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/Alldaybreakfast.png",
+      "publicId": "halfway-cafe/set-breakfast/alldaybreakfast--a12f9caf946f",
+      "version": 1792168032,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/Bigbreakfast.png",
+      "publicId": "halfway-cafe/set-breakfast/bigbreakfast--328b9c921a4f",
+      "version": 1792168033,
+      "format": "png",
+      "width": 1200,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/Buildersbreakfast.png",
+      "publicId": "halfway-cafe/set-breakfast/buildersbreakfast--d6b278d2db4d",
+      "version": 1792168034,
+      "format": "png",
+      "width": 1200,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/set1.png",
+      "publicId": "halfway-cafe/set-breakfast/set1--9624d1731928",
+      "version": 1792168035,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/set2.png",
+      "publicId": "halfway-cafe/set-breakfast/set2--80c9fed3752e",
+      "version": 1792168037,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/set3.png",
+      "publicId": "halfway-cafe/set-breakfast/set3--9f0b751c24a1",
+      "version": 1792168038,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/set4.png",
+      "publicId": "halfway-cafe/set-breakfast/set4--dacdab2ed14d",
+      "version": 1792168040,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/set6.png",
+      "publicId": "halfway-cafe/set-breakfast/set6--5ae72c9ee6bd",
+      "version": 1792168041,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/set7.png",
+      "publicId": "halfway-cafe/set-breakfast/set7--bec98282fa79",
+      "version": 1792168043,
+      "format": "png",
+      "width": 1184,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/Turkishbreakfast.png",
+      "publicId": "halfway-cafe/set-breakfast/turkishbreakfast--6747d8b54f2c",
+      "version": 1792168045,
+      "format": "png",
+      "width": 1200,
+      "height": 896
+    },
+    {
+      "objectPath": "set breakfast/vegiiebreakfast.png",
+      "publicId": "halfway-cafe/set-breakfast/vegiiebreakfast--65bf1a4b6200",
+      "version": 1792168046,
+      "format": "png",
+      "width": 1200,
+      "height": 896
+    }
+  ]
+}

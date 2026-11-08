@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 import Link from "next/link";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 
@@ -152,8 +152,9 @@ export default function EggsBenedictSidcupPage() {
           </div>
 
           <div className="relative min-h-[300px] overflow-hidden rounded-xl">
-            <Image
-              src={BREAKFAST_HERO_IMAGE_URL}
+            <ServerPublicImage
+              source={BREAKFAST_HERO_IMAGE_URL}
+              role="hero"
               alt="Eggs benedict and poached egg dishes at Halfway Cafe in Sidcup"
               fill
               priority

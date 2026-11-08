@@ -1,7 +1,7 @@
 /* DishCard — Menu item card with featured & menu variants */
 
-import Image from "next/image";
 import type { MenuItem, DietaryTag } from "@/types";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
 
 interface DishCardProps {
   item: MenuItem;
@@ -51,9 +51,9 @@ function FeaturedCard({ item }: { item: MenuItem }) {
     <div className="group relative overflow-hidden rounded-xl border border-border bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Image */}
       <div className="relative h-[220px] w-full overflow-hidden">
-        {item.image ? (
-          <Image
-            src={item.image}
+        {item.resolvedImage ? (
+          <ResponsivePublicImage
+            image={item.resolvedImage}
             alt={item.name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -102,9 +102,9 @@ function MenuCard({ item }: { item: MenuItem }) {
     <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
       <div className="relative h-[190px] w-full overflow-hidden">
-        {item.image ? (
-          <Image
-            src={item.image}
+        {item.resolvedImage ? (
+          <ResponsivePublicImage
+            image={item.resolvedImage}
             alt={item.name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"

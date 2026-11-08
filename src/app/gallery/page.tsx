@@ -1,10 +1,12 @@
 /* Halfway Cafe — Gallery page */
 
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import MobileGalleryPage from "@/components/MobileGalleryPage";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
 import { getGalleryImages } from "@/lib/queries";
+import { resolveRequiredPublicImage } from "@/lib/public-images.server";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -41,7 +43,7 @@ const defaultImages = [
 ];
 
 type GalleryImage = {
-  src: string;
+  image: ResolvedPublicImage;
   alt: string;
 };
 
@@ -90,10 +92,14 @@ function buildGallerySections(images: GalleryImage[]): GallerySection[] {
 export default async function GalleryPage() {
   const dbGallery = await getGalleryImages();
 
-  const images =
+  const sourceImages =
     dbGallery.length > 0
       ? dbGallery.map((img: any) => ({ src: img.url, alt: img.alt_text ?? "" }))
       : defaultImages;
+  const images = sourceImages.map((image) => ({
+    image: resolveRequiredPublicImage(image.src, "content"),
+    alt: image.alt,
+  }));
   const mobileSections = buildGallerySections(images);
 
   return (
@@ -136,15 +142,15 @@ export default async function GalleryPage() {
             <div className="grid md:grid-cols-3 md:gap-4">
                 {images.map((img: GalleryImage, i: number) => (
                   <div
-                    key={img.src}
+                    key={img.image.src}
                     className={`group relative overflow-hidden rounded-2xl ${
                       i === 0
                         ? "col-span-2 row-span-2 h-[400px] lg:h-[544px]"
                         : "h-[260px] lg:h-[264px]"
                     }`}
                   >
-                    <Image
-                      src={img.src}
+                    <ResponsivePublicImage
+                      image={img.image}
                       alt={img.alt}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"

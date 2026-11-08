@@ -16,6 +16,7 @@ import {
 import { openingHours as fallbackHours } from "@/data/opening-hours";
 import { getDesktopHeroImage } from "@/lib/site-settings";
 import { BUILDERS_BREAKFAST_IMAGE_URL } from "@/lib/storage";
+import { resolvePublicImage } from "@/lib/public-images.server";
 import type { OpeningHours } from "@/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -72,11 +73,12 @@ export default async function DesktopHome() {
       ? dbGallery.map((img: any) => ({ src: img.url, alt: img.alt_text ?? "" }))
       : undefined;
   const heroImageUrl = getDesktopHeroImage(siteSettings);
+  const heroImage = resolvePublicImage(heroImageUrl, "hero");
 
   return (
     <>
       <Suspense fallback={<SectionLoader />}>
-        <HeroSection openingHours={hours} heroImageUrl={heroImageUrl} />
+        <HeroSection openingHours={hours} heroImage={heroImage} />
       </Suspense>
 
       <Suspense fallback={<SectionLoader />}>

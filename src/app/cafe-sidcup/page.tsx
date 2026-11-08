@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import ServerPublicImage from "@/components/ui/ServerPublicImage";
 import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
@@ -194,8 +194,9 @@ export default function CafeSidcupPage() {
           </div>
 
           <div className="relative min-h-[300px] overflow-hidden rounded-xl">
-            <Image
-              src={BREAKFAST_HERO_IMAGE_URL}
+            <ServerPublicImage
+              source={BREAKFAST_HERO_IMAGE_URL}
+              role="hero"
               alt="Breakfast and coffee on the table at Halfway Cafe in Sidcup"
               fill
               priority

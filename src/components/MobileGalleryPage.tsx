@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, X } from "lucide-react";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import MobileFooter from "@/components/MobileFooter";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
 type GalleryImage = {
-  src: string;
+  image: ResolvedPublicImage;
   alt: string;
 };
 
@@ -102,8 +103,8 @@ export default function MobileGalleryPage({
                       className="relative block h-[220px] w-full overflow-hidden rounded-[18px] shadow-[0_8px_24px_rgba(0,0,0,0.06)]"
                       aria-label={`Preview ${leadImage.alt || section.title}`}
                     >
-                      <Image
-                        src={leadImage.src}
+                      <ResponsivePublicImage
+                        image={leadImage.image}
                         alt={leadImage.alt}
                         fill
                         className="object-cover"
@@ -116,14 +117,14 @@ export default function MobileGalleryPage({
                     <div key={`${section.title}-${rowIndex}`} className="grid grid-cols-2 gap-3">
                       {row.map((image) => (
                         <button
-                          key={image.src}
+                          key={image.image.src}
                           type="button"
                           onClick={() => openPreview(image)}
                           className="relative block h-[148px] w-full overflow-hidden rounded-[18px] shadow-[0_6px_20px_rgba(0,0,0,0.05)]"
                           aria-label={`Preview ${image.alt || section.title}`}
                         >
-                          <Image
-                            src={image.src}
+                          <ResponsivePublicImage
+                            image={image.image}
                             alt={image.alt}
                             fill
                             className="object-cover"
@@ -165,8 +166,8 @@ export default function MobileGalleryPage({
                   <X size={16} strokeWidth={1.75} />
                 </button>
 
-                <Image
-                  src={previewImage.src}
+                <ResponsivePublicImage
+                  image={previewImage.image}
                   alt={previewImage.alt}
                   width={1200}
                   height={1200}

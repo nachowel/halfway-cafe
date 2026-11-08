@@ -1,0 +1,14 @@
+[33mf8454ca[m[33m ([m[1;32mfix/cloudinary-public-image-compatibility[m[33m)[m docs: record Cloudinary compatibility verification
+[33m30b1851[m test: cover legacy image providers
+[33m8a3e39a[m fix: resolve Cloudinary images on mobile menus
+[33m38dcdcf[m fix: render resolved Cloudinary images on desktop menus
+[33mdb77aeb[m fix: add server-only Cloudinary registry adapter
+[33m1a9a514[m test: run image compatibility checks under Node ESM
+[33mf1fe4d0[m fix: resolve Cloudinary menu image references
+[33m2fc0e5e[m docs: clarify resolver contract test
+[33maa9b155[m docs: test image compatibility through behavior
+[33mdb56a5a[m docs: plan Cloudinary image compatibility fix
+[33m52b0b2f[m docs: strengthen image compatibility verification
+[33m88cd0bc[m docs: design Cloudinary image compatibility fix
+[33md4d6b6f[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32minvestigate/next-security-remediation[m[33m, [m[1;32mfix/master-ssr-production[m[33m)[m fix(seo): consolidate sitemap and remove obsolete static files
+[33me24df16[m fix: render homepage content in SSR HTML

@@ -3,9 +3,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import type { ResolvedPublicImage } from "@/types/public-image";
 
 const navLinks = [
   { href: "/menu", label: "Menu" },
@@ -15,7 +16,7 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ logoImage }: { logoImage: ResolvedPublicImage }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -80,8 +81,8 @@ export default function Navbar() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         <Link href="/" className="flex items-center gap-3 no-underline">
-          <Image
-            src="https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/Hero/icon-logo.png"
+          <ResponsivePublicImage
+            image={logoImage}
             alt="Halfway Cafe logo"
             width={40}
             height={40}
