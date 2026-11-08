@@ -30,6 +30,8 @@ Legacy HTTPS inputs bypass this resolver and continue through the existing Next.
 - Desktop category mapping that resolves only Cloudinary references before passing items to client-rendered cards.
 - A mobile server wrapper that loads category data and resolves Cloudinary references before the existing mobile client UI receives it.
 
+The mobile wrapper must preserve the current category filter, active-item visibility, `sort_order` ordering, category counts, search behavior, and displayed fields. Desktop and mobile must receive the same active category item set in the same database order before their presentation-specific rendering.
+
 ## Error Handling
 
 Invalid references, missing registry rows, missing server configuration, and registry/provider failures resolve to `null`. Category pages continue rendering and show their existing image placeholder. The server logs a concise diagnostic containing the stage and sanitized public ID; it never logs URLs with signatures, API secrets, Supabase keys, or raw provider responses.
@@ -57,6 +59,7 @@ Values must never be serialized to client JavaScript or printed by diagnostics/t
 Tests will be written before implementation and must first fail for the missing behavior. Coverage includes:
 
 - valid and invalid Phase 8E logical references;
+- strict rejection of malformed references, unexpected characters, path traversal, duplicate separators, query/hash fragments, absolute URLs, encoded URL injection, and out-of-namespace public IDs;
 - the Phase 8E signing vector/path format and responsive width selection;
 - legacy Supabase/Unsplash HTTPS passthrough;
 - ready registry metadata resolution;
@@ -64,7 +67,11 @@ Tests will be written before implementation and must first fail for the missing 
 - a source-boundary check that public category Cloudinary references cannot reach `next/image`;
 - TypeScript, lint, production build, and relevant unit tests;
 - desktop and mobile browser verification using the existing read-only production data and environment names;
-- signed delivery HTTP 200 for Fish Fingers and Extra Bacon.
+- desktop/mobile parity for category filtering, active visibility, database ordering, counts, search inputs, prices, descriptions, and image placeholders;
+- signed delivery HTTP 200 for Fish Fingers and Extra Bacon;
+- real image rendering at desktop and mobile viewport sizes for both affected products, plus a working legacy HTTPS menu image at each viewport.
+
+Browser validation is pre-deployment evidence for the review branch only. The report must not state or imply that production is fixed before an approved deployment occurs.
 
 ## Delivery
 
