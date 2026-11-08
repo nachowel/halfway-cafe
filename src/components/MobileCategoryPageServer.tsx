@@ -3,8 +3,7 @@ import MobileCategoryPage, {
   type CountRow,
   type MenuItemRow,
 } from "./MobileCategoryPage";
-import { resolvePublicMenuItemImage } from "@/lib/public-menu-image-core";
-import { resolvePublicMenuImage } from "@/lib/public-menu-images.server";
+import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
 import { getCategories, getMenuItems, getMenuItemsByCategory } from "@/lib/queries";
 
 export default async function MobileCategoryPageServer({
@@ -37,12 +36,7 @@ export default async function MobileCategoryPageServer({
         active: row.active,
         sort_order: row.sort_order,
       };
-      return resolvePublicMenuItemImage(
-        item,
-        "image_url",
-        "content",
-        resolvePublicMenuImage,
-      );
+      return resolveMenuItemForDisplay(item, "image_url", "content");
     }),
   );
   const countRows: CountRow[] = allItemRows.map((row) => ({

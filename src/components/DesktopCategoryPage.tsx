@@ -5,8 +5,7 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import { menuItems as fallbackMenu } from "@/data/menu";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
-import { resolvePublicMenuItemImage } from "@/lib/public-menu-image-core";
-import { resolvePublicMenuImage } from "@/lib/public-menu-images.server";
+import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
 import { createServerComponentClient } from "@/lib/supabase-server";
 import type { MenuItem } from "@/types";
 
@@ -182,9 +181,7 @@ export default async function DesktopCategoryPage({
 }) {
   const { categories, items, countRows } = await getMenuCategoryData(categorySlug);
   const resolvedItems = await Promise.all(
-    items.map((item) =>
-      resolvePublicMenuItemImage(item, "image", "card", resolvePublicMenuImage),
-    ),
+    items.map((item) => resolveMenuItemForDisplay(item, "image", "card")),
   );
   const activeCategory = categories.find((category) => category.slug === categorySlug);
 

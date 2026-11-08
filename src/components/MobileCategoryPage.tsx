@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -162,7 +161,7 @@ export default function MobileCategoryPage({
   );
 
   function openPreview(item: MenuItemRow) {
-    if (!item.resolvedImage && !item.image_url) {
+    if (!item.resolvedImage) {
       return;
     }
 
@@ -300,14 +299,6 @@ export default function MobileCategoryPage({
                         sizes="112px"
                         className="object-cover"
                       />
-                    ) : item.image_url ? (
-                      <Image
-                        src={item.image_url}
-                        alt={item.name ? `${item.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
-                        fill
-                        sizes="112px"
-                        className="object-cover"
-                      />
                     ) : (
                       <span className="text-3xl">🍽</span>
                     )}
@@ -437,15 +428,6 @@ export default function MobileCategoryPage({
                 {previewItem.resolvedImage ? (
                   <ResponsivePublicImage
                     image={previewItem.resolvedImage}
-                    alt={previewItem.name ? `${previewItem.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
-                    width={1200}
-                    height={1200}
-                    sizes="(max-width: 600px) calc(100vw - 48px), 92vw"
-                    className="block h-auto max-h-[80vh] w-full object-contain"
-                  />
-                ) : previewItem.image_url ? (
-                  <Image
-                    src={previewItem.image_url}
                     alt={previewItem.name ? `${previewItem.name} — Halfway Cafe Sidcup` : "Menu item at Halfway Cafe Sidcup"}
                     width={1200}
                     height={1200}
