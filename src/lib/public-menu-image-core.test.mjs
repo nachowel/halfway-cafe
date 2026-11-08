@@ -95,7 +95,7 @@ test("resolves ready registry metadata to the Phase 8E signed responsive lattice
 });
 
 test("consumes malformed Cloudinary candidates instead of treating them as legacy URLs", async () => {
-  const diagnostics: unknown[] = [];
+  const diagnostics = [];
   const result = await resolvePublicMenuImageCore({
     source: "cloudinary/halfway-cafe/admin/../secret",
     role: "card",
@@ -112,13 +112,13 @@ test("consumes malformed Cloudinary candidates instead of treating them as legac
 });
 
 test("missing registry rows and lookup failures return a safe Cloudinary placeholder", async () => {
-  const diagnostics: unknown[] = [];
+  const diagnostics = [];
   const base = {
     source: `cloudinary/${FISH_PUBLIC_ID}`,
-    role: "card" as const,
+    role: "card",
     cloudName: "shared-cloud",
     apiSecret: "test-secret",
-    diagnostic: (event: unknown) => diagnostics.push(event),
+    diagnostic: (event) => diagnostics.push(event),
   };
 
   const missing = await resolvePublicMenuImageCore({ ...base, lookup: async () => null });
