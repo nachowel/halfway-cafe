@@ -79,22 +79,6 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "CafeOrCoffeeShop",
-      "@id": "https://halfwaycafe.co.uk/#business",
-      name: "Halfway Cafe",
-      url: "https://halfwaycafe.co.uk",
-      telephone: "02033435303",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "176 Halfway Street",
-        addressLocality: "Sidcup",
-        postalCode: "DA15 8DJ",
-        addressCountry: "GB",
-      },
-      openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
-      servesCuisine: "British",
-    },
-    {
       "@type": "BreadcrumbList",
       itemListElement: [
         {

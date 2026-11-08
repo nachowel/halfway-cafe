@@ -5,7 +5,7 @@ const TRIPADVISOR_REVIEW_URL = "https://www.tripadvisor.co.uk/UserReviewEdit-g16
 
 import { useState } from "react";
 
-type Stage = "rating" | "positive" | "negative" | "submitted";
+type Stage = "rating" | "options" | "feedback" | "submitted";
 
 const STARS = [1, 2, 3, 4, 5];
 
@@ -17,7 +17,7 @@ export default function ReviewPage() {
 
   const handleStarClick = (rating: number) => {
     setSelected(rating);
-    setStage(rating >= 4 ? "positive" : "negative");
+    setStage("options");
   };
 
   const handleFeedbackSubmit = (e: React.FormEvent) => {
@@ -87,17 +87,17 @@ export default function ReviewPage() {
           </>
         )}
 
-        {/* Positive flow — 4 or 5 stars */}
-        {stage === "positive" && (
+        {/* Every rating receives the same public-review and private-feedback options. */}
+        {stage === "options" && (
           <div className="text-center">
             <p className="font-playfair text-2xl font-bold text-ink">
-              We hope you enjoyed your visit 😊
+              Thank you for your feedback
             </p>
             <p className="mt-3 font-inter text-base text-text-mid">
-              It would mean a lot to us if you could leave a quick review.
+              Choose how you&apos;d like to share your experience.
             </p>
             <p className="mt-2 font-inter text-xs text-text-mid">
-              We really appreciate your support.
+              Public reviews and private feedback are available to every customer.
             </p>
 
             <div className="mt-8 flex flex-col gap-3">
@@ -122,6 +122,14 @@ export default function ReviewPage() {
                 <TripAdvisorIcon />
                 Leave a TripAdvisor Review
               </a>
+
+              <button
+                type="button"
+                onClick={() => setStage("feedback")}
+                className="flex items-center justify-center rounded-full border border-[#8A7C6D] px-6 py-3.5 font-inter text-sm font-bold uppercase tracking-[0.1em] text-[#6B6258] transition-colors duration-200 hover:bg-[#FAF8F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                Share Private Feedback
+              </button>
             </div>
 
             <button
@@ -134,11 +142,11 @@ export default function ReviewPage() {
           </div>
         )}
 
-        {/* Negative flow — 1, 2, or 3 stars */}
-        {stage === "negative" && (
+        {/* Private feedback is available regardless of the selected rating. */}
+        {stage === "feedback" && (
           <div>
             <p className="font-playfair text-2xl font-bold text-ink">
-              We&apos;re sorry your experience wasn&apos;t great.
+              Share private feedback
             </p>
             <p className="mt-2 font-inter text-sm text-text-mid">
               Your feedback helps us improve.
@@ -146,7 +154,7 @@ export default function ReviewPage() {
 
             <form onSubmit={handleFeedbackSubmit} className="mt-6 flex flex-col gap-4">
               <label htmlFor="feedback" className="sr-only">
-                Tell us what went wrong
+                Tell us about your experience
               </label>
               <textarea
                 id="feedback"
@@ -155,7 +163,7 @@ export default function ReviewPage() {
                 required
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Tell us what went wrong"
+                placeholder="Tell us about your experience"
                 className="w-full resize-none rounded-xl border border-border bg-[#FAF8F5] px-4 py-3 font-inter text-sm text-ink outline-none transition-[border-color,box-shadow] duration-200 focus:border-accent focus:ring-2 focus:ring-accent/20"
               />
               <button
@@ -168,10 +176,10 @@ export default function ReviewPage() {
 
             <button
               type="button"
-              onClick={() => { setStage("rating"); setSelected(0); setHovered(0); }}
+              onClick={() => setStage("options")}
               className="mt-4 font-inter text-xs text-text-mid underline hover:text-ink"
             >
-              Go back
+              Back to feedback options
             </button>
           </div>
         )}

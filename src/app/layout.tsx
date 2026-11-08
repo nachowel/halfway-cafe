@@ -119,28 +119,6 @@ export default async function RootLayout({
     dbHours.length > 0 ? dbHours.map(toOpeningHours) : fallbackHours;
   const logoImage = resolveRequiredPublicImage("Hero/icon-logo.png", "logo");
 
-  // Fetch live rating for JSON-LD aggregateRating
-  let aggregateRating: Record<string, string> | null = null;
-  try {
-    const reviewsRes = await fetch("https://halfwaycafe.co.uk/api/google-reviews", {
-      next: { revalidate: 3600 },
-    });
-    if (reviewsRes.ok) {
-      const reviewsData = await reviewsRes.json();
-      if (reviewsData.rating && reviewsData.reviewCount) {
-        aggregateRating = {
-          "@type": "AggregateRating",
-          ratingValue: String(reviewsData.rating),
-          reviewCount: String(reviewsData.reviewCount),
-          bestRating: "5",
-          worstRating: "1",
-        };
-      }
-    }
-  } catch {
-    // silently fail — aggregateRating is optional
-  }
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CafeOrCoffeeShop",
@@ -171,7 +149,6 @@ export default async function RootLayout({
       "https://instagram.com/halfwaycafesidcup",
       "https://facebook.com/profile.php?id=61580807168670",
     ],
-    ...(aggregateRating ? { aggregateRating } : {}),
     servesCuisine: ["Breakfast", "British", "Cafe"],
     priceRange: "£",
     openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
