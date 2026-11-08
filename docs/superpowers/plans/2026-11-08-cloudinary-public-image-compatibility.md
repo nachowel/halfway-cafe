@@ -113,7 +113,7 @@ git commit -m "fix: resolve Cloudinary menu image references"
 
 Exercise the real resolution contract with injected registry behavior: a ready row produces signed public URLs, a missing row and a thrown lookup produce a Cloudinary placeholder result, malformed references never become legacy sources, and serialized results/diagnostics never contain the supplied secret.
 
-- [ ] **Step 2: Run the boundary test and verify RED**
+- [ ] **Step 2: Run the adapter-contract test and verify RED**
 
 Run: `node --experimental-strip-types --test src/lib/public-menu-image-core.test.ts`
 
