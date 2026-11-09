@@ -1,4 +1,4 @@
-import ServerPublicImage from "@/components/ui/ServerPublicImage";
+import DesktopOnlyHeroImage from "@/components/menu/DesktopOnlyHeroImage";
 
 interface CategoryHeroProps {
   imageUrl?: string | null;
@@ -21,14 +21,11 @@ export default function CategoryHero({
 
   return (
     <section className="relative h-[380px] overflow-hidden rounded-2xl">
-      <ServerPublicImage
+      <DesktopOnlyHeroImage
         source={imageUrl}
-        role="hero"
         alt={title}
-        fill
         className="object-cover object-center"
         sizes="(max-width: 1279px) calc(100vw - 64px), 1216px"
-        priority
       />
 
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.5)_40%,rgba(0,0,0,0.82)_70%,rgba(0,0,0,0.95)_100%)]" />

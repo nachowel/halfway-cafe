@@ -4,17 +4,16 @@ import MobileCategoryPage, {
   type MenuItemRow,
 } from "./MobileCategoryPage";
 import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
-import { getCategories, getMenuItems, getMenuItemsByCategory } from "@/lib/queries";
+import { getCategories, getMenuItemsByCategory } from "@/lib/queries";
 
 export default async function MobileCategoryPageServer({
   categorySlug,
 }: {
   categorySlug: string;
 }) {
-  const [categoryRows, itemRows, allItemRows] = await Promise.all([
+  const [categoryRows, itemRows] = await Promise.all([
     getCategories(),
     getMenuItemsByCategory(categorySlug),
-    getMenuItems(),
   ]);
   const categories: CategoryRow[] = categoryRows.map((row) => ({
     id: row.id,
@@ -39,7 +38,7 @@ export default async function MobileCategoryPageServer({
       return resolveMenuItemForDisplay(item, "image_url", "content");
     }),
   );
-  const countRows: CountRow[] = allItemRows.map((row) => ({
+  const countRows: CountRow[] = itemRows.map((row) => ({
     id: row.id,
     category: row.category,
   }));
