@@ -6,6 +6,13 @@
 import { useState, useEffect, type FormEvent } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { resolveAdminMenuImagePreviews } from "@/app/admin/menu/image-actions";
+import {
+  applyAdminImageIntent,
+  parseAdminCloudinaryReference,
+  type AdminImageIntent,
+  type AdminMenuImagePreview,
+} from "@/lib/admin-menu-image-core";
 import { createClientComponentClient } from "@/lib/supabase";
 
 interface FormData {
@@ -78,8 +85,16 @@ const defaultForm: FormData = {
 export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
   const router = useRouter();
   const isEdit = itemId !== null;
+  const initialImageSource = initial?.image_url?.trim() ?? "";
 
   const [form, setForm] = useState<FormData>({ ...defaultForm, ...initial });
+  const [imageIntent, setImageIntent] = useState<AdminImageIntent>({
+    kind: "unchanged",
+  });
+  const [imagePreview, setImagePreview] = useState<AdminMenuImagePreview | null>(
+    null,
+  );
+  const [resolvingImage, setResolvingImage] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
@@ -112,6 +127,44 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
     }
     loadCategories();
   }, []);
+
+  useEffect(() => {
+    const source = imageIntent.kind === "remove" ? "" : form.image_url.trim();
+    let cancelled = false;
+
+    if (!source) {
+      setImagePreview(null);
+      setResolvingImage(false);
+      return;
+    }
+    if (!source.startsWith("cloudinary/")) {
+      setImagePreview({ src: source });
+      setResolvingImage(false);
+      return;
+    }
+    if (!parseAdminCloudinaryReference(source)) {
+      setImagePreview(null);
+      setResolvingImage(false);
+      return;
+    }
+
+    setImagePreview(null);
+    setResolvingImage(true);
+    void resolveAdminMenuImagePreviews([source], "card")
+      .then((previews) => {
+        if (!cancelled) setImagePreview(previews[source] ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setImagePreview(null);
+      })
+      .finally(() => {
+        if (!cancelled) setResolvingImage(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [form.image_url, imageIntent.kind]);
 
   function set<K extends keyof FormData>(key: K, value: FormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -148,12 +201,19 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
     if (!form.price || isNaN(parsedPrice) || parsedPrice <= 0) return setError("Price must be a valid number greater than 0.");
     if (!form.category.trim()) return setError("Category is required.");
     if (!form.available.trim()) return setError("Availability is required.");
+    if (
+      imageIntent.kind === "replace" &&
+      imageIntent.reference.trim().startsWith("cloudinary/") &&
+      !parseAdminCloudinaryReference(imageIntent.reference)
+    ) {
+      return setError("The Cloudinary image reference is invalid.");
+    }
 
     setSaving(true);
 
     try {
       const supabase = createClientComponentClient();
-      const payload = {
+      const basePayload: Record<string, unknown> = {
         name: form.name.trim(),
         description: form.description.trim(),
         price: parseFloat(parsedPrice.toFixed(2)),
@@ -161,12 +221,20 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
         price_sandwich: parseOptionalPrice(form.price_sandwich),
         price_baguette: parseOptionalPrice(form.price_baguette),
         category: form.category.trim(),
-        image_url: form.image_url.trim() || null,
         available: form.available.trim() || "all-day",
         active: Boolean(form.active),
         featured: Boolean(form.featured),
         dietary: Array.isArray(form.dietary) ? form.dietary : [],
       };
+      const normalizedImageIntent: AdminImageIntent =
+        imageIntent.kind === "replace"
+          ? { kind: "replace", reference: imageIntent.reference.trim() }
+          : imageIntent;
+      const payload = applyAdminImageIntent(
+        basePayload,
+        "image_url",
+        normalizedImageIntent,
+      );
 
       // DEBUG: log payload to diagnose 400 errors — remove after fix confirmed
       console.log("[MenuItemForm] payload:", JSON.stringify(payload, null, 2));
@@ -344,26 +412,66 @@ export default function MenuItemForm({ itemId, initial }: MenuItemFormProps) {
           </div>
         </div>
 
-        {/* Image URL + preview */}
+        {/* Image source + resolved preview */}
         <div>
           <label htmlFor="image_url" className={labelClass}>Image URL</label>
           <input
             id="image_url"
             type="text"
             value={form.image_url}
-            onChange={(e) => set("image_url", e.target.value)}
+            onChange={(e) => {
+              const reference = e.target.value;
+              set("image_url", reference);
+              setImageIntent(
+                reference.trim()
+                  ? { kind: "replace", reference }
+                  : { kind: "remove" },
+              );
+            }}
             className={inputClass}
-            placeholder="https://images.unsplash.com/..."
+            placeholder="https://… or cloudinary/halfway-cafe/…"
           />
-          {form.image_url && (
-              <div className="mt-3 relative h-40 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-              <Image
-                src={form.image_url}
-                alt="Preview"
-                fill
-                className="object-cover"
-                sizes="600px"
-              />
+          <div className="mt-2 flex flex-wrap gap-2">
+            {isEdit && imageIntent.kind !== "unchanged" && initialImageSource && (
+              <button
+                type="button"
+                onClick={() => {
+                  set("image_url", initialImageSource);
+                  setImageIntent({ kind: "unchanged" });
+                }}
+                className="rounded-lg border border-neutral-300 px-3 py-2 text-xs font-semibold text-neutral-700"
+              >
+                Keep existing image
+              </button>
+            )}
+            {form.image_url.trim() && imageIntent.kind !== "remove" && (
+              <button
+                type="button"
+                onClick={() => {
+                  set("image_url", "");
+                  setImageIntent({ kind: "remove" });
+                }}
+                className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600"
+              >
+                Remove image
+              </button>
+            )}
+          </div>
+          {imageIntent.kind !== "remove" && form.image_url.trim() && (
+            <div className="relative mt-3 flex h-40 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
+              {imagePreview?.src ? (
+                <Image
+                  src={imagePreview.src}
+                  alt="Preview"
+                  fill
+                  className="object-cover"
+                  sizes="600px"
+                />
+              ) : (
+                <span className="text-sm text-neutral-400">
+                  {resolvingImage ? "Resolving preview…" : "Preview unavailable"}
+                </span>
+              )}
             </div>
           )}
         </div>

@@ -5,6 +5,11 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { resolveAdminMenuImagePreviews } from "./image-actions";
+import {
+  parseAdminCloudinaryReference,
+  type AdminMenuImagePreview,
+} from "@/lib/admin-menu-image-core";
 import { createClientComponentClient } from "@/lib/supabase";
 
 interface DbMenuItem {
@@ -64,6 +69,9 @@ function ToggleSwitch({
 
 export default function AdminMenuPage() {
   const [items, setItems] = useState<DbMenuItem[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<
+    Record<string, AdminMenuImagePreview | null>
+  >({});
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [minPrice, setMinPrice] = useState("");
@@ -82,13 +90,43 @@ export default function AdminMenuPage() {
 
       const { data, error } = await query;
       if (error) throw error;
-      setItems((data as DbMenuItem[]) ?? []);
+      const nextItems = (data as DbMenuItem[]) ?? [];
+      setItems(nextItems);
+
+      const logicalSources = Array.from(
+        new Set(
+          nextItems
+            .map((item) => item.image_url?.trim() ?? "")
+            .filter((source) => parseAdminCloudinaryReference(source)),
+        ),
+      );
+      setImagePreviews({});
+      if (logicalSources.length > 0) {
+        try {
+          setImagePreviews(
+            await resolveAdminMenuImagePreviews(logicalSources, "thumbnail"),
+          );
+        } catch {
+          setImagePreviews(
+            Object.fromEntries(logicalSources.map((source) => [source, null])),
+          );
+        }
+      }
     } catch (e) {
       console.error("Failed to fetch menu items:", e);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  function displayImageSource(source: string | null) {
+    const normalized = source?.trim() ?? "";
+    if (!normalized) return null;
+    if (normalized.startsWith("cloudinary/")) {
+      return imagePreviews[normalized]?.src ?? null;
+    }
+    return normalized;
+  }
 
   useEffect(() => {
     fetchItems();
@@ -323,9 +361,9 @@ export default function AdminMenuPage() {
               >
                 <div className="flex items-start gap-3">
                   <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-neutral-100">
-                    {item.image_url ? (
+                    {displayImageSource(item.image_url) ? (
                       <Image
-                        src={item.image_url}
+                        src={displayImageSource(item.image_url) ?? ""}
                         alt={item.name}
                         fill
                         className="object-cover"
@@ -418,9 +456,9 @@ export default function AdminMenuPage() {
                   >
                     <td className="px-4 py-3">
                       <div className="relative h-10 w-10 overflow-hidden rounded-sm bg-neutral-100">
-                        {item.image_url ? (
+                        {displayImageSource(item.image_url) ? (
                           <Image
-                            src={item.image_url}
+                            src={displayImageSource(item.image_url) ?? ""}
                             alt={item.name}
                             fill
                             className="object-cover"

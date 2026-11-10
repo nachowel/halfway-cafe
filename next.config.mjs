@@ -28,6 +28,11 @@ const nextConfig = {
         hostname: "images.unsplash.com",
         pathname: "/photo-*",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**/image/upload/**",
+      },
       ...supabaseHostnames.flatMap((hostname) => [
         {
           protocol: "https",
