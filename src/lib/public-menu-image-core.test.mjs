@@ -12,6 +12,8 @@ const FISH_PUBLIC_ID =
   "halfway-cafe/admin/fish-finger--b9a2ddef-c333-441d-a40f-3f73b1afc52c";
 const SET_BREAKFAST_ONE_PUBLIC_ID =
   "halfway-cafe/set-breakfast/set1--9624d1731928";
+const SET_BREAKFAST_ONE_ID = "09782836-4373-4d01-afa4-e8a989e0eda3";
+const SET_BREAKFAST_FIVE_ID = "5e2c2308-5fdb-44b0-81c3-e36e0455b7ef";
 const SET_BREAKFAST_ONE_LEGACY_URL =
   "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=signed-token";
 
@@ -82,6 +84,7 @@ test("passes Supabase and Unsplash HTTPS inputs through byte-for-byte", async ()
 test("resolves the exact Set Breakfast 1 legacy source through the Cloudinary canary", async () => {
   let lookedUpPublicId = null;
   const result = await resolvePublicMenuImageCore({
+    itemId: SET_BREAKFAST_ONE_ID,
     source: SET_BREAKFAST_ONE_LEGACY_URL,
     role: "content",
     cloudName: "shared-cloud",
@@ -151,6 +154,7 @@ test("falls back to the original Set Breakfast 1 source when canary resolution f
 
   for (const scenario of scenarios) {
     const result = await resolvePublicMenuImageCore({
+      itemId: SET_BREAKFAST_ONE_ID,
       source: SET_BREAKFAST_ONE_LEGACY_URL,
       role: "content",
       cloudName: scenario.cloudName,
@@ -166,6 +170,68 @@ test("falls back to the original Set Breakfast 1 source when canary resolution f
   }
 });
 
+test("leaves the shared Set Breakfast 1 source unchanged for Set Breakfast 5", async () => {
+  const setBreakfastFiveSource =
+    "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=set-five-token";
+  let lookups = 0;
+
+  const result = await resolvePublicMenuImageCore({
+    itemId: SET_BREAKFAST_FIVE_ID,
+    source: setBreakfastFiveSource,
+    role: "content",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async () => {
+      lookups += 1;
+      return {
+        public_id: SET_BREAKFAST_ONE_PUBLIC_ID,
+        version: 1792168035,
+        format: "png",
+        width: 1184,
+        height: 896,
+      };
+    },
+  });
+
+  assert.deepEqual(result, { kind: "legacy", source: setBreakfastFiveSource });
+  assert.equal(lookups, 0);
+});
+
+test("leaves the Set Breakfast 1 source unchanged for an unrelated product UUID", async () => {
+  let lookups = 0;
+  const result = await resolvePublicMenuImageCore({
+    itemId: "d9041eed-e793-4b68-8b55-cf732e21a104",
+    source: SET_BREAKFAST_ONE_LEGACY_URL,
+    role: "content",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async () => {
+      lookups += 1;
+      return null;
+    },
+  });
+
+  assert.deepEqual(result, { kind: "legacy", source: SET_BREAKFAST_ONE_LEGACY_URL });
+  assert.equal(lookups, 0);
+});
+
+test("leaves the Set Breakfast 1 source unchanged when product UUID is missing", async () => {
+  let lookups = 0;
+  const result = await resolvePublicMenuImageCore({
+    source: SET_BREAKFAST_ONE_LEGACY_URL,
+    role: "content",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async () => {
+      lookups += 1;
+      return null;
+    },
+  });
+
+  assert.deepEqual(result, { kind: "legacy", source: SET_BREAKFAST_ONE_LEGACY_URL });
+  assert.equal(lookups, 0);
+});
+
 test("leaves sources outside the exact Set Breakfast 1 canary unchanged", async () => {
   const sources = [
     "https://other-project.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=signed-token",
@@ -177,6 +243,7 @@ test("leaves sources outside the exact Set Breakfast 1 canary unchanged", async 
 
   for (const source of sources) {
     const result = await resolvePublicMenuImageCore({
+      itemId: SET_BREAKFAST_ONE_ID,
       source,
       role: "content",
       cloudName: "shared-cloud",
@@ -339,4 +406,28 @@ test("item transformation preserves fields and order while removing logical refe
   assert.deepEqual(transformed[1].resolvedImage, cloudinaryImage);
   assert.equal("image_url" in transformed[2], false);
   assert.equal(transformed[2].resolvedImage, null);
+});
+
+test("item transformation passes the stable product UUID to the image resolver", async () => {
+  let resolvedItemId = null;
+  const item = {
+    id: SET_BREAKFAST_ONE_ID,
+    name: "Set Breakfast 1",
+    image_url: SET_BREAKFAST_ONE_LEGACY_URL,
+  };
+
+  const result = await resolvePublicMenuItemImage(
+    item,
+    "image_url",
+    "content",
+    async (source, role, itemId) => {
+      assert.equal(source, SET_BREAKFAST_ONE_LEGACY_URL);
+      assert.equal(role, "content");
+      resolvedItemId = itemId;
+      return { kind: "legacy", source };
+    },
+  );
+
+  assert.equal(resolvedItemId, SET_BREAKFAST_ONE_ID);
+  assert.deepEqual(result, item);
 });

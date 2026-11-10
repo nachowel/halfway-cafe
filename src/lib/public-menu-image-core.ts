@@ -11,6 +11,7 @@ import type {
 const CLOUDINARY_REFERENCE_PREFIX = "cloudinary/";
 const HALFWAY_CLOUDINARY_NAMESPACE = "halfway-cafe/";
 const PUBLIC_ID_PATTERN = /^halfway-cafe\/[a-z0-9][a-z0-9/_-]*$/;
+const SET_BREAKFAST_ONE_ID = "09782836-4373-4d01-afa4-e8a989e0eda3";
 const SET_BREAKFAST_ONE_LEGACY_HOST = "jbatmtnlegydsjerkuml.supabase.co";
 const SET_BREAKFAST_ONE_LEGACY_PATH =
   "/storage/v1/object/sign/set%20breakfast/set1.png";
@@ -80,7 +81,15 @@ function isValidRegistryAsset(asset: CloudinaryRegistryAsset, publicId: string) 
   );
 }
 
-export function setBreakfastOneCanaryReference(source: string): string | null {
+export function setBreakfastOneCanaryReference({
+  itemId,
+  source,
+}: {
+  itemId: string | null | undefined;
+  source: string;
+}): string | null {
+  if (itemId !== SET_BREAKFAST_ONE_ID) return null;
+
   try {
     const url = new URL(source);
     return url.protocol === "https:" &&
@@ -119,6 +128,7 @@ function createCloudinaryResolvedImage(
 }
 
 export async function resolvePublicMenuImageCore({
+  itemId,
   source,
   role,
   cloudName,
@@ -126,6 +136,7 @@ export async function resolvePublicMenuImageCore({
   lookup,
   diagnostic = () => undefined,
 }: {
+  itemId?: string | null;
   source: string | null | undefined;
   role: PublicImageRole;
   cloudName: string;
@@ -135,7 +146,10 @@ export async function resolvePublicMenuImageCore({
 }): Promise<PublicMenuImageResolution> {
   const normalizedSource = source?.trim();
   if (!normalizedSource) return { kind: "none" };
-  const canaryReference = setBreakfastOneCanaryReference(normalizedSource);
+  const canaryReference = setBreakfastOneCanaryReference({
+    itemId,
+    source: normalizedSource,
+  });
   const resolutionSource = canaryReference ?? normalizedSource;
   const unresolvedCloudinaryImage = (): PublicMenuImageResolution =>
     canaryReference
@@ -189,11 +203,12 @@ export async function resolvePublicMenuItemImage<
   resolver: (
     source: string | null | undefined,
     role: PublicImageRole,
+    itemId: string | null,
   ) => Promise<PublicMenuImageResolution>,
 ): Promise<Omit<T, K> & Partial<Pick<T, K>> & { resolvedImage?: ResolvedPublicImage | null }> {
   const sourceValue = item[sourceField];
   const source = typeof sourceValue === "string" ? sourceValue : null;
-  const resolution = await resolver(source, role);
+  const resolution = await resolver(source, role, stableMenuItemId(item));
 
   if (resolution.kind !== "cloudinary") return item;
 
@@ -203,4 +218,8 @@ export async function resolvePublicMenuItemImage<
     ...withoutLogicalReference,
     resolvedImage: resolution.image,
   };
+}
+
+export function stableMenuItemId(item: object): string | null {
+  return "id" in item && typeof item.id === "string" ? item.id : null;
 }

@@ -3,6 +3,7 @@ import "server-only";
 import {
   resolvePublicMenuImageCore,
   setBreakfastOneCanaryReference,
+  stableMenuItemId,
 } from "./public-menu-image-core";
 import { resolvePublicImage } from "./public-images.server";
 import { createServerComponentClient } from "./supabase-server";
@@ -33,9 +34,13 @@ function logImageDiagnostic(event: PublicMenuImageDiagnostic) {
 export async function resolvePublicMenuImage(
   source: string | null | undefined,
   role: PublicImageRole,
+  itemId: string | null,
 ) {
   const normalizedSource = source?.trim();
-  if (normalizedSource && setBreakfastOneCanaryReference(normalizedSource)) {
+  if (
+    normalizedSource &&
+    setBreakfastOneCanaryReference({ itemId, source: normalizedSource })
+  ) {
     try {
       const mappedImage = resolvePublicImage(normalizedSource, role);
       if (mappedImage?.provider === "cloudinary") {
@@ -47,6 +52,7 @@ export async function resolvePublicMenuImage(
   }
 
   return resolvePublicMenuImageCore({
+    itemId,
     source,
     role,
     cloudName: process.env.CLOUDINARY_CLOUD_NAME?.trim() ?? "",
@@ -72,7 +78,7 @@ export async function resolveMenuItemForDisplay<
 ): Promise<Omit<T, K> & { resolvedImage: ResolvedPublicImage | null }> {
   const sourceValue = item[sourceField];
   const source = typeof sourceValue === "string" ? sourceValue : null;
-  const resolution = await resolvePublicMenuImage(source, role);
+  const resolution = await resolvePublicMenuImage(source, role, stableMenuItemId(item));
 
   const withoutSource = { ...item } as Omit<T, K> & Partial<Pick<T, K>>;
   delete withoutSource[sourceField];
