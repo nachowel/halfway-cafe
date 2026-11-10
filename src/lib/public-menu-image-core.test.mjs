@@ -10,6 +10,10 @@ import {
 
 const FISH_PUBLIC_ID =
   "halfway-cafe/admin/fish-finger--b9a2ddef-c333-441d-a40f-3f73b1afc52c";
+const SET_BREAKFAST_ONE_PUBLIC_ID =
+  "halfway-cafe/set-breakfast/set1--9624d1731928";
+const SET_BREAKFAST_ONE_LEGACY_URL =
+  "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=signed-token";
 
 test("parses a Phase 8E Cloudinary logical reference", () => {
   assert.equal(parseCloudinaryReference(`cloudinary/${FISH_PUBLIC_ID}`), FISH_PUBLIC_ID);
@@ -61,6 +65,120 @@ test("passes Supabase and Unsplash HTTPS inputs through byte-for-byte", async ()
     const result = await resolvePublicMenuImageCore({
       source,
       role: "card",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => {
+        lookups += 1;
+        return null;
+      },
+    });
+
+    assert.deepEqual(result, { kind: "legacy", source });
+  }
+
+  assert.equal(lookups, 0);
+});
+
+test("resolves the exact Set Breakfast 1 legacy source through the Cloudinary canary", async () => {
+  let lookedUpPublicId = null;
+  const result = await resolvePublicMenuImageCore({
+    source: SET_BREAKFAST_ONE_LEGACY_URL,
+    role: "content",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async (publicId) => {
+      lookedUpPublicId = publicId;
+      return {
+        public_id: SET_BREAKFAST_ONE_PUBLIC_ID,
+        version: 1792168035,
+        format: "png",
+        width: 1184,
+        height: 896,
+      };
+    },
+  });
+
+  assert.equal(lookedUpPublicId, SET_BREAKFAST_ONE_PUBLIC_ID);
+  assert.equal(result.kind, "cloudinary");
+  assert.deepEqual(result.kind === "cloudinary" ? result.image?.widths : null, [
+    96, 192, 256, 384, 640, 828, 1080, 1184,
+  ]);
+  assert.match(
+    result.kind === "cloudinary" ? result.image?.src ?? "" : "",
+    /\/c_limit,w_1080\/q_auto\/f_webp\/v1792168035\/halfway-cafe\/set-breakfast\/set1--9624d1731928\.png$/,
+  );
+  assert.match(
+    result.kind === "cloudinary" ? result.image?.srcSet ?? "" : "",
+    /\/c_limit,w_192\/q_auto\/f_webp\//,
+  );
+});
+
+test("falls back to the original Set Breakfast 1 source when canary resolution fails", async () => {
+  const scenarios = [
+    {
+      name: "configuration missing",
+      cloudName: "",
+      apiSecret: "",
+      lookup: async () => assert.fail("missing configuration must not query the registry"),
+    },
+    {
+      name: "registry row missing",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => null,
+    },
+    {
+      name: "delivery metadata invalid",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => ({
+        public_id: SET_BREAKFAST_ONE_PUBLIC_ID,
+        version: 1792168035,
+        format: "png",
+        width: 0,
+        height: 896,
+      }),
+    },
+    {
+      name: "registry lookup fails",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => {
+        throw new Error("registry unavailable");
+      },
+    },
+  ];
+
+  for (const scenario of scenarios) {
+    const result = await resolvePublicMenuImageCore({
+      source: SET_BREAKFAST_ONE_LEGACY_URL,
+      role: "content",
+      cloudName: scenario.cloudName,
+      apiSecret: scenario.apiSecret,
+      lookup: scenario.lookup,
+    });
+
+    assert.deepEqual(
+      result,
+      { kind: "legacy", source: SET_BREAKFAST_ONE_LEGACY_URL },
+      scenario.name,
+    );
+  }
+});
+
+test("leaves sources outside the exact Set Breakfast 1 canary unchanged", async () => {
+  const sources = [
+    "https://other-project.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=signed-token",
+    "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/set2.png?token=signed-token",
+    "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/set%20breakfast/set1.png",
+    "http://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=signed-token",
+  ];
+  let lookups = 0;
+
+  for (const source of sources) {
+    const result = await resolvePublicMenuImageCore({
+      source,
+      role: "content",
       cloudName: "shared-cloud",
       apiSecret: "test-secret",
       lookup: async () => {

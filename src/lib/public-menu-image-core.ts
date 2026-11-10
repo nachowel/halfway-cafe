@@ -11,6 +11,11 @@ import type {
 const CLOUDINARY_REFERENCE_PREFIX = "cloudinary/";
 const HALFWAY_CLOUDINARY_NAMESPACE = "halfway-cafe/";
 const PUBLIC_ID_PATTERN = /^halfway-cafe\/[a-z0-9][a-z0-9/_-]*$/;
+const SET_BREAKFAST_ONE_LEGACY_HOST = "jbatmtnlegydsjerkuml.supabase.co";
+const SET_BREAKFAST_ONE_LEGACY_PATH =
+  "/storage/v1/object/sign/set%20breakfast/set1.png";
+const SET_BREAKFAST_ONE_CLOUDINARY_REFERENCE =
+  "cloudinary/halfway-cafe/set-breakfast/set1--9624d1731928";
 
 export const RESPONSIVE_WIDTHS = [
   96, 192, 256, 384, 640, 828, 1080, 1376, 1600,
@@ -75,6 +80,19 @@ function isValidRegistryAsset(asset: CloudinaryRegistryAsset, publicId: string) 
   );
 }
 
+export function setBreakfastOneCanaryReference(source: string): string | null {
+  try {
+    const url = new URL(source);
+    return url.protocol === "https:" &&
+      url.hostname === SET_BREAKFAST_ONE_LEGACY_HOST &&
+      url.pathname === SET_BREAKFAST_ONE_LEGACY_PATH
+      ? SET_BREAKFAST_ONE_CLOUDINARY_REFERENCE
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 function createCloudinaryResolvedImage(
   asset: CloudinaryRegistryAsset,
   role: PublicImageRole,
@@ -117,32 +135,38 @@ export async function resolvePublicMenuImageCore({
 }): Promise<PublicMenuImageResolution> {
   const normalizedSource = source?.trim();
   if (!normalizedSource) return { kind: "none" };
+  const canaryReference = setBreakfastOneCanaryReference(normalizedSource);
+  const resolutionSource = canaryReference ?? normalizedSource;
+  const unresolvedCloudinaryImage = (): PublicMenuImageResolution =>
+    canaryReference
+      ? { kind: "legacy", source: normalizedSource }
+      : { kind: "cloudinary", image: null };
 
-  const isCloudinaryCandidate = normalizedSource.toLowerCase().startsWith(
+  const isCloudinaryCandidate = resolutionSource.toLowerCase().startsWith(
     CLOUDINARY_REFERENCE_PREFIX,
   );
   if (!isCloudinaryCandidate) return { kind: "legacy", source: normalizedSource };
 
-  const publicId = parseCloudinaryReference(normalizedSource);
+  const publicId = parseCloudinaryReference(resolutionSource);
   if (!publicId) {
     diagnostic({ stage: "invalid-reference" });
-    return { kind: "cloudinary", image: null };
+    return unresolvedCloudinaryImage();
   }
 
   if (!cloudName || !apiSecret) {
     diagnostic({ stage: "configuration-missing", publicId });
-    return { kind: "cloudinary", image: null };
+    return unresolvedCloudinaryImage();
   }
 
   try {
     const asset = await lookup(publicId);
     if (!asset) {
       diagnostic({ stage: "registry-missing", publicId });
-      return { kind: "cloudinary", image: null };
+      return unresolvedCloudinaryImage();
     }
     if (!isValidRegistryAsset(asset, publicId)) {
       diagnostic({ stage: "registry-invalid", publicId });
-      return { kind: "cloudinary", image: null };
+      return unresolvedCloudinaryImage();
     }
 
     return {
@@ -151,7 +175,7 @@ export async function resolvePublicMenuImageCore({
     };
   } catch {
     diagnostic({ stage: "registry-error", publicId });
-    return { kind: "cloudinary", image: null };
+    return unresolvedCloudinaryImage();
   }
 }
 

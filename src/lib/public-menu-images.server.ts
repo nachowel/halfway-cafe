@@ -1,6 +1,10 @@
 import "server-only";
 
-import { resolvePublicMenuImageCore } from "./public-menu-image-core";
+import {
+  resolvePublicMenuImageCore,
+  setBreakfastOneCanaryReference,
+} from "./public-menu-image-core";
+import { resolvePublicImage } from "./public-images.server";
 import { createServerComponentClient } from "./supabase-server";
 import type {
   CloudinaryRegistryAsset,
@@ -30,6 +34,18 @@ export async function resolvePublicMenuImage(
   source: string | null | undefined,
   role: PublicImageRole,
 ) {
+  const normalizedSource = source?.trim();
+  if (normalizedSource && setBreakfastOneCanaryReference(normalizedSource)) {
+    try {
+      const mappedImage = resolvePublicImage(normalizedSource, role);
+      if (mappedImage?.provider === "cloudinary") {
+        return { kind: "cloudinary" as const, image: mappedImage };
+      }
+    } catch {
+      // Continue through the registry resolver, which preserves the legacy source on failure.
+    }
+  }
+
   return resolvePublicMenuImageCore({
     source,
     role,
