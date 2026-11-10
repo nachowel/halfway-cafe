@@ -1,5 +1,6 @@
 "use server";
 
+import { hasHalfwayAdminClaim } from "@/lib/admin-auth-core";
 import {
   parseAdminCloudinaryReference,
   type AdminMenuImagePreview,
@@ -27,6 +28,7 @@ export async function resolveAdminMenuImagePreviews(
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) throw new Error("Authentication required");
+  if (!hasHalfwayAdminClaim(data.user)) throw new Error("Forbidden");
 
   const uniqueSources = Array.from(new Set(sources.map((source) => source.trim())));
   const previews = await Promise.all(

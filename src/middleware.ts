@@ -2,7 +2,21 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { hasHalfwayAdminClaim } from "@/lib/admin-auth-core";
 import { getSupabasePublicEnv, warnMissingSupabaseEnv } from "@/lib/supabase-config";
+
+/**
+ * Redirect while carrying over cookies that Supabase refreshed during
+ * `getUser()`. Dropping them discards a rotated refresh token and can leave
+ * the caller stuck on a stale session.
+ */
+function redirectWithSessionCookies(url: URL, response: NextResponse) {
+  const redirect = NextResponse.redirect(url);
+  response.cookies.getAll().forEach((cookie) => {
+    redirect.cookies.set(cookie);
+  });
+  return redirect;
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -50,8 +64,19 @@ export async function middleware(request: NextRequest) {
 
   // No session → redirect to login
   if (!user) {
-    const loginUrl = new URL("/admin/login", request.url);
-    return NextResponse.redirect(loginUrl);
+    return redirectWithSessionCookies(
+      new URL("/admin/login", request.url),
+      response
+    );
+  }
+
+  // Authenticated but not a Halfway admin → reject.
+  // Mirrors the production RLS helper `is_halfway_admin()`.
+  if (!hasHalfwayAdminClaim(user)) {
+    return redirectWithSessionCookies(
+      new URL("/admin/login?error=forbidden", request.url),
+      response
+    );
   }
 
   return response;
