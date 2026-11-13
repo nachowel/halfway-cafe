@@ -7,14 +7,14 @@ const BUILDERS_BREAKFAST_IMAGE_URL =
   "set breakfast/Buildersbreakfast.png";
 
 export const metadata: Metadata = {
-  title: "Full English Breakfast in Sidcup | Halfway Cafe",
+  title: "Full English Breakfast in Sidcup",
   description:
     "Enjoy a proper full English breakfast in Sidcup at Halfway Cafe. Eggs, sausage, bacon, beans and more – freshly prepared and served hot.",
   alternates: {
     canonical: "https://halfwaycafe.co.uk/full-english-breakfast-sidcup",
   },
   openGraph: {
-    title: "Full English Breakfast in Sidcup | Halfway Cafe",
+    title: "Full English Breakfast in Sidcup | Halfway Cafe Sidcup",
     description:
       "Enjoy a proper full English breakfast in Sidcup at Halfway Cafe. Eggs, sausage, bacon, beans and more – freshly prepared and served hot.",
     url: "https://halfwaycafe.co.uk/full-english-breakfast-sidcup",

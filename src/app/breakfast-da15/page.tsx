@@ -6,12 +6,12 @@ import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
 
 export const metadata: Metadata = {
-  title: "Breakfast in DA15 | Halfway Cafe, Sidcup",
+  title: "Breakfast in DA15",
   description:
     "Looking for breakfast in DA15? Halfway Cafe on Halfway Street, Sidcup has served proper cooked breakfasts for over 20 years. Dine in or takeaway.",
   alternates: { canonical: "https://halfwaycafe.co.uk/breakfast-da15" },
   openGraph: {
-    title: "Breakfast in DA15 | Halfway Cafe, Sidcup",
+    title: "Breakfast in DA15 | Halfway Cafe Sidcup",
     description:
       "Looking for breakfast in DA15? Halfway Cafe on Halfway Street, Sidcup has served proper cooked breakfasts for over 20 years. Dine in or takeaway.",
     url: "https://halfwaycafe.co.uk/breakfast-da15",
