@@ -134,6 +134,7 @@ export async function resolvePublicMenuImageCore({
   cloudName,
   apiSecret,
   lookup,
+  fallback = () => null,
   diagnostic = () => undefined,
 }: {
   itemId?: string | null;
@@ -142,6 +143,7 @@ export async function resolvePublicMenuImageCore({
   cloudName: string;
   apiSecret: string;
   lookup: (publicId: string) => Promise<CloudinaryRegistryAsset | null>;
+  fallback?: (publicId: string) => string | null;
   diagnostic?: (event: PublicMenuImageDiagnostic) => void;
 }): Promise<PublicMenuImageResolution> {
   const normalizedSource = source?.trim();
@@ -151,10 +153,13 @@ export async function resolvePublicMenuImageCore({
     source: normalizedSource,
   });
   const resolutionSource = canaryReference ?? normalizedSource;
-  const unresolvedCloudinaryImage = (): PublicMenuImageResolution =>
-    canaryReference
-      ? { kind: "legacy", source: normalizedSource }
+  const unresolvedCloudinaryImage = (publicId?: string): PublicMenuImageResolution => {
+    if (canaryReference) return { kind: "legacy", source: normalizedSource };
+    const fallbackSource = publicId ? fallback(publicId) : null;
+    return fallbackSource
+      ? { kind: "legacy", source: fallbackSource }
       : { kind: "cloudinary", image: null };
+  };
 
   const isCloudinaryCandidate = resolutionSource.toLowerCase().startsWith(
     CLOUDINARY_REFERENCE_PREFIX,
@@ -169,18 +174,18 @@ export async function resolvePublicMenuImageCore({
 
   if (!cloudName || !apiSecret) {
     diagnostic({ stage: "configuration-missing", publicId });
-    return unresolvedCloudinaryImage();
+    return unresolvedCloudinaryImage(publicId);
   }
 
   try {
     const asset = await lookup(publicId);
     if (!asset) {
       diagnostic({ stage: "registry-missing", publicId });
-      return unresolvedCloudinaryImage();
+      return unresolvedCloudinaryImage(publicId);
     }
     if (!isValidRegistryAsset(asset, publicId)) {
       diagnostic({ stage: "registry-invalid", publicId });
-      return unresolvedCloudinaryImage();
+      return unresolvedCloudinaryImage(publicId);
     }
 
     return {
@@ -189,7 +194,7 @@ export async function resolvePublicMenuImageCore({
     };
   } catch {
     diagnostic({ stage: "registry-error", publicId });
-    return unresolvedCloudinaryImage();
+    return unresolvedCloudinaryImage(publicId);
   }
 }
 

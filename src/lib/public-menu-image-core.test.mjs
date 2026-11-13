@@ -12,10 +12,14 @@ const FISH_PUBLIC_ID =
   "halfway-cafe/admin/fish-finger--b9a2ddef-c333-441d-a40f-3f73b1afc52c";
 const SET_BREAKFAST_ONE_PUBLIC_ID =
   "halfway-cafe/set-breakfast/set1--9624d1731928";
+const SET_BREAKFAST_TWO_PUBLIC_ID =
+  "halfway-cafe/set-breakfast/set2--80c9fed3752e";
 const SET_BREAKFAST_ONE_ID = "09782836-4373-4d01-afa4-e8a989e0eda3";
 const SET_BREAKFAST_FIVE_ID = "5e2c2308-5fdb-44b0-81c3-e36e0455b7ef";
 const SET_BREAKFAST_ONE_LEGACY_URL =
   "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/sign/set%20breakfast/set1.png?token=signed-token";
+const SET_BREAKFAST_TWO_PUBLIC_FALLBACK =
+  "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/set%20breakfast/set2.png";
 
 test("parses a Phase 8E Cloudinary logical reference", () => {
   assert.equal(parseCloudinaryReference(`cloudinary/${FISH_PUBLIC_ID}`), FISH_PUBLIC_ID);
@@ -191,6 +195,8 @@ test("leaves the shared Set Breakfast 1 source unchanged for Set Breakfast 5", a
         height: 896,
       };
     },
+    fallback: () =>
+      "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/set%20breakfast/set1.png",
   });
 
   assert.deepEqual(result, { kind: "legacy", source: setBreakfastFiveSource });
@@ -285,6 +291,96 @@ test("resolves ready registry metadata to the Phase 8E signed responsive lattice
   );
   assert.equal(JSON.stringify(result).includes("test-secret"), false);
   assert.equal(JSON.stringify(result).includes("/_next/image"), false);
+});
+
+test("keeps registry success ahead of the verified breakfast fallback", async () => {
+  const result = await resolvePublicMenuImageCore({
+    source: `cloudinary/${SET_BREAKFAST_TWO_PUBLIC_ID}`,
+    role: "content",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async () => ({
+      public_id: SET_BREAKFAST_TWO_PUBLIC_ID,
+      version: 1792168037,
+      format: "png",
+      width: 1184,
+      height: 896,
+    }),
+    fallback: () => SET_BREAKFAST_TWO_PUBLIC_FALLBACK,
+  });
+
+  assert.equal(result.kind, "cloudinary");
+  assert.equal(result.kind === "cloudinary" ? result.image?.provider : null, "cloudinary");
+});
+
+test("uses the verified breakfast fallback for every registry failure mode", async () => {
+  const scenarios = [
+    {
+      name: "configuration missing",
+      cloudName: "",
+      apiSecret: "",
+      lookup: async () => assert.fail("missing configuration must not query the registry"),
+    },
+    {
+      name: "registry row missing",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => null,
+    },
+    {
+      name: "registry metadata invalid",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => ({
+        public_id: SET_BREAKFAST_TWO_PUBLIC_ID,
+        version: 1792168037,
+        format: "png",
+        width: 0,
+        height: 896,
+      }),
+    },
+    {
+      name: "registry RPC fails",
+      cloudName: "shared-cloud",
+      apiSecret: "test-secret",
+      lookup: async () => {
+        throw new Error("registry unavailable");
+      },
+    },
+  ];
+
+  for (const scenario of scenarios) {
+    const result = await resolvePublicMenuImageCore({
+      source: `cloudinary/${SET_BREAKFAST_TWO_PUBLIC_ID}`,
+      role: "content",
+      cloudName: scenario.cloudName,
+      apiSecret: scenario.apiSecret,
+      lookup: scenario.lookup,
+      fallback: (publicId) =>
+        publicId === SET_BREAKFAST_TWO_PUBLIC_ID
+          ? SET_BREAKFAST_TWO_PUBLIC_FALLBACK
+          : null,
+    });
+
+    assert.deepEqual(
+      result,
+      { kind: "legacy", source: SET_BREAKFAST_TWO_PUBLIC_FALLBACK },
+      scenario.name,
+    );
+  }
+});
+
+test("keeps unknown Cloudinary public IDs fail-closed when no fallback is approved", async () => {
+  const result = await resolvePublicMenuImageCore({
+    source: "cloudinary/halfway-cafe/set-breakfast/unknown--000000000000",
+    role: "content",
+    cloudName: "shared-cloud",
+    apiSecret: "test-secret",
+    lookup: async () => null,
+    fallback: () => null,
+  });
+
+  assert.deepEqual(result, { kind: "cloudinary", image: null });
 });
 
 test("consumes malformed Cloudinary candidates instead of treating them as legacy URLs", async () => {

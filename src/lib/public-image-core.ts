@@ -17,6 +17,9 @@ const ROLE_TARGETS: Record<PublicImageRole, number> = {
   hero: 1600,
 };
 
+const VERIFIED_BREAKFAST_PUBLIC_ID_PREFIX = "halfway-cafe/set-breakfast/";
+const VERIFIED_BREAKFAST_ASSET_COUNT = 11;
+
 function assertMapping(mapping: CloudinaryAssetMapping) {
   if (mapping.schemaVersion !== 1 || !/^[a-f0-9]{64}$/.test(mapping.manifestSha256)) {
     throw new Error("Invalid Cloudinary application mapping");
@@ -129,6 +132,33 @@ function fallbackImage(source: string): ResolvedPublicImage {
   return { src: source, provider: "external" };
 }
 
+function publicStorageUrl(sourceHost: string, objectPath: string) {
+  const encodedObjectPath = objectPath
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+  return `https://${sourceHost}/storage/v1/object/public/${encodedObjectPath}`;
+}
+
+export function createVerifiedBreakfastPublicFallback(mapping: CloudinaryAssetMapping) {
+  assertMapping(mapping);
+  const assets = mapping.assets.filter((asset) =>
+    asset.publicId.startsWith(VERIFIED_BREAKFAST_PUBLIC_ID_PREFIX),
+  );
+  const byPublicId = new Map(
+    assets.map((asset) => [
+      asset.publicId,
+      publicStorageUrl(mapping.sourceHost, asset.objectPath),
+    ]),
+  );
+
+  if (assets.length !== VERIFIED_BREAKFAST_ASSET_COUNT || byPublicId.size !== assets.length) {
+    throw new Error("Invalid verified breakfast fallback mapping");
+  }
+
+  return (publicId: string): string | null => byPublicId.get(publicId) ?? null;
+}
+
 export function createPublicImageResolver({
   mapping,
   cloudName,
@@ -139,7 +169,6 @@ export function createPublicImageResolver({
   apiSecret: string;
 }) {
   assertMapping(mapping);
-  if (!cloudName || !apiSecret) throw new Error("Cloudinary delivery credentials are required");
   const byObjectPath = new Map(mapping.assets.map((asset) => [asset.objectPath, asset]));
 
   return (source: string | null | undefined, role: PublicImageRole): ResolvedPublicImage | null => {
@@ -147,7 +176,7 @@ export function createPublicImageResolver({
     if (!normalizedSource) return null;
     const objectPath = sourceObjectPath(normalizedSource, mapping.sourceHost);
     const asset = objectPath ? byObjectPath.get(objectPath) : undefined;
-    if (asset) {
+    if (asset && cloudName && apiSecret) {
       const widths = responsiveWidths(asset.width);
       const targetWidth = roleWidth(widths, Math.min(ROLE_TARGETS[role], asset.width));
       return {
@@ -160,6 +189,12 @@ export function createPublicImageResolver({
         widths,
         provider: "cloudinary",
         objectPath: asset.objectPath,
+      };
+    }
+    if (asset) {
+      return {
+        src: publicStorageUrl(mapping.sourceHost, asset.objectPath),
+        provider: "supabase",
       };
     }
     if (normalizedSource.startsWith("https://images.unsplash.com/")) {

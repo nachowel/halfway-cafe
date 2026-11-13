@@ -5,7 +5,10 @@ import {
   setBreakfastOneCanaryReference,
   stableMenuItemId,
 } from "./public-menu-image-core";
-import { resolvePublicImage } from "./public-images.server";
+import {
+  resolvePublicImage,
+  resolveVerifiedBreakfastPublicFallback,
+} from "./public-images.server";
 import { createServerComponentClient } from "./supabase-server";
 import type {
   CloudinaryRegistryAsset,
@@ -58,6 +61,7 @@ export async function resolvePublicMenuImage(
     cloudName: process.env.CLOUDINARY_CLOUD_NAME?.trim() ?? "",
     apiSecret: process.env.CLOUDINARY_API_SECRET?.trim() ?? "",
     lookup: findReadyImageAsset,
+    fallback: resolveVerifiedBreakfastPublicFallback,
     diagnostic: logImageDiagnostic,
   });
 }

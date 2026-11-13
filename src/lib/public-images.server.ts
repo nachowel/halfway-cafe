@@ -1,7 +1,10 @@
 import "server-only";
 
 import mappingJson from "../data/cloudinary-assets.v1.json";
-import { createPublicImageResolver } from "./public-image-core";
+import {
+  createPublicImageResolver,
+  createVerifiedBreakfastPublicFallback,
+} from "./public-image-core";
 import type {
   CloudinaryAssetMapping,
   PublicImageRole,
@@ -21,12 +24,17 @@ const resolver = createPublicImageResolver({
   cloudName: process.env.CLOUDINARY_CLOUD_NAME?.trim() ?? "",
   apiSecret: process.env.CLOUDINARY_API_SECRET?.trim() ?? "",
 });
+const verifiedBreakfastPublicFallback = createVerifiedBreakfastPublicFallback(mapping);
 
 export function resolvePublicImage(
   source: string | null | undefined,
   role: PublicImageRole,
 ): ResolvedPublicImage | null {
   return resolver(source, role);
+}
+
+export function resolveVerifiedBreakfastPublicFallback(publicId: string) {
+  return verifiedBreakfastPublicFallback(publicId);
 }
 
 export function resolveRequiredPublicImage(source: string, role: PublicImageRole) {

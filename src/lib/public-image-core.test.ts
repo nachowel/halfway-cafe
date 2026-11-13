@@ -1,8 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { createPublicImageResolver, signCloudinaryDeliveryPath } from "./public-image-core.ts";
+import * as publicImageCore from "./public-image-core.ts";
 import type { CloudinaryAssetMapping } from "../types/public-image.ts";
+
+const pinnedMappingJson = JSON.parse(
+  readFileSync(new URL("../data/cloudinary-assets.v1.json", import.meta.url), "utf8"),
+) as CloudinaryAssetMapping;
 
 const mapping: CloudinaryAssetMapping = {
   schemaVersion: 1,
@@ -135,5 +141,68 @@ test("returns null for missing input and rejects malformed mapping entries", () 
       apiSecret: "test-secret",
     }),
     /namespace/i,
+  );
+});
+
+test("missing Cloudinary configuration degrades mapped Supabase sources without throwing", () => {
+  const resolver = createPublicImageResolver({
+    mapping,
+    cloudName: "",
+    apiSecret: "",
+  });
+
+  assert.deepEqual(
+    resolver(
+      "https://project.supabase.co/storage/v1/object/sign/Hero/hero1.png?token=private-value",
+      "hero",
+    ),
+    {
+      src: "https://project.supabase.co/storage/v1/object/public/Hero/hero1.png",
+      provider: "supabase",
+    },
+  );
+});
+
+test("builds an exact 11-item public fallback allowlist from the pinned manifest", () => {
+  const createFallback = Reflect.get(
+    publicImageCore,
+    "createVerifiedBreakfastPublicFallback",
+  );
+  assert.equal(typeof createFallback, "function");
+  if (typeof createFallback !== "function") return;
+
+  const fallback = createFallback(pinnedMappingJson);
+  const approvedPublicIds = [
+    "halfway-cafe/set-breakfast/alldaybreakfast--a12f9caf946f",
+    "halfway-cafe/set-breakfast/bigbreakfast--328b9c921a4f",
+    "halfway-cafe/set-breakfast/buildersbreakfast--d6b278d2db4d",
+    "halfway-cafe/set-breakfast/set1--9624d1731928",
+    "halfway-cafe/set-breakfast/set2--80c9fed3752e",
+    "halfway-cafe/set-breakfast/set3--9f0b751c24a1",
+    "halfway-cafe/set-breakfast/set4--dacdab2ed14d",
+    "halfway-cafe/set-breakfast/set6--5ae72c9ee6bd",
+    "halfway-cafe/set-breakfast/set7--bec98282fa79",
+    "halfway-cafe/set-breakfast/turkishbreakfast--6747d8b54f2c",
+    "halfway-cafe/set-breakfast/vegiiebreakfast--65bf1a4b6200",
+  ];
+
+  for (const publicId of approvedPublicIds) {
+    assert.match(
+      fallback(publicId) ?? "",
+      /^https:\/\/jbatmtnlegydsjerkuml\.supabase\.co\/storage\/v1\/object\/public\/set%20breakfast\//,
+      publicId,
+    );
+  }
+  assert.equal(
+    fallback("halfway-cafe/set-breakfast/set2--80c9fed3752e"),
+    "https://jbatmtnlegydsjerkuml.supabase.co/storage/v1/object/public/set%20breakfast/set2.png",
+  );
+  assert.equal(
+    fallback("halfway-cafe/admin/fish-finger--b9a2ddef-c333-441d-a40f-3f73b1afc52c"),
+    null,
+  );
+  assert.equal(
+    fallback("halfway-cafe/set-breakfast/unknown--000000000000"),
+    null,
   );
 });
