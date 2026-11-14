@@ -13,6 +13,11 @@ import { getOpeningHours } from "@/lib/queries";
 import { resolveRequiredPublicImage } from "@/lib/public-images.server";
 import type { OpeningHours } from "@/types";
 
+// Public pages read opening hours, social settings and menu data from
+// Supabase. Revalidate the public tree every 5 minutes so admin edits appear
+// without a redeploy. `/admin/*` and `/qr-menu` opt out with `force-dynamic`.
+export const revalidate = 300;
+
 // ─── Fonts ───
 
 const playfair = Playfair_Display({

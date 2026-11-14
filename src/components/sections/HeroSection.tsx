@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
+import { WEEKDAY_NAMES } from "@/lib/london-time";
+import { useLondonWeekdayIndex } from "@/lib/use-london-today";
 import OpenStatus from "@/components/ui/OpenStatus";
 import HomeMarquee from "@/components/sections/HomeMarquee";
 import type { OpeningHours } from "@/types";
@@ -14,10 +16,11 @@ const CAFE_ADDRESS = "176 Halfway Street, Sidcup DA15 8DJ";
 interface HeroSectionProps {
   openingHours: OpeningHours[];
   heroImage?: ResolvedPublicImage | null;
+  initialWeekdayIndex: number;
 }
 
-function getTodayHours(hours: OpeningHours[]): string {
-  const dayName = new Intl.DateTimeFormat("en-GB", { weekday: "long" }).format(new Date());
+function getTodayHours(hours: OpeningHours[], weekdayIndex: number): string {
+  const dayName = WEEKDAY_NAMES[weekdayIndex];
   const today = hours.find((entry) => entry.day.toLowerCase() === dayName.toLowerCase());
 
   if (!today) {
@@ -31,8 +34,9 @@ function getTodayHours(hours: OpeningHours[]): string {
   return `${today.open} - ${today.close}`;
 }
 
-export default function HeroSection({ openingHours, heroImage }: HeroSectionProps) {
-  const todayHours = getTodayHours(openingHours);
+export default function HeroSection({ openingHours, heroImage, initialWeekdayIndex }: HeroSectionProps) {
+  const londonWeekdayIndex = useLondonWeekdayIndex();
+  const todayHours = getTodayHours(openingHours, londonWeekdayIndex ?? initialWeekdayIndex);
   const [translateY, setTranslateY] = useState(0);
 
   useEffect(() => {

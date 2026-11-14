@@ -13,6 +13,7 @@ import {
   getSiteSettingsByKeys,
 } from "@/lib/queries";
 import { getMobileHeroImage } from "@/lib/site-settings";
+import { getLondonWeekdayIndex } from "@/lib/london-time";
 import { resolvePublicImage, resolveRequiredPublicImage } from "@/lib/public-images.server";
 import { withoutImageSource } from "@/lib/public-image-data";
 
@@ -82,6 +83,7 @@ export default async function MobileHomeServer() {
       deliveryPlatforms={platforms}
       socialLinks={socialLinks}
       logoImage={resolveRequiredPublicImage("Hero/icon-logo.png", "logo")}
+      initialWeekdayIndex={getLondonWeekdayIndex()}
     />
   );
 }

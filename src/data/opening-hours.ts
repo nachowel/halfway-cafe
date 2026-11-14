@@ -1,6 +1,7 @@
 /* Halfway Cafe — Opening hours data & status helpers */
 
 import { OpeningHours, OpenStatus } from '@/types';
+import { getLondonMinutesOfDay, getLondonWeekdayIndex } from '@/lib/london-time';
 
 export const openingHours: OpeningHours[] = [
   { day: 'Monday',    open: '07:00', close: '15:00', closed: false },
@@ -17,9 +18,8 @@ export const openingHours: OpeningHours[] = [
  * Returns { isOpen, message } with a human-friendly status string.
  */
 export function isOpenNow(): OpenStatus {
-  const now = new Date();
-  const dayIndex = now.getDay(); // 0 = Sunday
-  // Map JS getDay() (0=Sun) to our array (0=Mon)
+  const dayIndex = getLondonWeekdayIndex(); // 0 = Sunday
+  // Map weekday index (0=Sun) to our array (0=Mon)
   const mappedIndex = dayIndex === 0 ? 6 : dayIndex - 1;
   const today = openingHours[mappedIndex];
 
@@ -31,7 +31,7 @@ export function isOpenNow(): OpenStatus {
     };
   }
 
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  const currentMinutes = getLondonMinutesOfDay();
   const openMinutes = timeToMinutes(today.open);
   const closeMinutes = timeToMinutes(today.close);
 

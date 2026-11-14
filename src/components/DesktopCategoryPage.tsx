@@ -6,7 +6,8 @@ import { menuItems as fallbackMenu } from "@/data/menu";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
-import { createServerComponentClient } from "@/lib/supabase-server";
+import { markPublicDataUncacheable } from "@/lib/public-cache";
+import { createPublicServerClient } from "@/lib/supabase-public";
 import type { MenuItem } from "@/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -114,7 +115,7 @@ function formatCategoryLabel(slug: string): string {
 
 async function getMenuCategoryData(categorySlug: string) {
   try {
-    const supabase = await createServerComponentClient();
+    const supabase = createPublicServerClient();
 
     if (!supabase) {
       throw new Error("Supabase env is not configured.");
@@ -156,7 +157,7 @@ async function getMenuCategoryData(categorySlug: string) {
       countRows: countsRes.data ?? [],
     };
   } catch (error) {
-    console.error("getMenuCategoryData:", error);
+    markPublicDataUncacheable("getMenuCategoryData", error);
 
     const fallbackCategories: CategoryRecord[] = menuCategoryDefinitions.map(
       (category) => ({

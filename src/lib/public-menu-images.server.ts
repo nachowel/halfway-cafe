@@ -9,7 +9,7 @@ import {
   resolvePublicImage,
   resolveVerifiedBreakfastPublicFallback,
 } from "./public-images.server";
-import { createServerComponentClient } from "./supabase-server";
+import { createPublicServerClient } from "./supabase-public";
 import type {
   CloudinaryRegistryAsset,
   PublicImageRole,
@@ -18,7 +18,7 @@ import type {
 } from "../types/public-image";
 
 async function findReadyImageAsset(publicId: string): Promise<CloudinaryRegistryAsset | null> {
-  const supabase = await createServerComponentClient();
+  const supabase = createPublicServerClient();
   if (!supabase) return null;
 
   const { data, error } = await supabase.rpc("resolve_public_image_asset", {

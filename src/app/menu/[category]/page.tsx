@@ -4,7 +4,8 @@ import CategoryPageSwitcher from "@/components/CategoryPageSwitcher";
 import DesktopCategoryPage from "@/components/DesktopCategoryPage";
 import MobileCategoryPageServer from "@/components/MobileCategoryPageServer";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
-import { createServerComponentClient } from "@/lib/supabase-server";
+import { markPublicDataUncacheable } from "@/lib/public-cache";
+import { createPublicServerClient } from "@/lib/supabase-public";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -22,7 +23,7 @@ interface PageProps {
 
 async function getMenuCategoryData() {
   try {
-    const supabase = await createServerComponentClient();
+    const supabase = createPublicServerClient();
 
     if (!supabase) {
       throw new Error("Supabase env is not configured.");
@@ -42,7 +43,7 @@ async function getMenuCategoryData() {
       categories: data ?? [],
     };
   } catch (error) {
-    console.error("getMenuCategoryData:", error);
+    markPublicDataUncacheable("getMenuCategoryData", error);
 
     const fallbackCategories: CategoryRecord[] = menuCategoryDefinitions.map(
       (category) => ({

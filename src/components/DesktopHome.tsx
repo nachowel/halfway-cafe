@@ -14,6 +14,7 @@ import {
   getSiteSettingsByKeys,
 } from "@/lib/queries";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
+import { getLondonWeekdayIndex } from "@/lib/london-time";
 import { getDesktopHeroImage } from "@/lib/site-settings";
 import { BUILDERS_BREAKFAST_IMAGE_URL } from "@/lib/storage";
 import { resolvePublicImage } from "@/lib/public-images.server";
@@ -78,7 +79,11 @@ export default async function DesktopHome() {
   return (
     <>
       <Suspense fallback={<SectionLoader />}>
-        <HeroSection openingHours={hours} heroImage={heroImage} />
+        <HeroSection
+          openingHours={hours}
+          heroImage={heroImage}
+          initialWeekdayIndex={getLondonWeekdayIndex()}
+        />
       </Suspense>
 
       <Suspense fallback={<SectionLoader />}>

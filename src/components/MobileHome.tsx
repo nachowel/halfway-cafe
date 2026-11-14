@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { HALFWAY_CAFE_DIRECTIONS_URL, HALFWAY_CAFE_PLACE_URL } from "@/lib/maps";
 import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
+import { useLondonWeekdayIndex } from "@/lib/use-london-today";
 import HomeMarquee from "@/components/sections/HomeMarquee";
 import MobileFooter from "@/components/MobileFooter";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -175,8 +176,7 @@ function formatPrice(value: number | string | null | undefined) {
   }).format(numericValue);
 }
 
-function getTodayStatus(rows: OpeningHoursRow[]): TodayStatus {
-  const currentDay = new Date().getDay();
+function getTodayStatus(rows: OpeningHoursRow[], currentDay: number): TodayStatus {
   const todayName = todayNames[currentDay];
 
   const matchingRow =
@@ -256,11 +256,13 @@ export default function MobileHome({
   deliveryPlatforms,
   socialLinks,
   logoImage,
+  initialWeekdayIndex,
 }: {
   data: HomeData;
   deliveryPlatforms: PlatformCard[];
   socialLinks: SocialLink[];
   logoImage: ResolvedPublicImage;
+  initialWeekdayIndex: number;
 }) {
   const pathname = usePathname();
   const loading = false;
@@ -293,7 +295,11 @@ export default function MobileHome({
     };
   }, []);
 
-  const todayStatus = getTodayStatus(data.openingHours);
+  const londonWeekdayIndex = useLondonWeekdayIndex();
+  const todayStatus = getTodayStatus(
+    data.openingHours,
+    londonWeekdayIndex ?? initialWeekdayIndex,
+  );
   const trustRating = googleReviews.rating ?? 4.9;
   const trustReviewCount = formatReviewCount(googleReviews.reviewCount);
 

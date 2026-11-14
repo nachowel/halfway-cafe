@@ -1,14 +1,17 @@
 /* Supabase query helpers — used in Server Components */
 
-import { createServerComponentClient } from "./supabase-server";
+import "server-only";
+
+import { createPublicServerClient } from "./supabase-public";
+import { markPublicDataUncacheable } from "./public-cache";
 import { toSiteSettingsMap } from "./site-settings";
 
 // ─── Categories ───
 
 export async function getCategories() {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return [];
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("categories")
       .select("id, name, slug, image_url")
@@ -18,7 +21,7 @@ export async function getCategories() {
     if (error) throw error;
     return data ?? [];
   } catch (e) {
-    console.error("getCategories:", e);
+    markPublicDataUncacheable("getCategories", e);
     return [];
   }
 }
@@ -27,8 +30,8 @@ export async function getCategories() {
 
 export async function getMenuItems() {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return [];
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("menu_items")
       .select("*")
@@ -38,15 +41,15 @@ export async function getMenuItems() {
     if (error) throw error;
     return data ?? [];
   } catch (e) {
-    console.error("getMenuItems:", e);
+    markPublicDataUncacheable("getMenuItems", e);
     return [];
   }
 }
 
 export async function getMenuItemsByCategory(category: string) {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return [];
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("menu_items")
       .select("*")
@@ -57,15 +60,15 @@ export async function getMenuItemsByCategory(category: string) {
     if (error) throw error;
     return data ?? [];
   } catch (e) {
-    console.error("getMenuItemsByCategory:", e);
+    markPublicDataUncacheable("getMenuItemsByCategory", e);
     return [];
   }
 }
 
 export async function getFeaturedItems() {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return [];
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("menu_items")
       .select("*")
@@ -76,7 +79,7 @@ export async function getFeaturedItems() {
     if (error) throw error;
     return data ?? [];
   } catch (e) {
-    console.error("getFeaturedItems:", e);
+    markPublicDataUncacheable("getFeaturedItems", e);
     return [];
   }
 }
@@ -85,8 +88,8 @@ export async function getFeaturedItems() {
 
 export async function getOpeningHours() {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return [];
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("opening_hours")
       .select("*")
@@ -95,7 +98,7 @@ export async function getOpeningHours() {
     if (error) throw error;
     return data ?? [];
   } catch (e) {
-    console.error("getOpeningHours:", e);
+    markPublicDataUncacheable("getOpeningHours", e);
     return [];
   }
 }
@@ -104,8 +107,8 @@ export async function getOpeningHours() {
 
 export async function getGalleryImages() {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return [];
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("gallery_images")
       .select("*")
@@ -115,7 +118,7 @@ export async function getGalleryImages() {
     if (error) throw error;
     return data ?? [];
   } catch (e) {
-    console.error("getGalleryImages:", e);
+    markPublicDataUncacheable("getGalleryImages", e);
     return [];
   }
 }
@@ -124,8 +127,8 @@ export async function getGalleryImages() {
 
 export async function getSiteSettings(): Promise<Record<string, string>> {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return {};
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("site_settings")
       .select("key, value");
@@ -135,15 +138,15 @@ export async function getSiteSettings(): Promise<Record<string, string>> {
 
     return toSiteSettingsMap(data);
   } catch (e) {
-    console.error("getSiteSettings:", e);
+    markPublicDataUncacheable("getSiteSettings", e);
     return {};
   }
 }
 
 export async function getSiteSettingsByKeys(keys: string[]): Promise<Record<string, string>> {
   try {
-    const supabase = await createServerComponentClient();
-    if (!supabase) return {};
+    const supabase = createPublicServerClient();
+    if (!supabase) throw new Error("Supabase public environment is not configured.");
     const { data, error } = await supabase
       .from("site_settings")
       .select("key, value")
@@ -152,7 +155,7 @@ export async function getSiteSettingsByKeys(keys: string[]): Promise<Record<stri
     if (error) throw error;
     return toSiteSettingsMap(data ?? []);
   } catch (e) {
-    console.error("getSiteSettingsByKeys:", e);
+    markPublicDataUncacheable("getSiteSettingsByKeys", e);
     return {};
   }
 }

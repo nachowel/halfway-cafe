@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import { Facebook, Instagram } from "lucide-react";
+import FooterOpeningHours, {
+  type FooterHoursEntry,
+} from "@/components/layout/FooterOpeningHours";
 import { HALFWAY_CAFE_PHONE_DISPLAY } from "@/lib/contact";
+import { getLondonWeekdayName } from "@/lib/london-time";
+import { markPublicDataUncacheable } from "@/lib/public-cache";
 import { toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
-import { createServerComponentClient } from "@/lib/supabase-server";
+import { createPublicServerClient } from "@/lib/supabase-public";
 import type { OpeningHours } from "@/types";
 
 interface FooterProps {
   openingHours: OpeningHours[];
-}
-
-interface FooterHoursEntry {
-  label: string;
-  value: string;
-  isToday: boolean;
 }
 
 const menuLinks = [
@@ -49,35 +48,24 @@ const exploreSidcupLinks = [
 ];
 
 const fallbackHours: FooterHoursEntry[] = [
-  { label: "Mon – Sat:", value: "7:00am – 3:00pm", isToday: false },
-  { label: "Sunday:", value: "9:00am – 2:00pm", isToday: false },
+  { label: "Mon – Sat:", value: "7:00am – 3:00pm", isWeekday: true, isToday: false },
+  { label: "Sunday:", value: "9:00am – 2:00pm", isWeekday: false, isToday: false },
 ];
 
-function getTodayName() {
-  return new Intl.DateTimeFormat("en-GB", {
-    weekday: "long",
-    timeZone: "Europe/London",
-  }).format(new Date());
-}
-
 function mapHoursToFooterEntries(rows: OpeningHours[]): FooterHoursEntry[] {
-  const todayName = getTodayName();
+  const isSunday = getLondonWeekdayName() === "Sunday";
 
   // Footer hours are intentionally shown in a canonical two-line format.
   if (rows.length === 0) {
     return fallbackHours.map((entry) => ({
       ...entry,
-      isToday:
-        (entry.label === "Mon – Sat:" && todayName !== "Sunday") ||
-        (entry.label === "Sunday:" && todayName === "Sunday"),
+      isToday: entry.isWeekday ? !isSunday : isSunday,
     }));
   }
 
   return fallbackHours.map((entry) => ({
     ...entry,
-    isToday:
-      (entry.label === "Mon – Sat:" && todayName !== "Sunday") ||
-      (entry.label === "Sunday:" && todayName === "Sunday"),
+    isToday: entry.isWeekday ? !isSunday : isSunday,
   }));
 }
 
@@ -111,7 +99,7 @@ function getSocialHref(settings: Record<string, string>, key: string) {
 
 export default async function Footer({ openingHours }: FooterProps) {
   const hours = mapHoursToFooterEntries(openingHours);
-  const supabase = await createServerComponentClient();
+  const supabase = createPublicServerClient();
   let socialSettings: Record<string, string> = {
     social_instagram: "https://instagram.com/halfwaycafesidcup",
     social_facebook: "https://facebook.com/profile.php?id=61580807168670",
@@ -125,13 +113,18 @@ export default async function Footer({ openingHours }: FooterProps) {
       .in("key", ["social_instagram", "social_facebook", "social_tiktok"]);
 
     if (error) {
-      console.error("Footer social links error:", error);
+      markPublicDataUncacheable("Footer social links", error);
     } else if (data && data.length > 0) {
       socialSettings = toSiteSettingsMap(data as SiteSettingRow[]);
       console.log("Footer social links loaded:", Object.keys(socialSettings));
     } else {
       console.warn("Footer social links: no data returned from Supabase");
     }
+  } else {
+    markPublicDataUncacheable(
+      "Footer social links",
+      new Error("Supabase public environment is not configured.")
+    );
   }
 
   const instagramHref = getSocialHref(socialSettings, "social_instagram");
@@ -250,33 +243,7 @@ export default async function Footer({ openingHours }: FooterProps) {
               Opening Hours
             </h3>
             <div className="mb-4 mt-1 h-px w-8 bg-accent" />
-            <ul className="flex flex-col gap-2">
-              {hours.map((entry) => (
-                <li
-                  key={entry.label}
-                  className="flex justify-between gap-4 font-inter text-sm"
-                >
-                  <span
-                    className={
-                      entry.isToday
-                        ? "font-bold text-orange-400"
-                        : "text-gray-400"
-                    }
-                  >
-                    {entry.label}
-                  </span>
-                  <span
-                    className={
-                      entry.isToday
-                        ? "text-right font-bold text-orange-400"
-                        : "text-right text-gray-500"
-                    }
-                  >
-                    {entry.value}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <FooterOpeningHours hours={hours} />
           </div>
         </div>
 

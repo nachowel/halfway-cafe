@@ -11,6 +11,7 @@ import {
 import MobileBottomNav from "@/components/MobileBottomNav";
 import MobileFooter from "@/components/MobileFooter";
 import ResponsivePublicImage from "@/components/ui/ResponsivePublicImage";
+import { useLondonWeekdayIndex } from "@/lib/use-london-today";
 import type { ResolvedPublicImage } from "@/types/public-image";
 
 export type CategoryRow = {
@@ -96,7 +97,7 @@ export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
   const filteredCategories = data.categories.filter((category) =>
     (category.name ?? "").toLowerCase().includes(normalizedSearch)
   );
-  const todayIndex = data.todayIndex;
+  const todayIndex = useLondonWeekdayIndex() ?? data.todayIndex;
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A1A] md:hidden">

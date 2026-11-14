@@ -4,18 +4,9 @@ import MobileMenuPage, {
   type OpeningHoursRow,
 } from "./MobileMenuPage";
 import { getCategories, getMenuItems, getOpeningHours } from "@/lib/queries";
+import { getLondonWeekdayIndex } from "@/lib/london-time";
 import { resolvePublicImage } from "@/lib/public-images.server";
 import { withoutImageSource } from "@/lib/public-image-data";
-
-const dayNames = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
 
 export default async function MobileMenuPageServer() {
   const [categories, items, openingHours] = await Promise.all([
@@ -35,12 +26,7 @@ export default async function MobileMenuPageServer() {
     }),
     openingHours: openingHours as OpeningHoursRow[],
     itemCounts,
-    todayIndex: dayNames.indexOf(
-      new Intl.DateTimeFormat("en-GB", {
-        weekday: "long",
-        timeZone: "Europe/London",
-      }).format(new Date()),
-    ),
+    todayIndex: getLondonWeekdayIndex(),
   };
   return <MobileMenuPage data={data} />;
 }
