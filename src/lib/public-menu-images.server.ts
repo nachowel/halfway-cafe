@@ -1,10 +1,14 @@
+/// <reference types="react/canary" />
+
 import "server-only";
 
+import { cache } from "react";
 import {
   resolvePublicMenuImageCore,
   setBreakfastOneCanaryReference,
   stableMenuItemId,
 } from "./public-menu-image-core";
+import { createRequestScopedRegistryLookup } from "./public-menu-image-registry-cache";
 import {
   resolvePublicImage,
   resolveVerifiedBreakfastPublicFallback,
@@ -17,7 +21,7 @@ import type {
   ResolvedPublicImage,
 } from "../types/public-image";
 
-async function findReadyImageAsset(publicId: string): Promise<CloudinaryRegistryAsset | null> {
+async function loadReadyImageAsset(publicId: string): Promise<CloudinaryRegistryAsset | null> {
   const supabase = createPublicServerClient();
   if (!supabase) return null;
 
@@ -29,6 +33,11 @@ async function findReadyImageAsset(publicId: string): Promise<CloudinaryRegistry
   const row = Array.isArray(data) ? data[0] : data;
   return row && typeof row === "object" ? (row as CloudinaryRegistryAsset) : null;
 }
+
+const findReadyImageAsset = createRequestScopedRegistryLookup(
+  cache,
+  loadReadyImageAsset,
+);
 
 function logImageDiagnostic(event: PublicMenuImageDiagnostic) {
   console.error("[public-menu-image]", event);
