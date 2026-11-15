@@ -4,10 +4,14 @@ import CategoryMenuContent from "@/components/menu/CategoryMenuContent";
 import CategoryHero from "@/components/sections/CategoryHero";
 import { menuItems as fallbackMenu } from "@/data/menu";
 import { menuCategoryDefinitions } from "@/data/menuCategories";
+import {
+  getPublicCategoriesForRequest,
+  getPublicMenuItemCountRowsForRequest,
+  getPublicMenuItemsByCategoryForRequest,
+} from "@/lib/public-menu-data.server";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
 import { markPublicDataUncacheable } from "@/lib/public-cache";
-import { createPublicServerClient } from "@/lib/supabase-public";
 import type { MenuItem } from "@/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -115,46 +119,16 @@ function formatCategoryLabel(slug: string): string {
 
 async function getMenuCategoryData(categorySlug: string) {
   try {
-    const supabase = createPublicServerClient();
-
-    if (!supabase) {
-      throw new Error("Supabase env is not configured.");
-    }
-
-    const [categoriesRes, menuItemsRes, countsRes] = await Promise.all([
-      supabase
-        .from("categories")
-        .select("id, name, slug")
-        .eq("active", true)
-        .order("sort_order", { ascending: true }),
-      supabase
-        .from("menu_items")
-        .select("*")
-        .eq("active", true)
-        .eq("category", categorySlug)
-        .order("sort_order", { ascending: true }),
-      supabase
-        .from("menu_items")
-        .select("id, category")
-        .eq("active", true),
+    const [categories, menuItems, countRows] = await Promise.all([
+      getPublicCategoriesForRequest(),
+      getPublicMenuItemsByCategoryForRequest(categorySlug),
+      getPublicMenuItemCountRowsForRequest(),
     ]);
 
-    if (categoriesRes.error) {
-      throw categoriesRes.error;
-    }
-
-    if (menuItemsRes.error) {
-      throw menuItemsRes.error;
-    }
-
-    if (countsRes.error) {
-      throw countsRes.error;
-    }
-
     return {
-      categories: categoriesRes.data ?? [],
-      items: (menuItemsRes.data ?? []).map(toMenuItem),
-      countRows: countsRes.data ?? [],
+      categories,
+      items: menuItems.map(toMenuItem),
+      countRows,
     };
   } catch (error) {
     markPublicDataUncacheable("getMenuCategoryData", error);

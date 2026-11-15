@@ -3,6 +3,10 @@
 import "server-only";
 
 import { createPublicServerClient } from "./supabase-public";
+import {
+  getPublicCategoriesForRequest,
+  getPublicMenuItemsByCategoryForRequest,
+} from "./public-menu-data.server";
 import { markPublicDataUncacheable } from "./public-cache";
 import { toSiteSettingsMap } from "./site-settings";
 
@@ -20,6 +24,15 @@ export async function getCategories() {
 
     if (error) throw error;
     return data ?? [];
+  } catch (e) {
+    markPublicDataUncacheable("getCategories", e);
+    return [];
+  }
+}
+
+export async function getLiveCategories() {
+  try {
+    return await getPublicCategoriesForRequest();
   } catch (e) {
     markPublicDataUncacheable("getCategories", e);
     return [];
@@ -59,6 +72,15 @@ export async function getMenuItemsByCategory(category: string) {
 
     if (error) throw error;
     return data ?? [];
+  } catch (e) {
+    markPublicDataUncacheable("getMenuItemsByCategory", e);
+    return [];
+  }
+}
+
+export async function getLiveMenuItemsByCategory(category: string) {
+  try {
+    return await getPublicMenuItemsByCategoryForRequest(category);
   } catch (e) {
     markPublicDataUncacheable("getMenuItemsByCategory", e);
     return [];

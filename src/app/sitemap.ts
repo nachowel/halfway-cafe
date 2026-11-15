@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@supabase/supabase-js";
 import { getSupabasePublicEnv } from "@/lib/supabase-config";
+import { createLivePublicServerClient } from "@/lib/supabase-public";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let slugs = ["breakfast", "omelettes", "pancakes-eggs", "sandwiches", "burgers", "jacket-potatoes", "lunch", "panini", "sides-extras", "drinks", "kids-menu"];
   if (env) {
     try {
-      const supabase = createClient(env.supabaseUrl, env.supabaseAnonKey);
+      const supabase = createLivePublicServerClient();
+      if (!supabase) throw new Error("Supabase public environment is not configured.");
       const { data, error } = await supabase.from("categories").select("slug").eq("active", true);
       if (error) throw error;
       if (data?.length) slugs = data.map((category) => category.slug);

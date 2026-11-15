@@ -4,7 +4,10 @@ import MobileCategoryPage, {
   type MenuItemRow,
 } from "./MobileCategoryPage";
 import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
-import { getCategories, getMenuItemsByCategory } from "@/lib/queries";
+import {
+  getLiveCategories,
+  getLiveMenuItemsByCategory,
+} from "@/lib/queries";
 
 export default async function MobileCategoryPageServer({
   categorySlug,
@@ -12,8 +15,8 @@ export default async function MobileCategoryPageServer({
   categorySlug: string;
 }) {
   const [categoryRows, itemRows] = await Promise.all([
-    getCategories(),
-    getMenuItemsByCategory(categorySlug),
+    getLiveCategories(),
+    getLiveMenuItemsByCategory(categorySlug),
   ]);
   const categories: CategoryRow[] = categoryRows.map((row) => ({
     id: row.id,

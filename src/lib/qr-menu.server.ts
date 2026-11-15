@@ -1,7 +1,7 @@
 import "server-only";
 
 import { buildQrMenuData, type QrMenuCategory } from "./qr-menu-data";
-import { createPublicServerClient } from "./supabase-public";
+import { createLivePublicServerClient } from "./supabase-public";
 
 export type QrMenuDataResult =
   | { status: "ready"; categories: QrMenuCategory[] }
@@ -9,7 +9,7 @@ export type QrMenuDataResult =
 
 export async function getQrMenuData(): Promise<QrMenuDataResult> {
   try {
-    const supabase = createPublicServerClient();
+    const supabase = createLivePublicServerClient();
 
     if (!supabase) {
       return { status: "error" };
