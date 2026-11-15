@@ -7,12 +7,12 @@ const DIRECTIONS_URL =
   "https://www.google.com/maps/dir/?api=1&destination=176+Halfway+Street+Sidcup+DA15+8DJ";
 
 export const metadata: Metadata = {
-  title: "Bacon Sandwich in Sidcup | Halfway Cafe DA15",
+  title: "Bacon Sandwich in Sidcup DA15",
   description:
     "Thick-cut back bacon on fresh bread, hot off the grill. Halfway Cafe on Halfway Street, Sidcup DA15 — open from 7am, no booking needed.",
   alternates: { canonical: "https://halfwaycafe.co.uk/bacon-sandwich-sidcup" },
   openGraph: {
-    title: "Bacon Sandwich in Sidcup | Halfway Cafe DA15",
+    title: "Bacon Sandwich in Sidcup DA15",
     description:
       "Thick-cut back bacon on fresh bread, hot off the grill. Halfway Cafe on Halfway Street, Sidcup DA15 — open from 7am, no booking needed.",
     url: "https://halfwaycafe.co.uk/bacon-sandwich-sidcup",

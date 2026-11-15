@@ -7,12 +7,12 @@ const TAKEAWAY_DIRECTIONS_URL =
   "https://www.google.com/maps/dir/?api=1&destination=176+Halfway+Street+Sidcup+DA15+8DJ";
 
 export const metadata: Metadata = {
-  title: "Takeaway in Sidcup | Halfway Cafe DA15",
+  title: "Takeaway in Sidcup DA15",
   description:
     "Order takeaway from Halfway Cafe in Sidcup. Full English breakfast, bacon sandwiches, burgers and hot drinks — ready to go from 176 Halfway Street, DA15.",
   alternates: { canonical: "https://halfwaycafe.co.uk/takeaway-sidcup" },
   openGraph: {
-    title: "Takeaway in Sidcup | Halfway Cafe DA15",
+    title: "Takeaway in Sidcup DA15",
     description:
       "Order takeaway from Halfway Cafe in Sidcup. Full English breakfast, bacon sandwiches, burgers and hot drinks — ready to go from 176 Halfway Street, DA15.",
     url: "https://halfwaycafe.co.uk/takeaway-sidcup",

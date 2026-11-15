@@ -6,12 +6,12 @@ import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
 
 export const metadata: Metadata = {
-  title: "Coffee Shop in Sidcup | Fresh Coffee, Tea & Morning Drinks | Halfway Cafe",
+  title: "Coffee Shop in Sidcup | Morning Coffee",
   description:
     "Looking for a coffee shop in Sidcup? Halfway Cafe serves fresh coffee, builder's tea, and morning drinks in DA15. Walk in or takeaway.",
   alternates: { canonical: "https://halfwaycafe.co.uk/coffee-shop-sidcup" },
   openGraph: {
-    title: "Coffee Shop in Sidcup | Fresh Coffee, Tea & Morning Drinks | Halfway Cafe",
+    title: "Coffee Shop in Sidcup | Morning Coffee",
     description:
       "Fresh coffee, tea, and morning drinks at Halfway Cafe in Sidcup DA15. Family-run local caff with walk-ins welcome.",
     url: "https://halfwaycafe.co.uk/coffee-shop-sidcup",
@@ -50,7 +50,7 @@ const jsonLd = {
     {
       "@type": "WebPage",
       "@id": "https://halfwaycafe.co.uk/coffee-shop-sidcup#webpage",
-      name: "Coffee Shop in Sidcup | Fresh Coffee, Tea & Morning Drinks | Halfway Cafe",
+      name: "Coffee Shop in Sidcup | Morning Coffee | Halfway Cafe Sidcup",
       url: "https://halfwaycafe.co.uk/coffee-shop-sidcup",
       about: "Coffee shop in Sidcup",
       isPartOf: {

@@ -6,12 +6,12 @@ import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
 
 export const metadata: Metadata = {
-  title: "Cafe Near Sidcup Station | Breakfast & Coffee in DA15 | Halfway Cafe",
+  title: "Cafe Near Sidcup Station | Breakfast",
   description:
     "Looking for a cafe near Sidcup Station? Halfway Cafe serves full English breakfast, sandwiches and fresh coffee daily in DA15. Walk in or takeaway.",
   alternates: { canonical: "https://halfwaycafe.co.uk/cafe-near-sidcup-station" },
   openGraph: {
-    title: "Cafe Near Sidcup Station | Breakfast & Coffee in DA15 | Halfway Cafe",
+    title: "Cafe Near Sidcup Station | Breakfast",
     description:
       "Family-run British caff near Sidcup Station with fast service, big portions, and no booking needed.",
     url: "https://halfwaycafe.co.uk/cafe-near-sidcup-station",

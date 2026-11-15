@@ -7,12 +7,12 @@ const DIRECTIONS_URL =
   "https://www.google.com/maps/dir/?api=1&destination=176+Halfway+Street+Sidcup+DA15+8DJ";
 
 export const metadata: Metadata = {
-  title: "Eggs Benedict in Sidcup | Halfway Cafe DA15",
+  title: "Eggs Benedict in Sidcup DA15",
   description:
     "Eggs benedict, eggs royale and eggs florentine at Halfway Cafe in Sidcup. Freshly poached eggs with hollandaise sauce on Halfway Street DA15 — open 7 days, no booking needed.",
   alternates: { canonical: "https://halfwaycafe.co.uk/eggs-benedict-sidcup" },
   openGraph: {
-    title: "Eggs Benedict in Sidcup | Halfway Cafe DA15",
+    title: "Eggs Benedict in Sidcup DA15",
     description:
       "Eggs benedict, eggs royale and eggs florentine at Halfway Cafe in Sidcup. Freshly poached eggs with hollandaise sauce on Halfway Street DA15 — open 7 days, no booking needed.",
     url: "https://halfwaycafe.co.uk/eggs-benedict-sidcup",

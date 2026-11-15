@@ -6,12 +6,12 @@ import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
 
 export const metadata: Metadata = {
-  title: "Brunch in Sidcup | Pancakes, Eggs Benedict & Coffee | Halfway Cafe",
+  title: "Brunch in Sidcup | Pancakes & Coffee",
   description:
     "Enjoy brunch in Sidcup at Halfway Cafe. Pancakes, eggs benedict, fresh coffee, and proper portions in DA15. Walk in anytime or takeaway.",
   alternates: { canonical: "https://halfwaycafe.co.uk/brunch-sidcup" },
   openGraph: {
-    title: "Brunch in Sidcup | Pancakes, Eggs Benedict & Coffee | Halfway Cafe",
+    title: "Brunch in Sidcup | Pancakes & Coffee",
     description:
       "Brunch favourites in Sidcup DA15 including pancakes, eggs benedict, and coffee. Family-run local cafe, walk-ins welcome.",
     url: "https://halfwaycafe.co.uk/brunch-sidcup",

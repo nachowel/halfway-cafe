@@ -72,14 +72,14 @@ export async function generateMetadata({
 
   if (activeCategory.slug === "kids-menu") {
     return {
-      title: "Kids Menu in Sidcup | Family-Friendly Cafe | Halfway Cafe",
+      title: "Family-Friendly Kids Menu in Sidcup",
       description:
         "Looking for a family-friendly cafe in Sidcup? Halfway Cafe's kids menu offers simple, familiar plates for children — quick service, no booking needed, walk-ins welcome.",
       alternates: {
         canonical: "/menu/kids-menu",
       },
       openGraph: {
-        title: "Kids Menu in Sidcup | Family-Friendly Cafe | Halfway Cafe",
+        title: "Family-Friendly Kids Menu in Sidcup",
         description:
           "Simple meals for children at Halfway Cafe in Sidcup DA15. Walk in, no booking needed — quick, relaxed dining for families.",
         url: "/menu/kids-menu",

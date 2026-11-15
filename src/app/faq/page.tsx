@@ -3,7 +3,7 @@ import DesktopFaq from "@/components/DesktopFaq";
 import FaqPageSwitcher from "@/components/FaqPageSwitcher";
 
 export const metadata: Metadata = {
-  title: "FAQ | Halfway Cafe Sidcup DA15",
+  title: "FAQ | Opening Hours, Parking & More",
   description:
     "Got questions about Halfway Cafe in Sidcup? Find answers about opening hours, parking, takeaway, allergens, and more. Visit us at 176 Halfway Street, DA15 8DJ.",
   keywords:
