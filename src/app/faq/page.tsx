@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import DesktopFaq from "@/components/DesktopFaq";
-import FaqPageSwitcher from "@/components/FaqPageSwitcher";
+import FaqContent from "@/components/FaqContent";
 
 export const metadata: Metadata = {
   title: "FAQ | Opening Hours, Parking & More",
@@ -123,7 +122,7 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <FaqPageSwitcher desktopFaq={<DesktopFaq />} />
+      <FaqContent />
     </>
   );
 }
