@@ -15,6 +15,7 @@ import {
 import { getMobileHeroImage } from "@/lib/site-settings";
 import { getLondonWeekdayIndex } from "@/lib/london-time";
 import { resolvePublicImage, resolveRequiredPublicImage } from "@/lib/public-images.server";
+import { resolveMenuItemForDisplay } from "@/lib/public-menu-images.server";
 import { withoutImageSource } from "@/lib/public-image-data";
 
 const settingKeys = [
@@ -44,9 +45,22 @@ export default async function MobileHomeServer() {
   const [hours, categories, menuItems, settings] = await Promise.all([
     getOpeningHours(), getCategories(), getMenuItems(), getSiteSettingsByKeys(settingKeys),
   ]);
-  const dishes = popularDishes(menuItems as MenuItemRow[]).map((item) => {
-    return { ...withoutImageSource(item), image: resolvePublicImage(item.image_url, "thumbnail") };
-  });
+  const dishes = await Promise.all(
+    popularDishes(menuItems as MenuItemRow[]).map(async (item) => {
+      const { resolvedImage, ...rest } = await resolveMenuItemForDisplay(
+        item,
+        "image_url",
+        "thumbnail",
+      );
+      // The registry resolver owns Cloudinary references. Legacy sources pass through
+      // unchanged, so re-resolve those through the pinned manifest to keep the
+      // optimized Cloudinary delivery instead of the full-size storage object.
+      const image = resolvedImage?.provider === "external"
+        ? resolvePublicImage(resolvedImage.src, "thumbnail") ?? resolvedImage
+        : resolvedImage;
+      return { ...rest, image };
+    }),
+  );
   const resolvedCategories = (categories as CategoryRow[]).map((category) => {
     return {
       ...withoutImageSource(category),
