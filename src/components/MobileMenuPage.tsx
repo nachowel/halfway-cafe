@@ -107,7 +107,7 @@ export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
         </Link>
 
         <div className="text-center">
-          <h1
+          <h2
             style={{
               fontFamily: "'Playfair Display', serif",
               fontWeight: 700,
@@ -117,7 +117,7 @@ export default function MobileMenuPage({ data }: { data: MobileMenuData }) {
             }}
           >
             Our Menu
-          </h1>
+          </h2>
           <p
             className="text-[#9CA3AF]"
             style={{ fontSize: "14px", fontWeight: 500, marginTop: "2px", opacity: 0.85 }}

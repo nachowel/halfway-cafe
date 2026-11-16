@@ -375,12 +375,12 @@ export default function MobileHome({
                 </p>
                 <div className="mt-4 h-px w-16 bg-rule-strong" />
 
-                <h1
+                <h2
                   className="mt-4 max-w-[9ch] font-playfair text-[48px] font-black leading-[0.88] text-text"
                   style={{ fontVariationSettings: '"wght" 900' }}
                 >
                   Best Breakfast in Sidcup
-                </h1>
+                </h2>
 
                 <p className="mt-4 font-playfair text-[23px] italic leading-tight text-accent-dark">
                   Full English, sandwiches &amp; proper coffee
