@@ -9,8 +9,8 @@ export const openingHours: OpeningHours[] = [
   { day: 'Wednesday', open: '07:00', close: '15:00', closed: false },
   { day: 'Thursday',  open: '07:00', close: '15:00', closed: false },
   { day: 'Friday',    open: '07:00', close: '15:00', closed: false },
-  { day: 'Saturday',  open: '07:00', close: '15:00', closed: false },
-  { day: 'Sunday',    open: '00:00', close: '00:00', closed: true },
+  { day: 'Saturday',  open: '08:00', close: '15:00', closed: false },
+  { day: 'Sunday',    open: '09:00', close: '14:00', closed: false },
 ];
 
 /**

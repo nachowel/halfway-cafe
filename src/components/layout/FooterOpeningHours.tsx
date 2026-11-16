@@ -5,8 +5,8 @@ import { useLondonWeekdayIndex } from "@/lib/use-london-today";
 export interface FooterHoursEntry {
   label: string;
   value: string;
-  /** True for the combined Mon – Sat row, false for the Sunday row. */
-  isWeekday: boolean;
+  /** Europe/London weekday indexes represented by this row (0 = Sunday). */
+  dayIndexes: number[];
   /** Server-computed highlight, used for the first render. */
   isToday: boolean;
 }
@@ -28,7 +28,7 @@ export default function FooterOpeningHours({
       ? hours
       : hours.map((entry) => ({
           ...entry,
-          isToday: entry.isWeekday ? weekdayIndex !== 0 : weekdayIndex === 0,
+          isToday: entry.dayIndexes.includes(weekdayIndex),
         }));
 
   return (

@@ -9,6 +9,10 @@ import AppChrome from "@/components/layout/AppChrome";
 import Footer from "@/components/layout/Footer";
 import { openingHours as fallbackHours } from "@/data/opening-hours";
 import { HALFWAY_CAFE_PHONE_E164 } from "@/lib/contact";
+import {
+  buildOpeningHoursSpecification,
+  normalizeOpeningHours,
+} from "@/lib/opening-hours-format";
 import { getOpeningHours } from "@/lib/queries";
 import { resolveRequiredPublicImage } from "@/lib/public-images.server";
 import type { OpeningHours } from "@/types";
@@ -108,8 +112,8 @@ export const metadata: Metadata = {
 function toOpeningHours(row: Record<string, unknown>): OpeningHours {
   return {
     day: typeof row.day_name === "string" ? row.day_name : "Day",
-    open: typeof row.open_time === "string" ? row.open_time.slice(0, 5) : "00:00",
-    close: typeof row.close_time === "string" ? row.close_time.slice(0, 5) : "00:00",
+    open: typeof row.open_time === "string" ? row.open_time.slice(0, 5) : "",
+    close: typeof row.close_time === "string" ? row.close_time.slice(0, 5) : "",
     closed: row.is_closed === true,
   };
 }
@@ -122,6 +126,7 @@ export default async function RootLayout({
   const dbHours = await getOpeningHours();
   const openingHours =
     dbHours.length > 0 ? dbHours.map(toOpeningHours) : fallbackHours;
+  const normalizedOpeningHours = normalizeOpeningHours(openingHours);
   const logoImage = resolveRequiredPublicImage("Hero/icon-logo.png", "logo");
 
   const jsonLd = {
@@ -156,7 +161,9 @@ export default async function RootLayout({
     ],
     servesCuisine: ["Breakfast", "British", "Cafe"],
     priceRange: "£",
-    openingHours: ["Mo-Sa 07:00-15:00", "Su 09:00-14:00"],
+    openingHoursSpecification: buildOpeningHoursSpecification(
+      normalizedOpeningHours,
+    ),
   };
 
   return (
@@ -209,7 +216,10 @@ export default async function RootLayout({
         </Script>
       </head>
       <body className="overflow-x-hidden">
-        <AppChrome desktopFooter={<Footer openingHours={openingHours} />} logoImage={logoImage}>
+        <AppChrome
+          desktopFooter={<Footer openingHours={normalizedOpeningHours} />}
+          logoImage={logoImage}
+        >
           {children}
         </AppChrome>
         <CookieBanner />

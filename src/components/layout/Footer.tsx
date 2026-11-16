@@ -6,14 +6,17 @@ import FooterOpeningHours, {
   type FooterHoursEntry,
 } from "@/components/layout/FooterOpeningHours";
 import { HALFWAY_CAFE_PHONE_DISPLAY } from "@/lib/contact";
-import { getLondonWeekdayName } from "@/lib/london-time";
+import { getLondonWeekdayIndex } from "@/lib/london-time";
+import {
+  buildFooterHours,
+  type NormalizedOpeningDay,
+} from "@/lib/opening-hours-format";
 import { markPublicDataUncacheable } from "@/lib/public-cache";
 import { toSiteSettingsMap, type SiteSettingRow } from "@/lib/site-settings";
 import { createPublicServerClient } from "@/lib/supabase-public";
-import type { OpeningHours } from "@/types";
 
 interface FooterProps {
-  openingHours: OpeningHours[];
+  openingHours: NormalizedOpeningDay[];
 }
 
 const menuLinks = [
@@ -47,25 +50,12 @@ const exploreSidcupLinks = [
   { href: "/breakfast-da15", label: "Breakfast in DA15" },
 ];
 
-const fallbackHours: FooterHoursEntry[] = [
-  { label: "Mon – Sat:", value: "7:00am – 3:00pm", isWeekday: true, isToday: false },
-  { label: "Sunday:", value: "9:00am – 2:00pm", isWeekday: false, isToday: false },
-];
+function mapHoursToFooterEntries(rows: NormalizedOpeningDay[]): FooterHoursEntry[] {
+  const todayIndex = getLondonWeekdayIndex();
 
-function mapHoursToFooterEntries(rows: OpeningHours[]): FooterHoursEntry[] {
-  const isSunday = getLondonWeekdayName() === "Sunday";
-
-  // Footer hours are intentionally shown in a canonical two-line format.
-  if (rows.length === 0) {
-    return fallbackHours.map((entry) => ({
-      ...entry,
-      isToday: entry.isWeekday ? !isSunday : isSunday,
-    }));
-  }
-
-  return fallbackHours.map((entry) => ({
+  return buildFooterHours(rows).map((entry) => ({
     ...entry,
-    isToday: entry.isWeekday ? !isSunday : isSunday,
+    isToday: entry.dayIndexes.includes(todayIndex),
   }));
 }
 
