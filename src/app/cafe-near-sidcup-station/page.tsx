@@ -5,6 +5,9 @@ import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
 
+const SIDCUP_STATION_WALKING_DIRECTIONS_URL =
+  "https://www.google.com/maps/dir/?api=1&origin=Sidcup+Station,+Station+Road,+Sidcup&destination=Halfway+Cafe,+176+Halfway+Street,+Sidcup+DA15+8DJ&travelmode=walking";
+
 export const metadata: Metadata = {
   title: "Cafe Near Sidcup Station | Breakfast",
   description:
@@ -115,6 +118,10 @@ export default function CafeNearSidcupStationPage() {
               you&apos;re heading to work or just arrived in Sidcup, we&apos;re a reliable stop
               for fast service, big portions, and no booking needed.
             </p>
+            <p className="mt-3 font-inter text-base leading-7 text-text-mid md:text-lg">
+              Halfway Cafe is approximately 0.9 miles from Sidcup Station — around a
+              20-minute walk, depending on your route and walking pace.
+            </p>
             <p className="mt-3 font-inter text-sm font-semibold text-ink">
               Walk in, grab a table, or takeaway - whatever suits your morning. Looking
               for more drink options? See our{" "}
@@ -182,8 +189,19 @@ export default function CafeNearSidcupStationPage() {
               <p>
                 <strong>From Sidcup Station:</strong>
               </p>
-              <p>Around 5-10 minutes by car</p>
-              <p>Short bus ride or quick stop on your way through Sidcup</p>
+              <p>Approximately 0.9 miles away</p>
+              <p>Around a 20-minute walk, depending on route and walking pace</p>
+              <p>
+                <a
+                  href={SIDCUP_STATION_WALKING_DIRECTIONS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent"
+                >
+                  Get walking directions from Sidcup Station
+                </a>
+              </p>
+              <p>Driving and public transport times vary with traffic and timetables.</p>
               <p>
                 <strong>Parking:</strong> Free street parking available nearby
               </p>
@@ -317,8 +335,9 @@ export default function CafeNearSidcupStationPage() {
             <li>Bexley</li>
           </ul>
           <p className="mt-4 font-inter text-base leading-7 text-text-mid">
-            If you&apos;re searching for a cafe near Sidcup Station, Halfway Cafe is a
-            reliable local choice just minutes away.
+            If you&apos;re searching for a cafe near Sidcup Station, Halfway Cafe is
+            approximately 0.9 miles from the station — around a 20-minute walk,
+            depending on route and walking pace.
           </p>
         </div>
       </section>
