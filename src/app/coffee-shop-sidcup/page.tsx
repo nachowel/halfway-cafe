@@ -4,19 +4,62 @@ import Link from "next/link";
 import { HALFWAY_CAFE_DIRECTIONS_URL } from "@/lib/maps";
 import { BREAKFAST_HERO_IMAGE_URL } from "@/lib/storage";
 import { HALFWAY_CAFE_PHONE_DISPLAY, HALFWAY_CAFE_PHONE_TEL } from "@/lib/contact";
+import { markPublicDataUncacheable } from "@/lib/public-cache";
+import { createPublicServerClient } from "@/lib/supabase-public";
 
 export const metadata: Metadata = {
-  title: "Coffee Shop in Sidcup | Morning Coffee",
+  title: "Coffee Shop in Sidcup | Breakfast & Takeaway",
   description:
-    "Looking for a coffee shop in Sidcup? Halfway Cafe serves fresh coffee, builder's tea, and morning drinks in DA15. Walk in or takeaway.",
+    "Enjoy cappuccino, latte, tea and hot chocolate at Halfway Cafe in Sidcup, with breakfast and takeaway available. See our current drinks menu and prices.",
   alternates: { canonical: "https://halfwaycafe.co.uk/coffee-shop-sidcup" },
   openGraph: {
-    title: "Coffee Shop in Sidcup | Morning Coffee",
+    title: "Coffee Shop in Sidcup | Breakfast & Takeaway",
     description:
-      "Fresh coffee, tea, and morning drinks at Halfway Cafe in Sidcup DA15. Family-run local caff with walk-ins welcome.",
+      "Enjoy cappuccino, latte, tea and hot chocolate at Halfway Cafe in Sidcup, with breakfast and takeaway available. See our current drinks menu and prices.",
     url: "https://halfwaycafe.co.uk/coffee-shop-sidcup",
   },
 };
+
+interface DrinkHighlight {
+  id: string;
+  name: string;
+  price: number;
+}
+
+async function getDrinkHighlights(): Promise<DrinkHighlight[]> {
+  try {
+    const supabase = createPublicServerClient();
+
+    if (!supabase) {
+      throw new Error("Supabase public environment is not configured.");
+    }
+
+    const { data, error } = await supabase
+      .from("menu_items")
+      .select("id, name, price, sort_order")
+      .eq("active", true)
+      .eq("category", "drinks")
+      .order("sort_order", { ascending: true })
+      .limit(4);
+
+    if (error) throw error;
+
+    return (data ?? []).flatMap((row) => {
+      if (row.price === null || row.price === "") return [];
+
+      const price = Number(row.price);
+
+      if (!row.id || !row.name || !Number.isFinite(price) || price < 0) {
+        return [];
+      }
+
+      return [{ id: row.id, name: row.name, price }];
+    });
+  } catch (error) {
+    markPublicDataUncacheable("getDrinkHighlights", error);
+    return [];
+  }
+}
 
 const faqs = [
   {
@@ -50,7 +93,7 @@ const jsonLd = {
     {
       "@type": "WebPage",
       "@id": "https://halfwaycafe.co.uk/coffee-shop-sidcup#webpage",
-      name: "Coffee Shop in Sidcup | Morning Coffee | Halfway Cafe Sidcup",
+      name: "Coffee Shop in Sidcup | Breakfast & Takeaway | Halfway Cafe Sidcup",
       url: "https://halfwaycafe.co.uk/coffee-shop-sidcup",
       about: "Coffee shop in Sidcup",
       isPartOf: {
@@ -93,7 +136,9 @@ const jsonLd = {
   ],
 };
 
-export default function CoffeeShopSidcupPage() {
+export default async function CoffeeShopSidcupPage() {
+  const drinkHighlights = await getDrinkHighlights();
+
   return (
     <main className="bg-[#FAF8F5] pb-16 pt-8 md:pb-24 md:pt-12">
       <script
@@ -232,13 +277,24 @@ export default function CoffeeShopSidcupPage() {
           <p className="mt-4 font-inter text-base leading-7 text-text-mid">
             Start your morning with one of these:
           </p>
+          {drinkHighlights.length > 0 && (
+            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              {drinkHighlights.map((drink) => (
+                <article
+                  key={drink.id}
+                  className="flex items-center justify-between gap-4 rounded-xl bg-parchment-dark p-5"
+                >
+                  <p className="font-playfair text-2xl font-bold text-ink">
+                    {drink.name}
+                  </p>
+                  <p className="shrink-0 font-playfair text-xl font-bold text-accent">
+                    £{drink.price.toFixed(2)}
+                  </p>
+                </article>
+              ))}
+            </div>
+          )}
           <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <article className="rounded-xl bg-parchment-dark p-5">
-              <p className="font-playfair text-2xl font-bold text-ink">Full Drinks Menu</p>
-              <Link href="/menu/drinks" className="mt-2 inline-block text-accent">
-                See all drinks
-              </Link>
-            </article>
             <article className="rounded-xl bg-parchment-dark p-5">
               <p className="font-playfair text-2xl font-bold text-ink">Cafe in Sidcup</p>
               <Link href="/cafe-sidcup" className="mt-2 inline-block text-accent">
@@ -260,6 +316,9 @@ export default function CoffeeShopSidcupPage() {
               </Link>
             </article>
           </div>
+          <Link href="/menu/drinks" className="mt-6 inline-block text-accent">
+            See all drinks
+          </Link>
         </div>
       </section>
 
