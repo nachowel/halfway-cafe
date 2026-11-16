@@ -10,7 +10,8 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const openingHours = [
-  { label: "Mon – Sat:", value: "7:00am – 3:00pm" },
+  { label: "Mon – Fri:", value: "7:00am – 3:00pm" },
+  { label: "Saturday:", value: "8:00am – 3:00pm" },
   { label: "Sunday:", value: "9:00am – 2:00pm" },
 ];
 

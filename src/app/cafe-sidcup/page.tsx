@@ -62,7 +62,7 @@ const faqs = [
   {
     question: "What are your opening hours?",
     answer:
-      "We're open Monday to Saturday from 7:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
+      "We're open Monday to Friday from 7:00am to 3:00pm, Saturday from 8:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
   },
   {
     question: "Do I need to book a table?",
@@ -220,7 +220,7 @@ export default function CafeSidcupPage() {
               <strong>Phone:</strong> {HALFWAY_CAFE_PHONE_DISPLAY}
             </p>
             <p>
-              <strong>Opening Hours:</strong> Mon-Sat 7:00am-3:00pm, Sunday 9:00am-2:00pm
+              <strong>Opening Hours:</strong> Mon-Fri 7:00am-3:00pm, Saturday 8:00am-3:00pm, Sunday 9:00am-2:00pm
             </p>
             <p className="font-semibold text-ink">No booking needed - walk-ins welcome.</p>
           </div>

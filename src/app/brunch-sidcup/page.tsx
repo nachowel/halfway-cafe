@@ -22,7 +22,7 @@ const faqs = [
   {
     question: "What time do you serve brunch in Sidcup?",
     answer:
-      "We're open for brunch Monday to Saturday from 7:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
+      "We're open for brunch Monday to Friday from 7:00am to 3:00pm, Saturday from 8:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
   },
   {
     question: "Do I need to book for brunch?",
@@ -172,7 +172,8 @@ export default function BrunchSidcupPage() {
               <p>
                 <strong>Opening Hours:</strong>
               </p>
-              <p>Mon-Sat: 7:00am - 3:00pm</p>
+              <p>Mon-Fri: 7:00am - 3:00pm</p>
+              <p>Saturday: 8:00am - 3:00pm</p>
               <p>Sunday: 9:00am - 2:00pm</p>
             </div>
             <div className="space-y-3 font-inter text-base leading-7 text-text-mid">

@@ -65,7 +65,7 @@ const faqs = [
   {
     question: "Where can I get breakfast in DA15?",
     answer:
-      "Halfway Cafe is at 176 Halfway Street, Sidcup DA15 8DJ — open Monday to Saturday from 7:00am and Sunday from 9:00am. No booking needed.",
+      "Halfway Cafe is at 176 Halfway Street, Sidcup DA15 8DJ — open Monday to Friday from 7:00am, Saturday from 8:00am, and Sunday from 9:00am. No booking needed.",
   },
   {
     question: "Does Halfway Cafe serve a full English breakfast in DA15?",
@@ -219,7 +219,7 @@ export default function BreakfastDA15Page() {
               <strong>Phone:</strong> {HALFWAY_CAFE_PHONE_DISPLAY}
             </p>
             <p>
-              <strong>Hours:</strong> Mon–Sat 7:00am – 3:00pm, Sunday 9:00am – 2:00pm
+              <strong>Hours:</strong> Mon–Fri 7:00am – 3:00pm, Saturday 8:00am – 3:00pm, Sunday 9:00am – 2:00pm
             </p>
             <p className="font-semibold text-ink">
               Walk-ins welcome — no reservation needed.
@@ -333,7 +333,8 @@ export default function BreakfastDA15Page() {
             </h2>
             <p className="mt-4 font-inter text-[15px] leading-7 text-text-mid">
               Heading into London from Sidcup Station? We open at 7:00am Monday
-              to Saturday, which means hot food and coffee are ready well before
+              to Friday and 8:00am on Saturdays, which means hot food and coffee
+              are ready well before
               most trains. As a{" "}
               <Link
                 href="/cafe-near-sidcup-station"

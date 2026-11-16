@@ -69,7 +69,7 @@ const faqs = [
   },
   {
     question: "What time do you open?",
-    answer: "We open from 7:00am Monday to Saturday, and 9:00am on Sundays.",
+    answer: "We open from 7:00am Monday to Friday, 8:00am on Saturdays, and 9:00am on Sundays.",
   },
   {
     question: "Where is Halfway Cafe located?",
@@ -216,7 +216,8 @@ export default async function CoffeeShopSidcupPage() {
               <p>
                 <strong>Opening Hours:</strong>
               </p>
-              <p>Mon-Sat: 7:00am - 3:00pm</p>
+              <p>Mon-Fri: 7:00am - 3:00pm</p>
+              <p>Saturday: 8:00am - 3:00pm</p>
               <p>Sunday: 9:00am - 2:00pm</p>
             </div>
             <div className="space-y-3 font-inter text-base leading-7 text-text-mid">

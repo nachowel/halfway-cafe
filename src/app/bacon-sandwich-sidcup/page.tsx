@@ -44,7 +44,7 @@ const faqs = [
   {
     question: "Where can I get a bacon sandwich in Sidcup?",
     answer:
-      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. We serve thick-cut back bacon sandwiches from 7am Monday to Saturday, and from 9am on Sundays.",
+      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. We serve thick-cut back bacon sandwiches from 7am Monday to Friday and 8am on Saturdays, and from 9am on Sundays.",
   },
   {
     question: "What bread do you use for bacon sandwiches?",
@@ -114,7 +114,7 @@ export default function BaconSandwichSidcupPage() {
             <p className="mt-5 font-inter text-[17px] leading-8 text-text-mid md:text-lg md:leading-9">
               Thick-cut back bacon, hot off the grill, packed into fresh white
               or brown bread. Ready in minutes at Halfway Cafe on Halfway
-              Street — open from 7am Monday to Saturday, 9am on Sundays.
+              Street — open from 7am Monday to Friday, 8am on Saturdays, 9am on Sundays.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -202,7 +202,7 @@ export default function BaconSandwichSidcupPage() {
             <li>• Thick-cut back bacon, grilled fresh to order</li>
             <li>• White or brown bread — your choice</li>
             <li>• Available to eat in or take away</li>
-            <li>• Open from 7am Monday to Saturday, 9am on Sundays</li>
+            <li>• Open from 7am Monday to Friday, 8am on Saturdays, 9am on Sundays</li>
             <li>• Free street parking on Halfway Street</li>
             <li>• No booking needed — walk in and order</li>
           </ul>
@@ -215,7 +215,8 @@ export default function BaconSandwichSidcupPage() {
             Opening Hours
           </h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Mon – Fri: 7:00am – 3:00pm</p>
+            <p>Saturday: 8:00am – 3:00pm</p>
             <p>Sunday: 9:00am – 2:00pm</p>
           </div>
         </div>

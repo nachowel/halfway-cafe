@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "What are your opening hours?",
     answer:
-      "Mon – Sat: 7:00am – 3:00pm. Sunday: 9:00am – 2:00pm.",
+      "Monday – Friday: 7:00am – 3:00pm. Saturday: 8:00am – 3:00pm. Sunday: 9:00am – 2:00pm.",
   },
   {
     question: "Is there parking near Halfway Cafe?",
@@ -27,7 +27,7 @@ const faqs = [
   {
     question: "Do you serve breakfast all day?",
     answer:
-      "Yes — we serve our full menu from opening until close Monday to Saturday. Whether you're after a Full English at 7am or a late breakfast around 2pm, we've got you covered.",
+      "Yes — we serve our full menu from opening until close every day. Whether you're after a weekday Full English at 7am or a late breakfast around 2pm, we've got you covered.",
   },
   {
     question: "Do you offer takeaway?",

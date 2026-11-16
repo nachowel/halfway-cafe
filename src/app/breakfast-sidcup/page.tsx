@@ -65,7 +65,7 @@ const faqs = [
   {
     question: "Do you serve breakfast every day in Sidcup?",
     answer:
-      "Yes. We serve breakfast Monday to Saturday from 7:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
+      "Yes. We serve breakfast Monday to Friday from 7:00am to 3:00pm, Saturday from 8:00am to 3:00pm, and Sunday from 9:00am to 2:00pm.",
   },
   {
     question: "Is Halfway Cafe good for breakfast before work?",
@@ -231,7 +231,7 @@ export default function BreakfastSidcupPage() {
               <strong>Phone:</strong> {HALFWAY_CAFE_PHONE_DISPLAY}
             </p>
             <p>
-              <strong>Hours:</strong> Mon-Sat 7:00am - 3:00pm, Sunday 9:00am - 2:00pm
+              <strong>Hours:</strong> Mon-Fri 7:00am - 3:00pm, Saturday 8:00am - 3:00pm, Sunday 9:00am - 2:00pm
             </p>
             <p className="font-semibold text-ink">
               No booking needed - just walk in.
@@ -294,7 +294,7 @@ export default function BreakfastSidcupPage() {
                 breakfast near Sidcup Station
               </Link>{" "}
               before your commute? We open
-              from 7:00am Monday to Saturday, with hot food and takeaway drinks ready fast.
+              from 7:00am Monday to Friday and 8:00am on Saturdays, with hot food and takeaway drinks ready fast.
             </p>
             <p className="mt-3 font-inter text-[15px] leading-7 text-text-mid">
               Ideal for workers, school runs, and early starts across Sidcup and DA15.

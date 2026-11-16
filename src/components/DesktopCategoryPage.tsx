@@ -82,7 +82,7 @@ const kidsMenuSeoBlock = (
         Service is quick — important when you have hungry kids at the table — and the relaxed,
         no-frills atmosphere means little ones can settle in without any pressure. If you&apos;re
         looking for a straightforward family lunch or a casual breakfast out in Sidcup, we&apos;re
-        open Monday to Saturday from 7am, and Sundays from 9am. Browse the{" "}
+        open Monday to Friday from 7am, Saturdays from 8am, and Sundays from 9am. Browse the{" "}
         <Link href="/menu" className="text-accent underline hover:text-accent/80">
           full menu
         </Link>{" "}

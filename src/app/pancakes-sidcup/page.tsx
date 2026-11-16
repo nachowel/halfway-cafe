@@ -61,7 +61,7 @@ const faqs = [
   {
     question: "Where can I get pancakes in Sidcup?",
     answer:
-      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. Open Monday to Saturday from 7am, Sunday from 9am. No booking needed.",
+      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. Open Monday to Friday from 7am, Saturday from 8am, Sunday from 9am. No booking needed.",
   },
   {
     question: "What egg dishes does Halfway Cafe serve?",
@@ -207,7 +207,7 @@ export default function PancakesSidcupPage() {
             <li>• Fresh pancake breakfasts cooked to order</li>
             <li>• Eggs benedict, royale and florentine on the menu</li>
             <li>• Vegetarian options available</li>
-            <li>• Open Monday to Saturday from 7am, Sunday from 9am</li>
+            <li>• Open Monday to Friday from 7am, Saturday from 8am, Sunday from 9am</li>
             <li>• Available to eat in or take away</li>
             <li>• Free street parking on Halfway Street</li>
           </ul>
@@ -220,7 +220,8 @@ export default function PancakesSidcupPage() {
             Opening Hours
           </h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Mon – Fri: 7:00am – 3:00pm</p>
+            <p>Saturday: 8:00am – 3:00pm</p>
             <p>Sunday: 9:00am – 2:00pm</p>
           </div>
         </div>

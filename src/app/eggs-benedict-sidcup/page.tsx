@@ -49,7 +49,7 @@ const faqs = [
   {
     question: "Where can I get eggs benedict in Sidcup?",
     answer:
-      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. Open Monday to Saturday from 7am, Sunday from 9am. No booking needed — just walk in.",
+      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. Open Monday to Friday from 7am, Saturday from 8am, Sunday from 9am. No booking needed — just walk in.",
   },
   {
     question: "What is the difference between eggs benedict, royale and florentine?",
@@ -190,7 +190,7 @@ export default function EggsBenedictSidcupPage() {
             <li>• Eggs benedict, royale and florentine on the menu daily</li>
             <li>• Freshly poached eggs, cooked to order every time</li>
             <li>• Vegetarian option available (eggs florentine)</li>
-            <li>• Open Monday to Saturday from 7am, Sunday from 9am</li>
+            <li>• Open Monday to Friday from 7am, Saturday from 8am, Sunday from 9am</li>
             <li>• Available to eat in or take away</li>
             <li>• Free street parking on Halfway Street</li>
           </ul>
@@ -203,7 +203,8 @@ export default function EggsBenedictSidcupPage() {
             Opening Hours
           </h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Mon – Fri: 7:00am – 3:00pm</p>
+            <p>Saturday: 8:00am – 3:00pm</p>
             <p>Sunday: 9:00am – 2:00pm</p>
           </div>
         </div>

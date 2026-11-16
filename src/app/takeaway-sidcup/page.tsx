@@ -55,7 +55,7 @@ const faqs = [
   {
     question: "Where can I get takeaway breakfast in Sidcup?",
     answer:
-      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. We're open Monday to Saturday from 7am, Sunday from 9am. No pre-ordering needed — just walk in.",
+      "Halfway Cafe at 176 Halfway Street, Sidcup DA15 8DJ. We're open Monday to Friday from 7am, Saturday from 8am, Sunday from 9am. No pre-ordering needed — just walk in.",
   },
   {
     question: "What takeaway food does Halfway Cafe serve?",
@@ -184,13 +184,13 @@ export default function TakeawaySidcupPage() {
             years. Everything on our menu is available to take away — just walk
             in, order at the counter, and your food will be cooked fresh to
             order. We&apos;re on Halfway Street just off the A211, with free street
-            parking nearby. Open Monday to Saturday from 7am, Sunday from 9am.
+            parking nearby. Open Monday to Friday from 7am, Saturday from 8am, Sunday from 9am.
           </p>
           <ul className="mt-5 space-y-2 font-inter text-sm text-text-mid">
             <li>• Full menu available as takeaway every day</li>
             <li>• Cooked fresh to order — no reheated food</li>
             <li>• Free street parking on Halfway Street</li>
-            <li>• Open from 7am Monday to Saturday</li>
+            <li>• Open from 7am Monday to Friday, 8am on Saturdays</li>
             <li>• No pre-ordering needed — walk in and order</li>
           </ul>
         </div>
@@ -202,7 +202,8 @@ export default function TakeawaySidcupPage() {
             Opening Hours
           </h2>
           <div className="mt-5 space-y-3 font-inter text-base text-text-mid">
-            <p>Mon – Sat: 7:00am – 3:00pm</p>
+            <p>Mon – Fri: 7:00am – 3:00pm</p>
+            <p>Saturday: 8:00am – 3:00pm</p>
             <p>Sunday: 9:00am – 2:00pm</p>
           </div>
         </div>
